@@ -43,7 +43,7 @@ public class Averisgates implements ModInitializer {
         ModPackets.init();
 
         ServerPlayNetworking.registerGlobalReceiver(CastPlayerClassAbilityC2S.ID,(packet, context)->{
-            context.player().sendMessage(Text.literal("Server got packet: ").append(Text.of(packet.ability().name())));
+            context.player().sendMessage(Text.literal("Server got ability packet: ").append(Text.of(packet.ability().name())));
         });
     }
 
