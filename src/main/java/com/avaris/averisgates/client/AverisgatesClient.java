@@ -24,9 +24,11 @@ public class AverisgatesClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            if(ABILITY_1_KEY_BIND.tickCooldown() >= 0 && ABILITY_1_KEY_BIND.getKeyBind().wasPressed()){
+            boolean wasPressed = ABILITY_1_KEY_BIND.getKeyBind().wasPressed();
+            int cooldown = ABILITY_1_KEY_BIND.tickCooldown();
+            if(cooldown >= 0 && wasPressed){
                 client.player.sendMessage(Text.literal("Ability on cooldown for ").append(Text.literal(String.valueOf(ABILITY_1_KEY_BIND.cooldown))),true);
-            }else if(ABILITY_1_KEY_BIND.getKeyBind().wasPressed()){
+            }else if(wasPressed){
                 ABILITY_1_KEY_BIND.cooldown = 20 * 5;
                 client.player.sendMessage(Text.literal("Client sent ability one"), false);
                 ClientPlayNetworking.send(new CastPlayerClassAbilityC2S(PlayerClassAbility.PlayerClassAbilityType.Swing));

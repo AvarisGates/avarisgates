@@ -6,6 +6,7 @@ import com.avaris.averisgates.mixin.ClampedEntityAttributeAccessor;
 import net.fabricmc.api.ModInitializer;
 import com.google.common.collect.ImmutableMap;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.particle.TrailParticleEffect;
 import net.minecraft.registry.Registries;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -44,6 +45,7 @@ public class Averisgates implements ModInitializer {
 
         ServerPlayNetworking.registerGlobalReceiver(CastPlayerClassAbilityC2S.ID,(packet, context)->{
             context.player().sendMessage(Text.literal("Server got ability packet: ").append(Text.of(packet.ability().name())));
+            context.player().addCritParticles(context.player());
         });
     }
 
