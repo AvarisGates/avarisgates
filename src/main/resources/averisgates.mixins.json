@@ -4,6 +4,7 @@
   "package": "com.avaris.averisgates.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "AccessorRangedAttribute"
   ],
   "client": [
   ],
