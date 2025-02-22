@@ -1,21 +1,25 @@
 package com.avaris.averisgates.core;
 
-import com.avaris.averisgates.core.network.CastPlayerClassAbilityC2S;
-import net.fabricmc.fabric.impl.attachment.sync.c2s.AcceptedAttachmentsPayloadC2S;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.network.codec.PacketCodec;
-
 public abstract class PlayerClassAbility {
     private PlayerClass.PlayerClassType classType; //This class can access the ability
     private PlayerClassAbilityType abilityType;
     private long minLevel;
 
     public enum PlayerClassAbilityType{
-        Swing
+        Swing,
+        Cleave
         ;
 
         public static PlayerClassAbilityType fromInt(int i) {
-            return Swing;
+            switch (i) {
+                case 0 -> {
+                    return Swing;
+                }
+                case 1 -> {
+                    return Cleave;
+                }
+                default -> throw new IllegalStateException("Unexpected value: " + i);
+            }
         }
     }
 

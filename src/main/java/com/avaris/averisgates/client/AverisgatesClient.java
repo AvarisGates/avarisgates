@@ -1,11 +1,13 @@
 package com.avaris.averisgates.client;
 
+import com.avaris.averisgates.core.PlayerClass;
 import com.avaris.averisgates.core.PlayerClassAbility;
 import com.avaris.averisgates.core.network.CastPlayerClassAbilityC2S;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
@@ -37,18 +39,28 @@ public class AverisgatesClient implements ClientModInitializer {
                     "category.averisgates.abilities" // The translation key of the keybinding's category.
             )));
 
+
+    private void checkKeyBind(MinecraftClient client,AbilityKeyBind keyBind){
+        int cooldown = keyBind.tickCooldown();
+        boolean pressed = keyBind.getKeyBind().isPressed();
+        if(cooldown >= 0 && pressed){
+            client.player.sendMessage(Text.literal("Ability on cooldown for ").append(Text.literal(String.valueOf(keyBind.cooldown))),true);
+        }else if(pressed){
+            keyBind.cooldown = 20 * 5;
+            client.player.sendMessage(Text.literal("Client sent ability one"), false);
+            ClientPlayNetworking.send(new CastPlayerClassAbilityC2S(keyBind.boundAbility));
+            Long x = client.player.getAttached(PlayerClass.PLAYER_EXPERIENCE_ATTACHMENT);
+            System.out.println(x);
+        }
+    }
+
     @Override
     public void onInitializeClient() {
+        ABILITY_1_KEY_BIND.boundAbility = PlayerClassAbility.PlayerClassAbilityType.Cleave;
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            boolean wasPressed = ABILITY_0_KEY_BIND.getKeyBind().wasPressed();
-            int cooldown = ABILITY_0_KEY_BIND.tickCooldown();
-            if(cooldown >= 0 && wasPressed){
-                client.player.sendMessage(Text.literal("Ability on cooldown for ").append(Text.literal(String.valueOf(ABILITY_0_KEY_BIND.cooldown))),true);
-            }else if(wasPressed){
-                ABILITY_0_KEY_BIND.cooldown = 20 * 5;
-                client.player.sendMessage(Text.literal("Client sent ability one"), false);
-                ClientPlayNetworking.send(new CastPlayerClassAbilityC2S(PlayerClassAbility.PlayerClassAbilityType.Swing));
-            }
+            checkKeyBind(client,ABILITY_0_KEY_BIND);
+            checkKeyBind(client,ABILITY_1_KEY_BIND);
+            checkKeyBind(client,ABILITY_2_KEY_BIND);
         });
     }
 }
