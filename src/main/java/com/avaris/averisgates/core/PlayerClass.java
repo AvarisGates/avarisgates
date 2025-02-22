@@ -81,11 +81,47 @@ public abstract class PlayerClass {
         this.experience = experience;
         this.level = calculateLevel(level);
     }
+    
+    private long calculateLevel(long experience, PlayerClassType playerclassthing) {
+        long baseXp = 100;  // Base XP requirement for level 1
+        double multiplier;
 
-    //TODO:
-    private long calculateLevel(long experience){
-        throw new UnsupportedOperationException("Feature incomplete. Contact assistance.");
-        // return 0;
+        // We gotta retrieve the class rarity but idk how to do it
+        // String rarity = playerclassthing.getRarity();
+
+        // PLACEHOLDER
+        String rarity = "COMMON"; // Replace this with the actual retrieval from playerclassthing
+
+        switch (rarity.toUpperCase()) {
+            case "COMMON":
+                multiplier = 1.0;
+                break;
+            case "UNCOMMON":
+                multiplier = 1.5;
+                break;
+            case "RARE":
+                multiplier = 3.0;
+                break;
+            case "EPIC":
+                multiplier = 6.0;
+                break;
+            case "LEGENDARY":
+                multiplier = 12.0;
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid rarity. Choose from COMMON, UNCOMMON, RARE, EPIC, LEGENDARY.");
+        }
+
+        int level = 0;
+        long totalXp = 0;
+
+        while (totalXp <= experience && level < 101) {
+            level++;
+            totalXp += baseXp * Math.pow(level, 1.005) * multiplier;
+            totalXp = (totalXp / 100) * 100;  // Round down to the nearest multiple of 100
+        }
+
+        return level - 1;
     }
 
     public abstract Collection<PlayerClassAbility> getValidAbilities();
