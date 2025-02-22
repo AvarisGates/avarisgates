@@ -13,10 +13,9 @@ import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
 
 import java.util.Collection;
-import java.util.List;
 
 public abstract class PlayerClass {
-    public static final AttachmentType<PlayerClassType> PLAYER_CLASS_TYPE_ATTACHMENT= AttachmentRegistry.create(
+    public static final AttachmentType<PlayerClassType> PLAYER_CLASS_TYPE_ATTACHMENT = AttachmentRegistry.create(
             Averisgates.id("player_class_type"),
             builder -> builder
                 .initializer(() -> PlayerClassType.Warrior) // start with a default value like hunger
@@ -25,6 +24,13 @@ public abstract class PlayerClass {
     );
 
 
+    public static final AttachmentType<Long> PLAYER_EXPERIENCE_ATTACHMENT = AttachmentRegistry.create(
+            Averisgates.id("player_experience"),
+            builder -> builder
+                    .initializer(() -> 0L) // start with a default value like hunger
+                    .persistent(Codec.LONG) // persist across restarts
+                    .syncWith(PacketCodecs.LONG, AttachmentSyncPredicate.all()) // only the player's own client needs the value for rendering
+    );
 
     public enum PlayerClassType{
         //AVAILABLE IN BETA

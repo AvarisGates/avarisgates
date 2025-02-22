@@ -35,7 +35,6 @@ public class Averisgates implements ModInitializer {
             ClampedEntityAttributeAccessor attr = (ClampedEntityAttributeAccessor)Registries.ATTRIBUTE.get(id);
             attr.attributefix$setMaxValue(new_def_value);
         }
-
     }
 
 }
