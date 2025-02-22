@@ -9,6 +9,10 @@ public abstract class PlayerClassAbility {
 
     }
 
+    public PlayerClassAbilityType getAbilityType(){
+        return this.abilityType;
+    }
+
     public long getMinLevel(){
         return this.minLevel;
     }

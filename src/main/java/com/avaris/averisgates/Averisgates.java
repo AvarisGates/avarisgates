@@ -10,6 +10,11 @@ import net.minecraft.util.Identifier;
 public class Averisgates implements ModInitializer {
 
     public static String MOD_ID = "averisgates";
+
+    public static Identifier id(String id){
+        return Identifier.of(MOD_ID,id);
+    }
+
     private static final Double AttrLimit = 1000000000D; //Very important limit (VIL)
 
     private static final ImmutableMap<Identifier,Double> NEW_DEFAULT_ATTRIBUTES = ImmutableMap.of(
