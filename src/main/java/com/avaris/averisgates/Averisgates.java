@@ -3,11 +3,10 @@ package com.avaris.averisgates;
 import com.avaris.averisgates.mixin.AccessorRangedAttribute;
 import net.fabricmc.api.ModInitializer;
 import com.google.common.collect.ImmutableMap;
-import net.fabricmc.api.ModInitializer;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.Registries;
-import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
+
+import java.util.Collection;
 
 
 public class Averisgates implements ModInitializer {
@@ -35,4 +34,87 @@ public class Averisgates implements ModInitializer {
         }
 
     }
+
+    private enum Rarity{
+        COMMON,
+        UNCOMMON,
+        RARE,
+        EPIC,
+        LEGENDARY;
+
+        public static Rarity fromInt(int i){
+            return switch (i) {
+                case 1 -> UNCOMMON;
+                case 2 -> RARE;
+                case 3 -> EPIC;
+                case 4 -> LEGENDARY;
+                default -> COMMON;
+            };
+        }
+
+        public Rarity next(){
+           return fromInt(this.ordinal()+1);
+        }
+    }
+
+
+    private abstract class PlayerClassAbility{
+        private PlayerClass.PlayerClassType classType; //This class can access the ability
+        private PlayerClassAbilityType abilityType;
+        private long minLevel;
+
+        public enum PlayerClassAbilityType{
+
+        }
+
+        public long getMinLevel(){
+            return this.minLevel;
+        }
+
+        public abstract void trigger();
+    }
+
+    private abstract class PlayerClass{
+        public enum PlayerClassType{
+                //AVAILABLE IN BETA
+                Warrior,
+                Archer,
+                Mage,
+                Priest,
+
+                //In Release
+                Rogue,
+                Tamer,
+                Summoner,
+                Necromancer
+        }
+
+        private PlayerClassType type;
+
+        public static long MAX_CLASS_LEVEL = 100;
+
+        private long experience; //Class experience
+        private long level; //Class levels
+
+        public PlayerClass(PlayerClassType type,long experience){
+            this.type = type;
+            this.experience = experience;
+            this.level = calculateLevel(level);
+        }
+
+       //TODO:
+       private long calculateLevel(long experience){
+           throw new UnsupportedOperationException("Feature incomplete. Contact assistance.");
+           // return 0;
+       }
+
+        public abstract Collection<PlayerClassAbility> getValidAbilities();
+
+        public abstract Collection<PlayerClassAbility> getLearnedAbilities();
+
+        public abstract Collection<PlayerClassAbility> getActiveAbilities();
+
+
+    }
 }
+
