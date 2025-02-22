@@ -1,10 +1,13 @@
 package com.avaris.averisgates;
 
+import com.avaris.averisgates.core.network.CastPlayerClassAbilityC2S;
 import com.avaris.averisgates.core.network.ModPackets;
 import com.avaris.averisgates.mixin.ClampedEntityAttributeAccessor;
 import net.fabricmc.api.ModInitializer;
 import com.google.common.collect.ImmutableMap;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.registry.Registries;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 
@@ -38,6 +41,10 @@ public class Averisgates implements ModInitializer {
         }
 
         ModPackets.init();
+
+        ServerPlayNetworking.registerGlobalReceiver(CastPlayerClassAbilityC2S.ID,(packet, context)->{
+            context.player().sendMessage(Text.literal("Server got packet: ").append(Text.of(packet.ability().name())));
+        });
     }
 
 }
