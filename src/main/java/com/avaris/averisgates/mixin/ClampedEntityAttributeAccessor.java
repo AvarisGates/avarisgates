@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 
 @Mixin(ClampedEntityAttribute.class)
-public interface AccessorRangedAttribute {
+public interface ClampedEntityAttributeAccessor {
     @Accessor("minValue")
     @Mutable
     void attributefix$setMinValue(double minValue);
