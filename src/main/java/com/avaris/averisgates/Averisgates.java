@@ -1,5 +1,6 @@
 package com.avaris.averisgates;
 
+import com.avaris.averisgates.core.network.ModPackets;
 import com.avaris.averisgates.mixin.ClampedEntityAttributeAccessor;
 import net.fabricmc.api.ModInitializer;
 import com.google.common.collect.ImmutableMap;
@@ -35,6 +36,8 @@ public class Averisgates implements ModInitializer {
             ClampedEntityAttributeAccessor attr = (ClampedEntityAttributeAccessor)Registries.ATTRIBUTE.get(id);
             attr.attributefix$setMaxValue(new_def_value);
         }
+
+        ModPackets.init();
     }
 
 }
