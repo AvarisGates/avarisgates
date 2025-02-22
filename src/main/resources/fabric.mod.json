@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "averisgates",
+  "version": "${version}",
+  "name": "averisgates",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/averisgates/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "com.avaris.averisgates.client.AverisgatesClient"
+    ],
+    "main": [
+      "com.avaris.averisgates.Averisgates"
+    ]
+  },
+  "mixins": [
+    "averisgates.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
