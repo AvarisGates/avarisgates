@@ -8,7 +8,8 @@
     "PlayerManagerMixin"
   ],
   "client": [
-    "client.InGameHudMixin"
+    "client.InGameHudMixin",
+    "client.InventoryScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1
