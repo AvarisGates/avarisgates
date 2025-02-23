@@ -1,7 +1,9 @@
 package com.avaris.averisgates.core;
 
 import com.avaris.averisgates.Averisgates;
+import com.avaris.averisgates.core.network.CastPlayerClassAbilityC2S;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.server.network.ConnectedClientData;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -25,5 +27,27 @@ public class PlayerManager {
             Averisgates.LOGGER.info("Found attached '{}' value='{}' to player - '{}'",type.identifier(),attached,player.getNameForScoreboard());
         }
 
+    }
+
+    public static void receiveAbilityPacket(CastPlayerClassAbilityC2S packet, ServerPlayNetworking.Context context) {
+        Averisgates.LOGGER.info("Server got ability packet: '{}', from player '{}'",packet.ability().name(),context.player().getNameForScoreboard());
+        PlayerClassAbility ability = getAttachedAbility(context.player(), packet.ability());
+        if(ability == null){
+            return;
+        }
+        if(ability.getCooldown(context.server().getTicks()) <= 0){
+            ability.trigger(context.server(),context.player());
+        }
+
+    }
+
+    private static PlayerClassAbility getAttachedAbility(ServerPlayerEntity player, PlayerClassAbilityType type) {
+        PlayerClassAbilityType newType = player.getAttached(PlayerClassAbility.PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_0);
+        if(newType == type){
+            //Next trigger time - when the ability can be used next time (in ticks)
+            Long ntt = player.getAttached(PlayerClassAbility.PLAYER_CLASS_ABILITY_NTT_ATTACHMENT_0);
+            return PlayerClassAbility.build(newType,ntt,PlayerClassAbility.PLAYER_CLASS_ABILITY_NTT_ATTACHMENT_0);
+        }
+        return null;
     }
 }

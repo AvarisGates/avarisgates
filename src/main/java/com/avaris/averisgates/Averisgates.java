@@ -2,17 +2,16 @@ package com.avaris.averisgates;
 
 import com.avaris.averisgates.core.PlayerClassAbility;
 import com.avaris.averisgates.core.PlayerClassAbilityType;
+import com.avaris.averisgates.core.PlayerManager;
 import com.avaris.averisgates.core.TeleportAbility;
 import com.avaris.averisgates.core.network.CastPlayerClassAbilityC2S;
 import com.avaris.averisgates.core.network.ModPackets;
 import com.avaris.averisgates.mixin.ClampedEntityAttributeAccessor;
-import com.llamalad7.mixinextras.utils.MixinExtrasLogger;
 import net.fabricmc.api.ModInitializer;
 import com.google.common.collect.ImmutableMap;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.registry.Registries;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,28 +50,8 @@ public class Averisgates implements ModInitializer {
         }
 
         ModPackets.init();
-
-        ServerPlayNetworking.registerGlobalReceiver(CastPlayerClassAbilityC2S.ID,(packet, context)->{
-            LOGGER.info("Server got ability packet: '{}', from player '{}'",packet.ability().name(),context.player().getNameForScoreboard());
-            PlayerClassAbility ability = getAttachedAbility(context.player(), packet.ability());
-            if(ability == null){
-                return;
-            }
-            if(ability.getCooldown(context.server().getTicks()) <= 0){
-                ability.trigger(context.server(),context.player());
-            }
-        });
     }
 
-    private PlayerClassAbility getAttachedAbility(ServerPlayerEntity player, PlayerClassAbilityType type) {
-        PlayerClassAbilityType newType = player.getAttached(PlayerClassAbility.PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_0);
-        if(newType == type){
-            //Next trigger time - when the ability can be used next time (in ticks)
-            Long ntt = player.getAttached(PlayerClassAbility.PLAYER_CLASS_ABILITY_NTT_ATTACHMENT_0);
-            return PlayerClassAbility.build(newType,ntt,PlayerClassAbility.PLAYER_CLASS_ABILITY_NTT_ATTACHMENT_0);
-        }
-        return null;
-    }
 
 }
 
