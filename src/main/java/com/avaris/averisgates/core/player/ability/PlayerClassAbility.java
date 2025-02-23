@@ -25,6 +25,7 @@ public abstract class PlayerClassAbility {
             builder -> builder
                     .initializer(() -> PlayerClassAbilityType.Cleave) // start with a default value like hunger
                     .persistent(PlayerClassAbilityType.CODEC) // persist across restarts
+                    .copyOnDeath()
                     .syncWith(PlayerClassAbilityType.PACKET_CODEC, AttachmentSyncPredicate.all()) // only the player's own client needs the value for rendering
     );
 
@@ -34,6 +35,7 @@ public abstract class PlayerClassAbility {
             builder -> builder
                     .initializer(() -> 0L) // start with a default value like hunger
                     .persistent(Codec.LONG) // persist across restarts
+                    .copyOnDeath()
                     .syncWith(PacketCodecs.LONG, AttachmentSyncPredicate.all()) // only the player's own client needs the value for rendering
     );
 
@@ -42,6 +44,7 @@ public abstract class PlayerClassAbility {
             builder -> builder
                     .initializer(() -> PlayerClassAbilityType.Cleave) // start with a default value like hunger
                     .persistent(PlayerClassAbilityType.CODEC) // persist across restarts
+                    .copyOnDeath()
                     .syncWith(PlayerClassAbilityType.PACKET_CODEC, AttachmentSyncPredicate.all()) // only the player's own client needs the value for rendering
     );
 
@@ -51,6 +54,7 @@ public abstract class PlayerClassAbility {
             builder -> builder
                     .initializer(() -> 0L) // start with a default value like hunger
                     .persistent(Codec.LONG) // persist across restarts
+                    .copyOnDeath()
                     .syncWith(PacketCodecs.LONG, AttachmentSyncPredicate.all()) // only the player's own client needs the value for rendering
     );
 
@@ -59,6 +63,7 @@ public abstract class PlayerClassAbility {
             builder -> builder
                     .initializer(() -> PlayerClassAbilityType.Cleave) // start with a default value like hunger
                     .persistent(PlayerClassAbilityType.CODEC) // persist across restarts
+                    .copyOnDeath()
                     .syncWith(PlayerClassAbilityType.PACKET_CODEC, AttachmentSyncPredicate.all()) // only the player's own client needs the value for rendering
     );
 
@@ -68,6 +73,7 @@ public abstract class PlayerClassAbility {
             builder -> builder
                     .initializer(() -> 2L) // start with a default value like hunger
                     .persistent(Codec.LONG) // persist across restarts
+                    .copyOnDeath()
                     .syncWith(PacketCodecs.LONG, AttachmentSyncPredicate.all()) // only the player's own client needs the value for rendering
     );
 

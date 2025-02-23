@@ -2,6 +2,7 @@ package com.avaris.averisgates.core.player;
 
 import com.avaris.averisgates.Averisgates;
 import com.avaris.averisgates.core.network.CastPlayerClassAbilityC2S;
+import com.avaris.averisgates.core.network.ChangeAbilityS2C;
 import com.avaris.averisgates.core.player.ability.PlayerClassAbility;
 import com.avaris.averisgates.core.player.ability.PlayerClassAbilityType;
 import com.avaris.averisgates.core.player.player_class.PlayerClass;
@@ -36,6 +37,10 @@ public class PlayerManager {
         if(attached2 == null||attached2 > player.server.getTicks()){
             player.setAttached(PlayerClassAbility.PLAYER_CLASS_ABILITY_NTT_ATTACHMENT_2,0L);
         }
+
+        ServerPlayNetworking.send(player,new ChangeAbilityS2C(0,player.getAttached(PlayerClassAbility.PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_0)));
+        ServerPlayNetworking.send(player,new ChangeAbilityS2C(1,player.getAttached(PlayerClassAbility.PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_1)));
+        ServerPlayNetworking.send(player,new ChangeAbilityS2C(2,player.getAttached(PlayerClassAbility.PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_2)));
     }
 
     private static <T> void ensureAttached(ServerPlayerEntity player, AttachmentType<T> type, T defaultValue){
