@@ -1,5 +1,6 @@
 package com.avaris.averisgates.core;
 
+import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.hit.BlockHitResult;
@@ -11,6 +12,11 @@ public class TeleportAbility extends PlayerClassAbility{
 
     public TeleportAbility(){
        this.nextTriggerTime = 0;
+    }
+
+    public TeleportAbility(long ntt, AttachmentType<Long> slot){
+        this.nextTriggerTime = ntt;
+        this.slot = slot;
     }
 
     @Override

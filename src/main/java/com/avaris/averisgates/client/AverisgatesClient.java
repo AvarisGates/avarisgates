@@ -1,7 +1,7 @@
 package com.avaris.averisgates.client;
 
 import com.avaris.averisgates.core.PlayerClass;
-import com.avaris.averisgates.core.PlayerClassAbility;
+import com.avaris.averisgates.core.PlayerClassAbilityType;
 import com.avaris.averisgates.core.network.CastPlayerClassAbilityC2S;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -56,8 +56,8 @@ public class AverisgatesClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        ABILITY_1_KEY_BIND.boundAbility = PlayerClassAbility.PlayerClassAbilityType.Cleave;
-        ABILITY_2_KEY_BIND.boundAbility = PlayerClassAbility.PlayerClassAbilityType.Teleport;
+        ABILITY_1_KEY_BIND.boundAbility = PlayerClassAbilityType.Cleave;
+        ABILITY_2_KEY_BIND.boundAbility = PlayerClassAbilityType.Teleport;
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             checkKeyBind(client,ABILITY_0_KEY_BIND);
             checkKeyBind(client,ABILITY_1_KEY_BIND);

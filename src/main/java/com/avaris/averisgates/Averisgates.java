@@ -1,7 +1,7 @@
 package com.avaris.averisgates;
 
-import com.avaris.averisgates.core.PlayerClass;
 import com.avaris.averisgates.core.PlayerClassAbility;
+import com.avaris.averisgates.core.PlayerClassAbilityType;
 import com.avaris.averisgates.core.TeleportAbility;
 import com.avaris.averisgates.core.network.CastPlayerClassAbilityC2S;
 import com.avaris.averisgates.core.network.ModPackets;
@@ -9,7 +9,6 @@ import com.avaris.averisgates.mixin.ClampedEntityAttributeAccessor;
 import net.fabricmc.api.ModInitializer;
 import com.google.common.collect.ImmutableMap;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.particle.TrailParticleEffect;
 import net.minecraft.registry.Registries;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
@@ -52,14 +51,23 @@ public class Averisgates implements ModInitializer {
         ServerPlayNetworking.registerGlobalReceiver(CastPlayerClassAbilityC2S.ID,(packet, context)->{
             context.player().sendMessage(Text.literal("Server got ability packet: ").append(Text.of(packet.ability().name())));
             PlayerClassAbility ability = getAttachedAbility(context.player(), packet.ability());
+            if(ability == null){
+                return;
+            }
             if(ability.getCooldown(context.server().getTicks()) <= 0){
                 ability.trigger(context.server(),context.player());
             }
         });
     }
 
-    private PlayerClassAbility getAttachedAbility(ServerPlayerEntity player, PlayerClassAbility.PlayerClassAbilityType type) {
-       return testAbility;
+    private PlayerClassAbility getAttachedAbility(ServerPlayerEntity player, PlayerClassAbilityType type) {
+        PlayerClassAbilityType newType = player.getAttached(PlayerClassAbility.PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_0);
+        if(newType == type){
+            //Next trigger time - when the ability can be used next time (in ticks)
+            Long ntt = player.getAttached(PlayerClassAbility.PLAYER_CLASS_ABILITY_NTT_ATTACHMENT_0);
+            return PlayerClassAbility.build(newType,ntt,PlayerClassAbility.PLAYER_CLASS_ABILITY_NTT_ATTACHMENT_0);
+        }
+        return null;
     }
 
 }

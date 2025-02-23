@@ -1,7 +1,7 @@
 package com.avaris.averisgates.core.network;
 
 import com.avaris.averisgates.Averisgates;
-import com.avaris.averisgates.core.PlayerClassAbility;
+import com.avaris.averisgates.core.PlayerClassAbilityType;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.packet.CustomPayload;
@@ -9,7 +9,7 @@ import net.minecraft.util.Identifier;
 
 //The server should respond with the result, and the ability type
 //Also see CastPlayerClassAbilityC2S
-public record CastPlayerClassAbilityS2C(PlayerClassAbility.PlayerClassAbilityType ability) implements CustomPayload {
+public record CastPlayerClassAbilityS2C(PlayerClassAbilityType ability) implements CustomPayload {
 
     public static final PacketCodec<PacketByteBuf, CastPlayerClassAbilityS2C> CODEC;
     public static final Identifier PACKET_ID;
@@ -19,7 +19,7 @@ public record CastPlayerClassAbilityS2C(PlayerClassAbility.PlayerClassAbilityTyp
         CODEC = new PacketCodec<>() {
             @Override
             public CastPlayerClassAbilityS2C decode(PacketByteBuf buf) {
-                return new CastPlayerClassAbilityS2C(PlayerClassAbility.PlayerClassAbilityType.fromInt(buf.readInt()));
+                return new CastPlayerClassAbilityS2C(PlayerClassAbilityType.fromInt(buf.readInt()));
             }
 
             @Override
