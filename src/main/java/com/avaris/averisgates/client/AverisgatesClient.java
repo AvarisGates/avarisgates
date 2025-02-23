@@ -1,7 +1,9 @@
 package com.avaris.averisgates.client;
 
 import com.avaris.averisgates.core.entity.CleaveEntityRenderer;
+import com.avaris.averisgates.core.entity.WhirlwindEntityRenderer;
 import com.avaris.averisgates.core.entity.ModEntities;
+import com.avaris.averisgates.core.player.ability.PlayerClassAbility;
 import com.avaris.averisgates.core.player.ability.PlayerClassAbilityType;
 import com.avaris.averisgates.core.network.CastPlayerClassAbilityC2S;
 import net.fabricmc.api.ClientModInitializer;
@@ -56,6 +58,7 @@ public class AverisgatesClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
+        ABILITY_0_KEY_BIND.boundAbility = PlayerClassAbilityType.Whirlwind;
         ABILITY_1_KEY_BIND.boundAbility = PlayerClassAbilityType.Cleave;
         ABILITY_2_KEY_BIND.boundAbility = PlayerClassAbilityType.Teleport;
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
@@ -73,5 +76,6 @@ public class AverisgatesClient implements ClientModInitializer {
 
         // In 1.17, use EntityRendererRegistry.register (seen below) instead of EntityRendererRegistry.INSTANCE.register (seen above)
         EntityRendererRegistry.register(ModEntities.CLEAVE, CleaveEntityRenderer::new);
+        EntityRendererRegistry.register(ModEntities.WHIRLWIND, WhirlwindEntityRenderer::new);
     }
 }
