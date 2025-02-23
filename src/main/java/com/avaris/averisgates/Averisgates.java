@@ -1,6 +1,7 @@
 package com.avaris.averisgates;
 
 import com.avaris.averisgates.core.*;
+import com.avaris.averisgates.core.command.ModCommands;
 import com.avaris.averisgates.core.entity.ModEntities;
 import com.avaris.averisgates.core.network.CastPlayerClassAbilityC2S;
 import com.avaris.averisgates.core.network.ModPackets;
@@ -30,6 +31,7 @@ public class Averisgates implements ModInitializer {
         AttributeFix.init();
         ModPackets.init();
         ModEntities.init();
+        ModCommands.init();
     }
 
 

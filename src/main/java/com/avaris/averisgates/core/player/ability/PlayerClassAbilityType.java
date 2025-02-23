@@ -10,7 +10,8 @@ import net.minecraft.network.codec.PacketCodec;
 public enum PlayerClassAbilityType {
     Swing,
     Cleave,
-    Teleport;
+    Teleport,
+    Whirlwind;
 
     public static final Codec<PlayerClassAbilityType> CODEC = new PrimitiveCodec<PlayerClassAbilityType>() {
         @Override
@@ -48,6 +49,9 @@ public enum PlayerClassAbilityType {
             }
             case 2 -> {
                 return Teleport;
+            }
+            case 3 -> {
+                return Whirlwind;
             }
             default -> throw new IllegalStateException("Unexpected ability type value: " + i);
         }
