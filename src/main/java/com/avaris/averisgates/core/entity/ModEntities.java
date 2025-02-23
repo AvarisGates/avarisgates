@@ -16,8 +16,10 @@ import net.minecraft.util.Identifier;
 public class ModEntities {
 
     public static final Identifier CLEAVE_ID = Averisgates.id("cleave");
+    public static final Identifier WHIRLWIND_ID = Averisgates.id("whirlwind");
 
     public static final RegistryKey<EntityType<?>> CLEAVE_KEY = RegistryKey.of(RegistryKeys.ENTITY_TYPE,CLEAVE_ID);
+    public static final RegistryKey<EntityType<?>> WHIRLWIND_KEY = RegistryKey.of(RegistryKeys.ENTITY_TYPE,WHIRLWIND_ID);
 
     public static final EntityType<CleaveEntity> CLEAVE = Registry.register(
             Registries.ENTITY_TYPE,
@@ -26,6 +28,15 @@ public class ModEntities {
                     .create(CleaveEntity::new, SpawnGroup.MISC)
                     .dimensions(1.75f, 2)
                     .build(CLEAVE_KEY)
+    );
+
+    public static final EntityType<WhirlwindEntity> WHIRLWIND = Registry.register(
+            Registries.ENTITY_TYPE,
+            Averisgates.id("whirlwind"),
+            EntityType.Builder
+                    .create(WhirlwindEntity::new, SpawnGroup.MISC)
+                    .dimensions(1.75f, 2)
+                    .build(WHIRLWIND_KEY)
     );
 
     private static <T extends Entity> net.minecraft.entity.EntityType<T> register(RegistryKey<net.minecraft.entity.EntityType<?>> key, net.minecraft.entity.EntityType.Builder<T> type) {

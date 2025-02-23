@@ -20,7 +20,7 @@ public class PlayerManager {
 
         ensureAttached(player, PlayerClassAbility.PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_0, PlayerClassAbilityType.Teleport);
         ensureAttached(player, PlayerClassAbility.PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_1, PlayerClassAbilityType.Cleave);
-        ensureAttached(player, PlayerClassAbility.PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_2, PlayerClassAbilityType.Swing);
+        ensureAttached(player, PlayerClassAbility.PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_2, PlayerClassAbilityType.Whirlwind);
 
         Long attached = player.getAttached(PlayerClassAbility.PLAYER_CLASS_ABILITY_NTT_ATTACHMENT_0);
         if(attached == null||attached > player.server.getTicks()){
