@@ -1,9 +1,11 @@
 package com.avaris.averisgates.core.command;
 
+import com.avaris.averisgates.core.network.ChangeAbilityS2C;
 import com.avaris.averisgates.core.player.ability.PlayerClassAbility;
 import com.avaris.averisgates.core.player.ability.PlayerClassAbilityType;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
@@ -53,6 +55,7 @@ public class ModCommands {
                                         player.setAttached(slot,type);
                                     }
                                     player.sendMessage(Text.literal("Set Ability Slot ").append(String.valueOf(slot_int)).append(" to ").append(Text.literal(type.toString()).formatted(Formatting.GOLD)));
+                                    ServerPlayNetworking.send(player,new ChangeAbilityS2C(slot_int - 1,type));
                                 }
                                 return 0;
                             }))
