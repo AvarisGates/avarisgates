@@ -1,9 +1,6 @@
 package com.avaris.averisgates;
 
-import com.avaris.averisgates.core.PlayerClassAbility;
-import com.avaris.averisgates.core.PlayerClassAbilityType;
-import com.avaris.averisgates.core.PlayerManager;
-import com.avaris.averisgates.core.TeleportAbility;
+import com.avaris.averisgates.core.*;
 import com.avaris.averisgates.core.network.CastPlayerClassAbilityC2S;
 import com.avaris.averisgates.core.network.ModPackets;
 import com.avaris.averisgates.mixin.ClampedEntityAttributeAccessor;
@@ -26,29 +23,10 @@ public class Averisgates implements ModInitializer {
         return Identifier.of(MOD_ID,id);
     }
 
-    private static final Double AttrLimit = 1000000000D; //Very important limit (VIL)
-
-    private static final ImmutableMap<Identifier,Double> NEW_DEFAULT_ATTRIBUTES = ImmutableMap.of(
-            Identifier.ofVanilla("generic.max_health"), AttrLimit,
-            Identifier.ofVanilla("generic.armor"), AttrLimit,
-            Identifier.ofVanilla("generic.armor_toughness"), AttrLimit,
-            Identifier.ofVanilla("generic.attack_damage"), AttrLimit,
-            Identifier.ofVanilla("generic.attack_knockback"),AttrLimit
-    );
-
-    private static final TeleportAbility testAbility = new TeleportAbility();
 
     @Override
     public void onInitialize() {
-        for (Identifier id : Registries.ATTRIBUTE.getIds()) {
-            Double new_def_value = NEW_DEFAULT_ATTRIBUTES.get(id);
-            if(new_def_value == null){
-                continue;
-            }
-            ClampedEntityAttributeAccessor attr = (ClampedEntityAttributeAccessor)Registries.ATTRIBUTE.get(id);
-            attr.attributefix$setMaxValue(new_def_value);
-        }
-
+        AttributeFix.init();
         ModPackets.init();
     }
 
