@@ -41,6 +41,10 @@ public class AverisgatesClient implements ClientModInitializer {
                     "category.averisgates.abilities" // The translation key of the keybinding's category.
             )));
 
+    public static long getLevel() {
+       return -1;
+    }
+
 
     private void checkKeyBind(MinecraftClient client,AbilityKeyBind keyBind){
         int cooldown = keyBind.tickCooldown();
