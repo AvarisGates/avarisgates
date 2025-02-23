@@ -16,6 +16,7 @@ public abstract class PlayerClass {
             builder -> builder
                 .initializer(() -> PlayerClassType.Warrior) // start with a default value like hunger
                 .persistent(PlayerClassType.CODEC) // persist across restarts
+                .copyOnDeath()
                 .syncWith(PlayerClassType.PACKET_CODEC, AttachmentSyncPredicate.all()) // only the player's own client needs the value for rendering
     );
 
@@ -25,6 +26,7 @@ public abstract class PlayerClass {
             builder -> builder
                     .initializer(() -> 0L) // start with a default value like hunger
                     .persistent(Codec.LONG) // persist across restarts
+                    .copyOnDeath()
                     .syncWith(PacketCodecs.LONG, AttachmentSyncPredicate.all()) // only the player's own client needs the value for rendering
     );
 
