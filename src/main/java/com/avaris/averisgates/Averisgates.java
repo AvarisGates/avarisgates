@@ -1,5 +1,8 @@
 package com.avaris.averisgates;
 
+import com.avaris.averisgates.core.PlayerClass;
+import com.avaris.averisgates.core.PlayerClassAbility;
+import com.avaris.averisgates.core.TeleportAbility;
 import com.avaris.averisgates.core.network.CastPlayerClassAbilityC2S;
 import com.avaris.averisgates.core.network.ModPackets;
 import com.avaris.averisgates.mixin.ClampedEntityAttributeAccessor;
@@ -8,6 +11,7 @@ import com.google.common.collect.ImmutableMap;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.particle.TrailParticleEffect;
 import net.minecraft.registry.Registries;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
@@ -30,6 +34,8 @@ public class Averisgates implements ModInitializer {
             Identifier.ofVanilla("generic.attack_knockback"),AttrLimit
     );
 
+    private static final TeleportAbility testAbility = new TeleportAbility();
+
     @Override
     public void onInitialize() {
         for (Identifier id : Registries.ATTRIBUTE.getIds()) {
@@ -45,8 +51,15 @@ public class Averisgates implements ModInitializer {
 
         ServerPlayNetworking.registerGlobalReceiver(CastPlayerClassAbilityC2S.ID,(packet, context)->{
             context.player().sendMessage(Text.literal("Server got ability packet: ").append(Text.of(packet.ability().name())));
-            context.player().addCritParticles(context.player());
+            PlayerClassAbility ability = getAttachedAbility(context.player(), packet.ability());
+            if(ability.getCooldown(context.server().getTicks()) <= 0){
+                ability.trigger(context.server(),context.player());
+            }
         });
+    }
+
+    private PlayerClassAbility getAttachedAbility(ServerPlayerEntity player, PlayerClassAbility.PlayerClassAbilityType type) {
+       return testAbility;
     }
 
 }

@@ -46,8 +46,8 @@ public class AverisgatesClient implements ClientModInitializer {
         if(cooldown >= 0 && pressed){
             client.player.sendMessage(Text.literal("Ability on cooldown for ").append(Text.literal(String.valueOf(keyBind.cooldown))),true);
         }else if(pressed){
-            keyBind.cooldown = 20 * 5;
-            client.player.sendMessage(Text.literal("Client sent ability one"), false);
+            keyBind.cooldown = 20;
+            client.player.sendMessage(Text.literal("Client sent ability: ").append(keyBind.boundAbility.toString()), false);
             ClientPlayNetworking.send(new CastPlayerClassAbilityC2S(keyBind.boundAbility));
             Long x = client.player.getAttached(PlayerClass.PLAYER_EXPERIENCE_ATTACHMENT);
             System.out.println(x);
@@ -57,6 +57,7 @@ public class AverisgatesClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         ABILITY_1_KEY_BIND.boundAbility = PlayerClassAbility.PlayerClassAbilityType.Cleave;
+        ABILITY_2_KEY_BIND.boundAbility = PlayerClassAbility.PlayerClassAbilityType.Teleport;
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             checkKeyBind(client,ABILITY_0_KEY_BIND);
             checkKeyBind(client,ABILITY_1_KEY_BIND);

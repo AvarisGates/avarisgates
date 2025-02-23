@@ -1,6 +1,7 @@
 package com.avaris.averisgates.mixin;
 
 import com.avaris.averisgates.core.PlayerClass;
+import com.avaris.averisgates.core.PlayerClassType;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.server.PlayerManager;
 import net.minecraft.server.network.ConnectedClientData;
@@ -15,6 +16,6 @@ public class PlayerManagerMixin {
     @Inject(method = "onPlayerConnect",at = @At("RETURN"))
     void onCreatePlayer(ClientConnection connection, ServerPlayerEntity player, ConnectedClientData clientData, CallbackInfo ci){
         player.setAttached(PlayerClass.PLAYER_EXPERIENCE_ATTACHMENT,0L);
-        player.setAttached(PlayerClass.PLAYER_CLASS_TYPE_ATTACHMENT, PlayerClass.PlayerClassType.Warrior);
+        player.setAttached(PlayerClass.PLAYER_CLASS_TYPE_ATTACHMENT, PlayerClassType.Warrior);
     }
 }
