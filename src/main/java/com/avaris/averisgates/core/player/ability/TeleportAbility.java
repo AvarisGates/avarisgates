@@ -11,13 +11,8 @@ import net.minecraft.world.TeleportTarget;
 
 public class TeleportAbility extends PlayerClassAbility {
 
-    public TeleportAbility(){
-       this.nextTriggerTime = 0;
-    }
-
     public TeleportAbility(long ntt, AttachmentType<Long> slot){
-        this.nextTriggerTime = ntt;
-        this.slot = slot;
+        super(ntt,slot);
     }
 
     @Override

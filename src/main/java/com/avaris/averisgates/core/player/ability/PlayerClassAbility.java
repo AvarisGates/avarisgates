@@ -15,6 +15,11 @@ public abstract class PlayerClassAbility {
     protected long nextTriggerTime; //In ticks
     protected AttachmentType<Long> slot;
 
+    public PlayerClassAbility(Long ntt, AttachmentType<Long> slot) {
+        this.nextTriggerTime = ntt;
+        this.slot = slot;
+    }
+
     public static final AttachmentType<PlayerClassAbilityType> PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_0 = AttachmentRegistry.create(
             Averisgates.id("player_class_ability_type_0"),
             builder -> builder
@@ -32,10 +37,47 @@ public abstract class PlayerClassAbility {
                     .syncWith(PacketCodecs.LONG, AttachmentSyncPredicate.all()) // only the player's own client needs the value for rendering
     );
 
+    public static final AttachmentType<PlayerClassAbilityType> PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_1 = AttachmentRegistry.create(
+            Averisgates.id("player_class_ability_type_1"),
+            builder -> builder
+                    .initializer(() -> PlayerClassAbilityType.Cleave) // start with a default value like hunger
+                    .persistent(PlayerClassAbilityType.CODEC) // persist across restarts
+                    .syncWith(PlayerClassAbilityType.PACKET_CODEC, AttachmentSyncPredicate.all()) // only the player's own client needs the value for rendering
+    );
+
+    //Next Trigger Time
+    public static final AttachmentType<Long> PLAYER_CLASS_ABILITY_NTT_ATTACHMENT_1 = AttachmentRegistry.create(
+            Averisgates.id("player_class_ability_ntt_1"),
+            builder -> builder
+                    .initializer(() -> 0L) // start with a default value like hunger
+                    .persistent(Codec.LONG) // persist across restarts
+                    .syncWith(PacketCodecs.LONG, AttachmentSyncPredicate.all()) // only the player's own client needs the value for rendering
+    );
+
+    public static final AttachmentType<PlayerClassAbilityType> PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_2 = AttachmentRegistry.create(
+            Averisgates.id("player_class_ability_type_2"),
+            builder -> builder
+                    .initializer(() -> PlayerClassAbilityType.Cleave) // start with a default value like hunger
+                    .persistent(PlayerClassAbilityType.CODEC) // persist across restarts
+                    .syncWith(PlayerClassAbilityType.PACKET_CODEC, AttachmentSyncPredicate.all()) // only the player's own client needs the value for rendering
+    );
+
+    //Next Trigger Time
+    public static final AttachmentType<Long> PLAYER_CLASS_ABILITY_NTT_ATTACHMENT_2 = AttachmentRegistry.create(
+            Averisgates.id("player_class_ability_ntt_2"),
+            builder -> builder
+                    .initializer(() -> 2L) // start with a default value like hunger
+                    .persistent(Codec.LONG) // persist across restarts
+                    .syncWith(PacketCodecs.LONG, AttachmentSyncPredicate.all()) // only the player's own client needs the value for rendering
+    );
+
     public static PlayerClassAbility build(PlayerClassAbilityType newType, Long ntt, AttachmentType<Long> slot) {
         switch (newType){
             case Teleport -> {
                 return new TeleportAbility(ntt,slot);
+            }
+            case Cleave -> {
+                return new CleaveAbility(ntt,slot);
             }
         }
         return null;
@@ -62,5 +104,6 @@ public abstract class PlayerClassAbility {
     public void trigger(MinecraftServer server, ServerPlayerEntity player){
         this.nextTriggerTime = server.getTicks() + this.getBaseCooldown();
         player.setAttached(slot,this.nextTriggerTime);
+        Averisgates.LOGGER.info("{} triggered",this.getAbilityType());
     }
 }
