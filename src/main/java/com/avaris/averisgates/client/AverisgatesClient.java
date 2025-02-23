@@ -1,11 +1,14 @@
 package com.avaris.averisgates.client;
 
+import com.avaris.averisgates.core.entity.CleaveEntityRenderer;
+import com.avaris.averisgates.core.entity.ModEntities;
 import com.avaris.averisgates.core.player.ability.PlayerClassAbilityType;
 import com.avaris.averisgates.core.network.CastPlayerClassAbilityC2S;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
@@ -60,5 +63,15 @@ public class AverisgatesClient implements ClientModInitializer {
             checkKeyBind(client,ABILITY_1_KEY_BIND);
             checkKeyBind(client,ABILITY_2_KEY_BIND);
         });
+
+
+        /*
+         * Registers our Cube Entity's renderer, which provides a model and texture for the entity.
+         *
+         * Entity Renderers can also manipulate the model before it renders based on entity context (EndermanEntityRenderer#render).
+         */
+
+        // In 1.17, use EntityRendererRegistry.register (seen below) instead of EntityRendererRegistry.INSTANCE.register (seen above)
+        EntityRendererRegistry.register(ModEntities.CLEAVE, CleaveEntityRenderer::new);
     }
 }
