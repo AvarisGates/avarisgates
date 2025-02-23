@@ -1,5 +1,6 @@
 package com.avaris.averisgates.core;
 
+import com.avaris.averisgates.Averisgates;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.server.network.ConnectedClientData;
@@ -16,8 +17,13 @@ public class PlayerManager {
     }
 
     private static <T> void attach(ServerPlayerEntity player, AttachmentType<T> type, T defaultValue){
-        if(player.getAttached(type) == null){
+        T attached = player.getAttached(type);
+        if(attached == null){
             player.setAttached(type,defaultValue);
+            Averisgates.LOGGER.info("Attached '{}' value='{}' to player - '{}'",type.identifier(),defaultValue,player.getNameForScoreboard());
+        }else{
+            Averisgates.LOGGER.info("Found attached '{}' value='{}' to player - '{}'",type.identifier(),attached,player.getNameForScoreboard());
         }
+
     }
 }

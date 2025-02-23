@@ -6,6 +6,7 @@ import com.avaris.averisgates.core.TeleportAbility;
 import com.avaris.averisgates.core.network.CastPlayerClassAbilityC2S;
 import com.avaris.averisgates.core.network.ModPackets;
 import com.avaris.averisgates.mixin.ClampedEntityAttributeAccessor;
+import com.llamalad7.mixinextras.utils.MixinExtrasLogger;
 import net.fabricmc.api.ModInitializer;
 import com.google.common.collect.ImmutableMap;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -13,11 +14,14 @@ import net.minecraft.registry.Registries;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class Averisgates implements ModInitializer {
 
     public static String MOD_ID = "averisgates";
+    public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
     public static Identifier id(String id){
         return Identifier.of(MOD_ID,id);
@@ -49,7 +53,7 @@ public class Averisgates implements ModInitializer {
         ModPackets.init();
 
         ServerPlayNetworking.registerGlobalReceiver(CastPlayerClassAbilityC2S.ID,(packet, context)->{
-            context.player().sendMessage(Text.literal("Server got ability packet: ").append(Text.of(packet.ability().name())));
+            LOGGER.info("Server got ability packet: '{}', from player '{}'",packet.ability().name(),context.player().getNameForScoreboard());
             PlayerClassAbility ability = getAttachedAbility(context.player(), packet.ability());
             if(ability == null){
                 return;

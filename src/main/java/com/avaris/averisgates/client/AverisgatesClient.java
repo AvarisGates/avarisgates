@@ -47,10 +47,8 @@ public class AverisgatesClient implements ClientModInitializer {
             client.player.sendMessage(Text.literal("Ability on cooldown for ").append(Text.literal(String.valueOf(keyBind.cooldown))),true);
         }else if(pressed){
             keyBind.cooldown = 20;
-            client.player.sendMessage(Text.literal("Client sent ability: ").append(keyBind.boundAbility.toString()), false);
+            client.player.sendMessage(Text.literal("Client sent ability: ").append(keyBind.boundAbility.toString()), true);
             ClientPlayNetworking.send(new CastPlayerClassAbilityC2S(keyBind.boundAbility));
-            Long x = client.player.getAttached(PlayerClass.PLAYER_EXPERIENCE_ATTACHMENT);
-            System.out.println(x);
         }
     }
 
