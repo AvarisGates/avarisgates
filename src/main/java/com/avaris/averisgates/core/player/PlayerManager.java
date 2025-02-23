@@ -19,8 +19,11 @@ public class PlayerManager {
         ensureAttached(player,PlayerClass.PLAYER_CLASS_TYPE_ATTACHMENT, PlayerClassType.Warrior);
 
         ensureAttached(player, PlayerClassAbility.PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_0, PlayerClassAbilityType.Teleport);
-        
-        player.setAttached(PlayerClassAbility.PLAYER_CLASS_ABILITY_NTT_ATTACHMENT_0,0L);
+
+        Long attached = player.getAttached(PlayerClassAbility.PLAYER_CLASS_ABILITY_NTT_ATTACHMENT_0);
+        if(attached == null||attached > player.server.getTicks()){
+            player.setAttached(PlayerClassAbility.PLAYER_CLASS_ABILITY_NTT_ATTACHMENT_0,0L);
+        }
     }
 
     private static <T> void ensureAttached(ServerPlayerEntity player, AttachmentType<T> type, T defaultValue){
