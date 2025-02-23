@@ -77,6 +77,7 @@ public class AverisgatesClient implements ClientModInitializer {
 
         // In 1.17, use EntityRendererRegistry.register (seen below) instead of EntityRendererRegistry.INSTANCE.register (seen above)
         EntityRendererRegistry.register(ModEntities.CLEAVE, CleaveEntityRenderer::new);
+        EntityRendererRegistry.register(ModEntities.WHIRLWIND, WhirlwindEntityRenderer::new);
 
         ClientPlayNetworking.registerGlobalReceiver(ChangeAbilityS2C.ID, this::receiveChangeAbility);
       
@@ -93,6 +94,5 @@ public class AverisgatesClient implements ClientModInitializer {
         if(packet.slot() == 2){
             ABILITY_2_KEY_BIND.boundAbility = packet.ability();
         }
-        EntityRendererRegistry.register(ModEntities.WHIRLWIND, WhirlwindEntityRenderer::new);
     }
 }
