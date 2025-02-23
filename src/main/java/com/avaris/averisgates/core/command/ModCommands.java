@@ -1,12 +1,15 @@
 package com.avaris.averisgates.core.command;
 
+import com.avaris.averisgates.Averisgates;
 import com.avaris.averisgates.core.network.ChangeAbilityS2C;
 import com.avaris.averisgates.core.player.ability.PlayerClassAbility;
 import com.avaris.averisgates.core.player.ability.PlayerClassAbilityType;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
+import net.fabricmc.fabric.api.command.v2.ArgumentTypeRegistry;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -17,6 +20,8 @@ import static net.minecraft.server.command.CommandManager.literal;
 
 public class ModCommands {
     public static void init(){
+        ArgumentTypeRegistry.registerArgumentType(Averisgates.id("ability_type_argument"),
+                AbilityArgumentType.class, ConstantArgumentSerializer.of(AbilityArgumentType::create));
     CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> dispatcher.register(
             literal("ability")
                     .requires(source -> source.hasPermissionLevel(2))
@@ -35,12 +40,11 @@ public class ModCommands {
                     )
                     .then(literal("set")
                             .then(argument("slot", integer(1))
-                            .then(argument("type",integer(0))
+                            .then(argument("type",new AbilityArgumentType())
                             .executes(context -> {
                                 if (context.getSource().getPlayer() instanceof ServerPlayerEntity player) {
                                     int slot_int = context.getArgument("slot",Integer.class);
-                                    int type_int = context.getArgument("type",Integer.class);
-                                    PlayerClassAbilityType type = PlayerClassAbilityType.fromInt(type_int);
+                                    PlayerClassAbilityType type = context.getArgument("type",PlayerClassAbilityType.class);
                                     AttachmentType<PlayerClassAbilityType> slot;
                                     if(slot_int == 1){
                                         slot = PlayerClassAbility.PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_0;
