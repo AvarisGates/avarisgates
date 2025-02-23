@@ -1,6 +1,6 @@
 package com.avaris.averisgates.core.player.player_class;
 
-import com.avaris.averisgates.core.player.ability.PlayerClassAbility;
+import com.avaris.averisgates.core.player.ability.PlayerClassAbilityType;
 
 import java.util.Collection;
 import java.util.List;
@@ -14,17 +14,17 @@ public class WarriorPlayerClass extends PlayerClass {
     }
 
     @Override
-    public Collection<PlayerClassAbility> getValidAbilities() {
+    public Collection<PlayerClassAbilityType> getValidAbilities() {
+        return List.of(PlayerClassAbilityType.Cleave);
+    }
+
+    @Override
+    public Collection<PlayerClassAbilityType> getLearnedAbilities() {
         return List.of();
     }
 
     @Override
-    public Collection<PlayerClassAbility> getLearnedAbilities() {
-        return List.of();
-    }
-
-    @Override
-    public Collection<PlayerClassAbility> getActiveAbilities() {
+    public Collection<PlayerClassAbilityType> getActiveAbilities() {
         return List.of();
     }
 }
