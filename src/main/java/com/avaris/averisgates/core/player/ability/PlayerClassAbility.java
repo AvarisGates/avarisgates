@@ -79,6 +79,9 @@ public abstract class PlayerClassAbility {
             case Cleave -> {
                 return new CleaveAbility(ntt,slot);
             }
+            case Whirlwind -> {
+                return new WhirlwindAbility(ntt,slot);
+            }
         }
         return null;
     }

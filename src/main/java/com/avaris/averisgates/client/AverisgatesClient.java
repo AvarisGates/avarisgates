@@ -1,8 +1,10 @@
 package com.avaris.averisgates.client;
 
 import com.avaris.averisgates.core.entity.CleaveEntityRenderer;
+import com.avaris.averisgates.core.entity.WhirlwindEntityRenderer;
 import com.avaris.averisgates.core.entity.ModEntities;
 import com.avaris.averisgates.core.network.ChangeAbilityS2C;
+import com.avaris.averisgates.core.player.ability.PlayerClassAbility;
 import com.avaris.averisgates.core.player.ability.PlayerClassAbilityType;
 import com.avaris.averisgates.core.network.CastPlayerClassAbilityC2S;
 import net.fabricmc.api.ClientModInitializer;
@@ -57,6 +59,7 @@ public class AverisgatesClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
+        ABILITY_0_KEY_BIND.boundAbility = PlayerClassAbilityType.Whirlwind;
         ABILITY_1_KEY_BIND.boundAbility = PlayerClassAbilityType.Cleave;
         ABILITY_2_KEY_BIND.boundAbility = PlayerClassAbilityType.Teleport;
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
@@ -76,6 +79,7 @@ public class AverisgatesClient implements ClientModInitializer {
         EntityRendererRegistry.register(ModEntities.CLEAVE, CleaveEntityRenderer::new);
 
         ClientPlayNetworking.registerGlobalReceiver(ChangeAbilityS2C.ID, this::receiveChangeAbility);
+      
     }
 
     private void receiveChangeAbility(ChangeAbilityS2C packet, ClientPlayNetworking.Context context) {
@@ -89,5 +93,6 @@ public class AverisgatesClient implements ClientModInitializer {
         if(packet.slot() == 2){
             ABILITY_2_KEY_BIND.boundAbility = packet.ability();
         }
+        EntityRendererRegistry.register(ModEntities.WHIRLWIND, WhirlwindEntityRenderer::new);
     }
 }
