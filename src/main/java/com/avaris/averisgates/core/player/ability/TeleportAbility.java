@@ -1,5 +1,6 @@
-package com.avaris.averisgates.core;
+package com.avaris.averisgates.core.player.ability;
 
+import com.avaris.averisgates.core.player.player_class.PlayerClassType;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -8,7 +9,7 @@ import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.TeleportTarget;
 
-public class TeleportAbility extends PlayerClassAbility{
+public class TeleportAbility extends PlayerClassAbility {
 
     public TeleportAbility(){
        this.nextTriggerTime = 0;

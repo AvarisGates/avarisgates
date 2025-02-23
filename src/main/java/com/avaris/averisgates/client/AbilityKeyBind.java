@@ -1,6 +1,6 @@
 package com.avaris.averisgates.client;
 
-import com.avaris.averisgates.core.PlayerClassAbilityType;
+import com.avaris.averisgates.core.player.ability.PlayerClassAbilityType;
 import net.minecraft.client.option.KeyBinding;
 
 public class AbilityKeyBind {

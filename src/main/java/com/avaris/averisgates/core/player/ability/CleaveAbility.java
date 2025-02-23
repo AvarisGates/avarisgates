@@ -1,9 +1,10 @@
-package com.avaris.averisgates.core;
+package com.avaris.averisgates.core.player.ability;
 
+import com.avaris.averisgates.core.player.player_class.PlayerClassType;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 
-public class CleaveAbility extends PlayerClassAbility{
+public class CleaveAbility extends PlayerClassAbility {
 
     @Override
     public PlayerClassAbilityType getAbilityType() {

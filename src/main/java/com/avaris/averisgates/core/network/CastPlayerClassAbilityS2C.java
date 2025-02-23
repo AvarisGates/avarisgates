@@ -1,7 +1,7 @@
 package com.avaris.averisgates.core.network;
 
 import com.avaris.averisgates.Averisgates;
-import com.avaris.averisgates.core.PlayerClassAbilityType;
+import com.avaris.averisgates.core.player.ability.PlayerClassAbilityType;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.packet.CustomPayload;

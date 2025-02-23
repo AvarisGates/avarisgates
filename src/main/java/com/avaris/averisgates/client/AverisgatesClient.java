@@ -1,7 +1,6 @@
 package com.avaris.averisgates.client;
 
-import com.avaris.averisgates.core.PlayerClass;
-import com.avaris.averisgates.core.PlayerClassAbilityType;
+import com.avaris.averisgates.core.player.ability.PlayerClassAbilityType;
 import com.avaris.averisgates.core.network.CastPlayerClassAbilityC2S;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;

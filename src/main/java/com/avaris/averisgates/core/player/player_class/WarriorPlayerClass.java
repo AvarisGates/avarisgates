@@ -1,4 +1,6 @@
-package com.avaris.averisgates.core;
+package com.avaris.averisgates.core.player.player_class;
+
+import com.avaris.averisgates.core.player.ability.PlayerClassAbility;
 
 import java.util.Collection;
 import java.util.List;

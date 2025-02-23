@@ -1,6 +1,7 @@
-package com.avaris.averisgates.core;
+package com.avaris.averisgates.core.player.ability;
 
 import com.avaris.averisgates.Averisgates;
+import com.avaris.averisgates.core.player.player_class.PlayerClassType;
 import com.mojang.serialization.Codec;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentSyncPredicate;

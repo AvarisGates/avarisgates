@@ -1,6 +1,6 @@
 package com.avaris.averisgates.core.network;
 
-import com.avaris.averisgates.core.PlayerManager;
+import com.avaris.averisgates.core.player.PlayerManager;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 

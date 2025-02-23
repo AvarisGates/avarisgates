@@ -1,4 +1,4 @@
-package com.avaris.averisgates.core;
+package com.avaris.averisgates.core.player.ability;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
