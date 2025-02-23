@@ -1,6 +1,5 @@
 package com.avaris.averisgates.mixin;
 
-import com.avaris.averisgates.core.PlayerClass;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.server.PlayerManager;
 import net.minecraft.server.network.ConnectedClientData;
@@ -12,9 +11,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(PlayerManager.class)
 public class PlayerManagerMixin {
+
     @Inject(method = "onPlayerConnect",at = @At("RETURN"))
-    void onCreatePlayer(ClientConnection connection, ServerPlayerEntity player, ConnectedClientData clientData, CallbackInfo ci){
-        player.setAttached(PlayerClass.PLAYER_EXPERIENCE_ATTACHMENT,0L);
-        player.setAttached(PlayerClass.PLAYER_CLASS_TYPE_ATTACHMENT, PlayerClass.PlayerClassType.Warrior);
+    void onPlayerConnect(ClientConnection connection, ServerPlayerEntity player, ConnectedClientData clientData, CallbackInfo ci){
+        com.avaris.averisgates.core.player.PlayerManager.onPlayerConnect(connection,player,clientData);
     }
 }

@@ -1,10 +1,13 @@
 package com.avaris.averisgates.client;
 
+import com.avaris.averisgates.core.player.ability.PlayerClassAbilityType;
 import net.minecraft.client.option.KeyBinding;
 
 public class AbilityKeyBind {
     private final KeyBinding keyBind;
     public int cooldown = 0;
+
+    public PlayerClassAbilityType boundAbility = PlayerClassAbilityType.Swing;
 
     public AbilityKeyBind(KeyBinding keyBind){
        this.keyBind = keyBind;
