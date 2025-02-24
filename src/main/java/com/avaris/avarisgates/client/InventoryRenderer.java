@@ -38,6 +38,13 @@ public class InventoryRenderer {
             context.drawTexture(RenderLayer::getGuiTextured, BG_TEXTURE1, x, y, 0.0F, 0.0F, backgroundWidth, backgroundHeight, backgroundWidth, backgroundHeight);
         }
         renderTab(context,x,y,mouseX,mouseY,delta,selectedTab);
+        if(selectedTab != 0){
+            renderBody(context,x,y,mouseX,mouseY,delta);
+        }
+    }
+
+    private static void renderBody(DrawContext context, int x, int y, int mouseX, int mouseY, float delta) {
+        
     }
 
     public static void renderTabs(DrawContext context,int x,int y,int mouseX,int mouseY,float delta){
