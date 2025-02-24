@@ -2,7 +2,10 @@ package com.avaris.avarisgates.client;
 
 import com.avaris.avarisgates.AvarisGates;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.screen.ingame.HandledScreen;
+import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderLayers;
 import net.minecraft.text.Text;
@@ -10,6 +13,8 @@ import net.minecraft.util.Colors;
 import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import java.util.List;
 
 import static net.minecraft.client.gui.screen.ingame.HandledScreen.BACKGROUND_TEXTURE;
 
@@ -44,7 +49,59 @@ public class InventoryRenderer {
     }
 
     private static void renderBody(DrawContext context, int x, int y, int mouseX, int mouseY, float delta) {
-        
+        TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
+        //Reset to 0,0 of the texture
+        x = X - 7;
+        y = Y + 14;
+
+        x += backgroundWidth / 2;
+        y += 6;
+
+        if(selectedTab == 1){
+            String s = "Abilities";
+            context.drawText(textRenderer,Text.literal(s),x - textRenderer.getWidth(s) / 2,y,Colors.BLACK,false);
+            x -= backgroundWidth / 2;
+            y -= 6;
+
+            x += 8;
+            y += 8;
+            if(x <= mouseX && mouseX <= x + 16&&y <= mouseY&&mouseY <= y + 16){
+                context.fill(x,y,x + 16,y + 16,Colors.ALTERNATE_WHITE);
+            }
+
+            x -= 16 + 2;
+            y += 33;
+            for (int i = 0;i < 4;i++){
+                x += 2 * (16 + 2);
+                if(x <= mouseX && mouseX <= x + 16&&y <= mouseY&&mouseY <= y + 16){
+                    context.fill(x,y,x + 16,y + 16,Colors.ALTERNATE_WHITE);
+                }
+            }
+        }else if(selectedTab == 2){
+            String s = "Attributes";
+            context.drawText(textRenderer,Text.literal(s),x - textRenderer.getWidth(s) / 2,y,Colors.BLACK,false);
+
+            x -= backgroundWidth / 2;
+            y += 14;
+
+            List<String> attribs = List.of("Strength","Vitality","Dexterity","Agility","Intelligence","Will","Faith");
+            for (int i = 0; i < attribs.size(); i++) {
+                int x1 = x + 8;
+                int y1 = y + i * (textRenderer.fontHeight + 12);
+                context.drawBorder(x1 - 3,y1 - 4,backgroundWidth - 12,15,Colors.WHITE);
+                context.drawText(textRenderer,Text.literal(attribs.get(i)),x + 8,y1,Colors.BLACK,false);
+                String s1 = String.valueOf(i*i*i*i);
+                x1 = x + backgroundWidth - 8 - textRenderer.getWidth("+") - 6;
+                context.drawText(textRenderer,Text.literal(s1),x1 - textRenderer.getWidth(s1) + 1,y1,Colors.BLACK,false);
+                int color = Colors.LIGHT_GRAY;
+                if(i % 3 == 1){
+                   color = Colors.YELLOW;
+                }
+                context.fill(x1 + 2,y1 - 1,x1 + 11,y1 + 8,Colors.BLACK);
+                context.fill(x1 + 3,y1,x1+10,y1+7,color);
+                context.drawText(textRenderer,Text.literal("+"),x1 + 4,y1,Colors.BLACK,false);
+            }
+        }
     }
 
     public static void renderTabs(DrawContext context,int x,int y,int mouseX,int mouseY,float delta){
