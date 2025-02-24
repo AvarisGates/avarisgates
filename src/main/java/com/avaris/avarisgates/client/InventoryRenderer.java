@@ -1,6 +1,9 @@
 package com.avaris.avarisgates.client;
 
 import com.avaris.avarisgates.AvarisGates;
+import com.avaris.avarisgates.core.network.RequestAttributeIncrementC2S;
+import com.avaris.avarisgates.core.player.attribute.AttributeType;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
@@ -14,6 +17,7 @@ import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static net.minecraft.client.gui.screen.ingame.HandledScreen.BACKGROUND_TEXTURE;
@@ -84,19 +88,16 @@ public class InventoryRenderer {
             x -= backgroundWidth / 2;
             y += 14;
 
-            List<String> attribs = List.of("Strength","Vitality","Dexterity","Agility","Intelligence","Will","Faith");
+            List<AttributeType> attribs = List.of(AttributeType.values());
             for (int i = 0; i < attribs.size(); i++) {
                 int x1 = x + 8;
                 int y1 = y + i * (textRenderer.fontHeight + 12);
                 context.drawBorder(x1 - 3,y1 - 4,backgroundWidth - 12,15,Colors.WHITE);
-                context.drawText(textRenderer,Text.literal(attribs.get(i)),x + 8,y1,Colors.BLACK,false);
-                String s1 = String.valueOf(i*i*i*i);
+                context.drawText(textRenderer,Text.literal(attribs.get(i).name()),x + 8,y1,Colors.BLACK,false);
+                String s1 = String.valueOf(AvarisGatesClient.getAttributeValue(attribs.get(i)));
                 x1 = x + backgroundWidth - 8 - textRenderer.getWidth("+") - 6;
                 context.drawText(textRenderer,Text.literal(s1),x1 - textRenderer.getWidth(s1) + 1,y1,Colors.BLACK,false);
-                int color = Colors.LIGHT_GRAY;
-                if(i % 3 == 1){
-                   color = Colors.YELLOW;
-                }
+                int color= Colors.YELLOW;
                 context.fill(x1 + 2,y1 - 1,x1 + 11,y1 + 8,Colors.BLACK);
                 context.fill(x1 + 3,y1,x1+10,y1+7,color);
                 context.drawText(textRenderer,Text.literal("+"),x1 + 4,y1,Colors.BLACK,false);
@@ -146,6 +147,26 @@ public class InventoryRenderer {
         x += 16 + 2;
         if(x <= mouseX&&x >= mouseX - 16&&y <= mouseY&&y >= mouseY - 16){
             selectedTab = 2;
+        }
+
+        x = X - 7;
+        y = Y + 14;
+
+        x += backgroundWidth / 2;
+        y += 6;
+        x -= backgroundWidth / 2;
+        y += 14;
+
+        if(selectedTab == 2){
+            int i = 0;
+            for(AttributeType type : AttributeType.values()){
+                int x1;
+                x1 = x + backgroundWidth - 8 - MinecraftClient.getInstance().textRenderer.getWidth("+") - 6;
+                int y1 = y + (i++) * (MinecraftClient.getInstance().textRenderer.fontHeight + 12);
+                if(x1 + 3 <= mouseX&&mouseX <= x1 + 10&&y1 <= mouseY&&mouseY <= y1 + 7){
+                    ClientPlayNetworking.send(new RequestAttributeIncrementC2S(type));
+                }
+            }
         }
 
     }

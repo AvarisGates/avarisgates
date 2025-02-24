@@ -1,6 +1,7 @@
 package com.avaris.avarisgates.core.player;
 
 import com.avaris.avarisgates.AvarisGates;
+import com.avaris.avarisgates.core.network.AttributeIncrementS2C;
 import com.avaris.avarisgates.core.network.CastPlayerClassAbilityC2S;
 import com.avaris.avarisgates.core.network.ChangeAbilityS2C;
 import com.avaris.avarisgates.core.network.RequestAttributeIncrementC2S;
@@ -15,6 +16,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.server.network.ConnectedClientData;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.Text;
 
 public class PlayerManager {
 
@@ -47,6 +49,7 @@ public class PlayerManager {
 
         for(AttributeType type : AttributeType.values()){
             Attribute attribute = Attribute.getAttribute(player,type);
+            ServerPlayNetworking.send(player,new AttributeIncrementS2C(type,attribute.getValue()));
             AvarisGates.LOGGER.info("{}",attribute);
         }
     }
@@ -99,6 +102,8 @@ public class PlayerManager {
     }
 
     public static void receiveAttributeIncrement(RequestAttributeIncrementC2S packet, ServerPlayNetworking.Context context) {
-        Attribute.setAttribute(context.player(),packet.type(),Attribute.getAttribute(context.player(), packet.type()).getValue() + 1);
+        long newValue = Attribute.getAttribute(context.player(), packet.type()).getValue() + 1;
+        Attribute.setAttribute(context.player(),packet.type(),newValue);
+        context.player().sendMessage(Text.literal(packet.type().name() + " set to " + newValue));
     }
 }

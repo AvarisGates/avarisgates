@@ -1,9 +1,12 @@
 package com.avaris.avarisgates.core.player.attribute;
 
+import com.avaris.avarisgates.core.network.AttributeIncrementS2C;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.registry.Registries;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
 public class Attribute {
@@ -38,6 +41,9 @@ public class Attribute {
         entity.setAttached(type.toValueAttachment(),value);
         Attribute attr = new Attribute(type,value);
         attr.apply(entity);
+        if(entity instanceof ServerPlayerEntity player){
+            ServerPlayNetworking.send(player,new AttributeIncrementS2C(type,value));
+        }
         return attr;
     }
 
@@ -55,5 +61,9 @@ public class Attribute {
 
     public long getValue() {
        return value;
+    }
+
+    public AttributeType getType() {
+        return type;
     }
 }

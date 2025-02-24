@@ -14,5 +14,7 @@ public class ModPackets {
 
         PayloadTypeRegistry.playC2S().register(RequestAttributeIncrementC2S.ID, RequestAttributeIncrementC2S.CODEC);
         ServerPlayNetworking.registerGlobalReceiver(RequestAttributeIncrementC2S.ID, PlayerManager::receiveAttributeIncrement);
+
+        PayloadTypeRegistry.playS2C().register(AttributeIncrementS2C.ID, AttributeIncrementS2C.CODEC);
     }
 }

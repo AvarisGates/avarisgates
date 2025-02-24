@@ -3,19 +3,26 @@ package com.avaris.avarisgates.client;
 import com.avaris.avarisgates.core.entity.CleaveEntityRenderer;
 import com.avaris.avarisgates.core.entity.WhirlwindEntityRenderer;
 import com.avaris.avarisgates.core.entity.ModEntities;
+import com.avaris.avarisgates.core.network.AttributeIncrementS2C;
 import com.avaris.avarisgates.core.network.ChangeAbilityS2C;
 import com.avaris.avarisgates.core.player.ability.PlayerClassAbilityType;
 import com.avaris.avarisgates.core.network.CastPlayerClassAbilityC2S;
+import com.avaris.avarisgates.core.player.attribute.Attribute;
+import com.avaris.avarisgates.core.player.attribute.AttributeType;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AvarisGatesClient implements ClientModInitializer {
 
@@ -45,6 +52,17 @@ public class AvarisGatesClient implements ClientModInitializer {
 
     public static long getLevel() {
        return -1;
+    }
+
+    private static final List<Attribute> attributeList = new ArrayList<>();
+
+    public static long getAttributeValue(AttributeType type) {
+        for(Attribute a : attributeList){
+            if(a.getType() == type){
+                return a.getValue();
+            }
+        }
+        return 0;
     }
 
 
@@ -83,7 +101,24 @@ public class AvarisGatesClient implements ClientModInitializer {
         EntityRendererRegistry.register(ModEntities.WHIRLWIND, WhirlwindEntityRenderer::new);
 
         ClientPlayNetworking.registerGlobalReceiver(ChangeAbilityS2C.ID, this::receiveChangeAbility);
-      
+
+        ClientPlayNetworking.registerGlobalReceiver(AttributeIncrementS2C.ID, this::receiveAttributeIncrement);
+
+        for(AttributeType type : AttributeType.values()){
+            attributeList.add(new Attribute(type,0));
+        }
+
+    }
+
+    private void receiveAttributeIncrement(AttributeIncrementS2C packet, ClientPlayNetworking.Context context) {
+        int i = 0;
+        for(Attribute a : attributeList){
+            if(a.getType() == packet.type()){
+                attributeList.set(i,new Attribute(a.getType(), packet.value()));
+                return;
+            }
+            i++;
+        }
     }
 
     private void receiveChangeAbility(ChangeAbilityS2C packet, ClientPlayNetworking.Context context) {
