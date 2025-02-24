@@ -43,8 +43,8 @@ public class AvarisGatesClient implements ClientModInitializer {
                     "category.averisgates.abilities" // The translation key of the keybinding's category.
             )));
 
-    public static int getLevel() {
-        return -1;
+    public static long getLevel() {
+       return -1;
     }
 
 
