@@ -9,7 +9,8 @@
   ],
   "client": [
     "client.InGameHudMixin",
-    "client.InventoryScreenMixin"
+    "client.InventoryScreenMixin",
+    "client.RecipeBookScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1
