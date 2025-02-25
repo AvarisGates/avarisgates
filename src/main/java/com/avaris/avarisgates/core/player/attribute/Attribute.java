@@ -32,7 +32,22 @@ public class Attribute {
         if(type == AttributeType.Vitality){
             Identifier health_id = Identifier.ofVanilla("max_health");
             EntityAttribute attr = Registries.ATTRIBUTE.get(health_id);
-            entity.getAttributeInstance(Registries.ATTRIBUTE.getEntry(attr)).setBaseValue(2 * Attribute.getAttribute(entity,AttributeType.Vitality).getValue());
+            entity.getAttributeInstance(Registries.ATTRIBUTE.getEntry(attr))
+                    .setBaseValue(2 * this.getValue());
+        }
+        if(type == AttributeType.Agility){
+            Identifier movement_speed = Identifier.ofVanilla("movement_speed");
+            EntityAttribute attr = Registries.ATTRIBUTE.get(movement_speed);
+            Attribute.getAttribute(entity,AttributeType.Vitality).getValue();
+            double newValue = 1;
+            if(this.value <= 110){
+                newValue = 1 + (this.value - 10) * 0.01;
+            }else{
+                newValue = 1 + 100 * 0.1 + (this.value - 110) * 0.001;
+            }
+
+            // Convert the value to be compatible with vanilla minecraft attributes
+            entity.getAttributeInstance(Registries.ATTRIBUTE.getEntry(attr)).setBaseValue(newValue * 0.09);
         }
     }
 
