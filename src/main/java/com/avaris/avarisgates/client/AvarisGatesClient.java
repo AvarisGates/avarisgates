@@ -50,7 +50,7 @@ public class AvarisGatesClient implements ClientModInitializer {
             )));
 
     public static long getLevel() {
-       return -1;
+       return 300;
     }
 
     private static final List<Attribute> attributeList = new ArrayList<>();
