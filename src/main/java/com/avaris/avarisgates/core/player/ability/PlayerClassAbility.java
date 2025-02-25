@@ -10,6 +10,15 @@ import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 
+// To add a new ability:
+// 1. Create a new ability type in PlayerClassAbilityType
+// 2. Add it to the build function
+// 3. Create a new ability class extending from this class, make sure to call super.trigger() at the end of the trigger function
+// so the ability goes on cooldown properly
+// 4. (If the ability doesn't require an entity go to step 6.)
+// Create a new Entity Type, Entity Renderer, and register them, the type in common code, the renderer on the client only
+// 5. Implement the new Entity Type, and the Renderer, the renderer can be mostly left blank. See CleaveEntityRenderer
+// 6. I think that's it, add new steps in the future if more steps are required
 public abstract class PlayerClassAbility {
     protected long minLevel;
     protected long nextTriggerTime; //In ticks
