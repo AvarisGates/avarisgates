@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableMap;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 
+// This class fixes the vanilla attribute cap, it isn't related to modded abilities
 public class AttributeFix {
     private static final Double AttrLimit = 1000000000D; //Very important limit (VIL)
 
