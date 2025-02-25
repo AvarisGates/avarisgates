@@ -1,6 +1,8 @@
 package com.avaris.avarisgates.core.entity;
 
 import com.avaris.avarisgates.AvarisGates;
+import com.avaris.avarisgates.core.entity.ability.CleaveEntity;
+import com.avaris.avarisgates.core.entity.ability.WhirlwindEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.entity.Entity;

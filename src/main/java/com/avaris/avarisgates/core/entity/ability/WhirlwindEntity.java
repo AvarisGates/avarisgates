@@ -1,4 +1,4 @@
-package com.avaris.avarisgates.core.entity;
+package com.avaris.avarisgates.core.entity.ability;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
