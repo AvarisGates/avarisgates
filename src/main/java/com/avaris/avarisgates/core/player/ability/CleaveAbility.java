@@ -15,8 +15,8 @@ import net.minecraft.util.math.Vec3d;
 public class CleaveAbility extends PlayerClassAbility {
 
 
-    public CleaveAbility(Long ntt, AttachmentType<Long> slot) {
-        super(ntt,slot);
+    public CleaveAbility(AttachedAbility ability) {
+        super(ability);
     }
 
     @Override

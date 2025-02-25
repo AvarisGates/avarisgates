@@ -5,6 +5,8 @@ import com.avaris.avarisgates.core.network.AttributeIncrementS2C;
 import com.avaris.avarisgates.core.network.CastPlayerClassAbilityC2S;
 import com.avaris.avarisgates.core.network.ChangeAbilityS2C;
 import com.avaris.avarisgates.core.network.RequestAttributeIncrementC2S;
+import com.avaris.avarisgates.core.player.ability.AbilitySlot;
+import com.avaris.avarisgates.core.player.ability.AttachedAbility;
 import com.avaris.avarisgates.core.player.ability.PlayerClassAbility;
 import com.avaris.avarisgates.core.player.ability.PlayerClassAbilityType;
 import com.avaris.avarisgates.core.player.attribute.Attribute;
@@ -24,28 +26,33 @@ public class PlayerManager {
         ensureAttached(player, PlayerClass.PLAYER_EXPERIENCE_ATTACHMENT,0L);
         ensureAttached(player,PlayerClass.PLAYER_CLASS_TYPE_ATTACHMENT, PlayerClassType.Warrior);
 
-        ensureAttached(player, PlayerClassAbility.PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_0, PlayerClassAbilityType.Teleport);
-        ensureAttached(player, PlayerClassAbility.PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_1, PlayerClassAbilityType.Cleave);
-        ensureAttached(player, PlayerClassAbility.PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_2, PlayerClassAbilityType.Whirlwind);
-
-        Long attached = player.getAttached(PlayerClassAbility.PLAYER_CLASS_ABILITY_NTT_ATTACHMENT_0);
-        if(attached == null||attached > player.server.getTicks()){
-            player.setAttached(PlayerClassAbility.PLAYER_CLASS_ABILITY_NTT_ATTACHMENT_0,0L);
+        AttachedAbility ability0 = AttachedAbility.getAttached(player, AbilitySlot.SLOT0);
+        if(ability0.getType() == null||ability0.getNtt() == null){
+           AttachedAbility.setAttached(player,new AttachedAbility(PlayerClassAbilityType.Teleport,0L,AbilitySlot.SLOT0));
+        }else if(ability0.getNtt() > player.server.getTicks()){
+            ability0.setNtt(0L);
+            AttachedAbility.setAttached(player,ability0);
         }
 
-        Long attached1 = player.getAttached(PlayerClassAbility.PLAYER_CLASS_ABILITY_NTT_ATTACHMENT_1);
-        if(attached1 == null||attached1 > player.server.getTicks()){
-            player.setAttached(PlayerClassAbility.PLAYER_CLASS_ABILITY_NTT_ATTACHMENT_1,0L);
+        AttachedAbility ability1 = AttachedAbility.getAttached(player, AbilitySlot.SLOT1);
+        if(ability1.getType() == null || ability1.getNtt() == null){
+            AttachedAbility.setAttached(player,new AttachedAbility(PlayerClassAbilityType.Cleave,0L,AbilitySlot.SLOT1));
+        } else if(ability1.getNtt() > player.server.getTicks()){
+            ability1.setNtt(0L);
+            AttachedAbility.setAttached(player,ability1);
         }
 
-        Long attached2 = player.getAttached(PlayerClassAbility.PLAYER_CLASS_ABILITY_NTT_ATTACHMENT_2);
-        if(attached2 == null||attached2 > player.server.getTicks()){
-            player.setAttached(PlayerClassAbility.PLAYER_CLASS_ABILITY_NTT_ATTACHMENT_2,0L);
+        AttachedAbility ability2 = AttachedAbility.getAttached(player, AbilitySlot.SLOT2);
+        if(ability2.getType() == null||ability2.getNtt() == null){
+            AttachedAbility.setAttached(player,new AttachedAbility(PlayerClassAbilityType.Whirlwind,0L,AbilitySlot.SLOT2));
+        } else if(ability2.getNtt() > player.server.getTicks()){
+            ability2.setNtt(0L);
+            AttachedAbility.setAttached(player,ability2);
         }
 
-        ServerPlayNetworking.send(player,new ChangeAbilityS2C(0,player.getAttached(PlayerClassAbility.PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_0)));
-        ServerPlayNetworking.send(player,new ChangeAbilityS2C(1,player.getAttached(PlayerClassAbility.PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_1)));
-        ServerPlayNetworking.send(player,new ChangeAbilityS2C(2,player.getAttached(PlayerClassAbility.PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_2)));
+        ServerPlayNetworking.send(player,new ChangeAbilityS2C(0,AttachedAbility.getAttached(player,AbilitySlot.SLOT0).getType()));
+        ServerPlayNetworking.send(player,new ChangeAbilityS2C(1,AttachedAbility.getAttached(player,AbilitySlot.SLOT1).getType()));
+        ServerPlayNetworking.send(player,new ChangeAbilityS2C(2,AttachedAbility.getAttached(player,AbilitySlot.SLOT2).getType()));
 
         for(AttributeType type : AttributeType.values()){
             Attribute attribute = Attribute.getAttribute(player,type);
@@ -67,7 +74,20 @@ public class PlayerManager {
 
     public static void receiveAbilityPacket(CastPlayerClassAbilityC2S packet, ServerPlayNetworking.Context context) {
         AvarisGates.LOGGER.info("Server got ability packet: '{}', from player '{}'",packet.ability().name(),context.player().getNameForScoreboard());
-        PlayerClassAbility ability = getAttachedAbility(context.player(), packet.ability());
+        AttachedAbility ability0 = AttachedAbility.getAttached(context.player(), AbilitySlot.SLOT0);
+        AttachedAbility ability1 = AttachedAbility.getAttached(context.player(), AbilitySlot.SLOT1);
+        AttachedAbility ability2 = AttachedAbility.getAttached(context.player(), AbilitySlot.SLOT2);
+
+        PlayerClassAbility ability = null;
+        if(ability0.getType() == packet.ability()){
+            ability = PlayerClassAbility.build(ability0);
+        }
+        if(ability1.getType() == packet.ability()){
+            ability = PlayerClassAbility.build(ability1);
+        }
+        if(ability2.getType() == packet.ability()){
+            ability = PlayerClassAbility.build(ability2);
+        }
         if(ability == null){
             return;
         }
@@ -75,30 +95,6 @@ public class PlayerManager {
             ability.trigger(context.server(),context.player());
         }
 
-    }
-
-    private static PlayerClassAbility getAttachedAbility(ServerPlayerEntity player, PlayerClassAbilityType type) {
-        PlayerClassAbilityType newType = player.getAttached(PlayerClassAbility.PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_0);
-        if(newType == type){
-            //Next trigger time - when the ability can be used next time (in ticks)
-            Long ntt = player.getAttached(PlayerClassAbility.PLAYER_CLASS_ABILITY_NTT_ATTACHMENT_0);
-            return PlayerClassAbility.build(newType,ntt,PlayerClassAbility.PLAYER_CLASS_ABILITY_NTT_ATTACHMENT_0);
-        }
-
-        newType = player.getAttached(PlayerClassAbility.PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_1);
-        if(newType == type){
-            //Next trigger time - when the ability can be used next time (in ticks)
-            Long ntt = player.getAttached(PlayerClassAbility.PLAYER_CLASS_ABILITY_NTT_ATTACHMENT_1);
-            return PlayerClassAbility.build(newType,ntt,PlayerClassAbility.PLAYER_CLASS_ABILITY_NTT_ATTACHMENT_1);
-        }
-
-        newType = player.getAttached(PlayerClassAbility.PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_2);
-        if(newType == type){
-            //Next trigger time - when the ability can be used next time (in ticks)
-            Long ntt = player.getAttached(PlayerClassAbility.PLAYER_CLASS_ABILITY_NTT_ATTACHMENT_2);
-            return PlayerClassAbility.build(newType,ntt,PlayerClassAbility.PLAYER_CLASS_ABILITY_NTT_ATTACHMENT_2);
-        }
-        return null;
     }
 
     public static void receiveAttributeIncrement(RequestAttributeIncrementC2S packet, ServerPlayNetworking.Context context) {

@@ -19,8 +19,8 @@ public class WhirlwindAbility extends PlayerClassAbility {
 
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
-    public WhirlwindAbility(Long ntt, AttachmentType<Long> slot) {
-        super(ntt,slot);
+    public WhirlwindAbility(AttachedAbility attachedAbility) {
+        super(attachedAbility);
     }
 
     @Override

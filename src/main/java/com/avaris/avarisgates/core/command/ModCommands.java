@@ -2,6 +2,8 @@ package com.avaris.avarisgates.core.command;
 
 import com.avaris.avarisgates.AvarisGates;
 import com.avaris.avarisgates.core.network.ChangeAbilityS2C;
+import com.avaris.avarisgates.core.player.ability.AbilitySlot;
+import com.avaris.avarisgates.core.player.ability.AttachedAbility;
 import com.avaris.avarisgates.core.player.ability.PlayerClassAbility;
 import com.avaris.avarisgates.core.player.ability.PlayerClassAbilityType;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
@@ -28,9 +30,9 @@ public class ModCommands {
                     .then(literal("get")
                         .executes(context -> {
                             if (context.getSource().getPlayer() instanceof ServerPlayerEntity player) {
-                                PlayerClassAbilityType type0 = player.getAttached(PlayerClassAbility.PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_0);
-                                PlayerClassAbilityType type1 = player.getAttached(PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_1);
-                                PlayerClassAbilityType type2 = player.getAttached(PlayerClassAbility.PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_2);
+                                PlayerClassAbilityType type0 = AttachedAbility.getAttached(player, AbilitySlot.SLOT0).getType();
+                                PlayerClassAbilityType type1 = AttachedAbility.getAttached(player, AbilitySlot.SLOT1).getType();
+                                PlayerClassAbilityType type2 = AttachedAbility.getAttached(player, AbilitySlot.SLOT2).getType();
                                 player.sendMessage(Text.literal("Ability 1 - ").append(Text.literal(type0.name()).formatted(Formatting.GOLD))
                                         .append("\nAbility 2 - ").append(Text.literal(type1.name()).formatted(Formatting.GOLD))
                                         .append("\nAbility 3 - ").append(Text.literal(type2.name()).formatted(Formatting.GOLD)));
@@ -46,77 +48,79 @@ public class ModCommands {
                                     int slot_int = context.getArgument("slot",Integer.class);
                                     PlayerClassAbilityType type = context.getArgument("type",PlayerClassAbilityType.class);
                                     PlayerClassAbilityType type2;
-                                    AttachmentType<PlayerClassAbilityType> slot;
                                     int flagerino = 0;
+                                    PlayerClassAbilityType type_0 = AttachedAbility.getAttached(player, AbilitySlot.SLOT0).getType();
+                                    PlayerClassAbilityType type_1 = AttachedAbility.getAttached(player, AbilitySlot.SLOT1).getType();
+                                    PlayerClassAbilityType type_2 = AttachedAbility.getAttached(player, AbilitySlot.SLOT2).getType();
+                                    boolean first_check = type.toString().equals(type_0.toString());
+                                    boolean second_check = type.toString().equals(type_1.toString());
+                                    boolean third_check = type.toString().equals(type_2.toString());
                                     if(slot_int == 1){
-                                        if(type.toString().equals(player.getAttached(PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_0).toString())){
+                                        if(first_check){
                                             player.sendMessage(Text.literal("You already have this ability equipped in this slot."));
                                             flagerino = 1;
                                         }
                                         else{
-                                            if(type.toString().equals(player.getAttached(PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_1).toString())){
-                                                type2 = player.getAttached(PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_0);
-                                                player.setAttached(PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_0,type);
-                                                player.setAttached(PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_1,type2);
+                                            if(second_check){
+                                                type2 = AttachedAbility.getAttached(player,AbilitySlot.SLOT0).getType();
+                                                AttachedAbility.setAttached(player,new AttachedAbility(type,0L,AbilitySlot.SLOT0));
+                                                AttachedAbility.setAttached(player,new AttachedAbility(type2,0L,AbilitySlot.SLOT1));
                                                 ServerPlayNetworking.send(player,new ChangeAbilityS2C(1,type2));
                                             }
-                                            else if(type.toString().equals(player.getAttached(PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_2).toString())){
-                                                type2 = player.getAttached(PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_0);
-                                                player.setAttached(PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_0,type);
-                                                player.setAttached(PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_2,type2);
+                                            else if(third_check){
+                                                type2 = AttachedAbility.getAttached(player,AbilitySlot.SLOT0).getType();
+                                                AttachedAbility.setAttached(player,new AttachedAbility(type,0L,AbilitySlot.SLOT0));
+                                                AttachedAbility.setAttached(player,new AttachedAbility(type2,0L,AbilitySlot.SLOT2));
                                                 ServerPlayNetworking.send(player,new ChangeAbilityS2C(2,type2));
                                             }
                                             else{
-                                                slot = PlayerClassAbility.PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_0;
-                                                player.setAttached(slot,type);
+                                                AttachedAbility.setAttached(player,new AttachedAbility(type,0L,AbilitySlot.SLOT0));
                                             }
                                         }
                                     }
                                     if(slot_int == 2){
-                                        if(type.toString().equals(player.getAttached(PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_1).toString())){
+                                        if(third_check){
                                             player.sendMessage(Text.literal("You already have this ability equipped in this slot."));
                                             flagerino = 1;
                                         }
                                         else{
-                                            if(type.toString().equals(player.getAttached(PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_0).toString())){
-                                                type2 = player.getAttached(PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_1);
-                                                player.setAttached(PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_1,type);
-                                                player.setAttached(PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_0,type2);
-                                                ServerPlayNetworking.send(player,new ChangeAbilityS2C(0,type2));
+                                            if(first_check){
+                                                type2 = AttachedAbility.getAttached(player,AbilitySlot.SLOT1).getType();
+                                                AttachedAbility.setAttached(player,new AttachedAbility(type,0L,AbilitySlot.SLOT1));
+                                                AttachedAbility.setAttached(player,new AttachedAbility(type2,0L,AbilitySlot.SLOT0));
+                                                ServerPlayNetworking.send(player,new ChangeAbilityS2C(1,type2));
                                             }
-                                            else if(type.toString().equals(player.getAttached(PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_2).toString())){
-                                                type2 = player.getAttached(PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_1);
-                                                player.setAttached(PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_1,type);
-                                                player.setAttached(PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_2,type2);
+                                            else if(second_check){
+                                                type2 = AttachedAbility.getAttached(player,AbilitySlot.SLOT1).getType();
+                                                AttachedAbility.setAttached(player,new AttachedAbility(type,0L,AbilitySlot.SLOT1));
+                                                AttachedAbility.setAttached(player,new AttachedAbility(type2,0L,AbilitySlot.SLOT2));
                                                 ServerPlayNetworking.send(player,new ChangeAbilityS2C(2,type2));
                                             }
                                             else{
-                                                slot = PlayerClassAbility.PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_1;
-                                                player.setAttached(slot,type);
+                                                AttachedAbility.setAttached(player,new AttachedAbility(type,0L,AbilitySlot.SLOT1));
                                             }
                                         }
                                     }
                                     if(slot_int == 3){
-                                        if(type.toString().equals(player.getAttached(PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_2).toString())){
+                                        if(third_check){
                                             player.sendMessage(Text.literal("You already have this ability equipped in this slot."));
                                             flagerino = 1;
                                         }
                                         else{
-                                            if(type.toString().equals(player.getAttached(PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_0).toString())){
-                                                type2 = player.getAttached(PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_2);
-                                                player.setAttached(PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_2,type);
-                                                player.setAttached(PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_0,type2);
-                                                ServerPlayNetworking.send(player,new ChangeAbilityS2C(0,type2));
-                                            }
-                                            else if(type.toString().equals(player.getAttached(PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_2).toString())){
-                                                type2 = player.getAttached(PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_2);
-                                                player.setAttached(PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_2,type);
-                                                player.setAttached(PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_1,type2);
+                                            if(first_check){
+                                                type2 = AttachedAbility.getAttached(player,AbilitySlot.SLOT2).getType();
+                                                AttachedAbility.setAttached(player,new AttachedAbility(type,0L,AbilitySlot.SLOT2));
+                                                AttachedAbility.setAttached(player,new AttachedAbility(type2,0L,AbilitySlot.SLOT0));
                                                 ServerPlayNetworking.send(player,new ChangeAbilityS2C(1,type2));
                                             }
+                                            else if(second_check){
+                                                type2 = AttachedAbility.getAttached(player,AbilitySlot.SLOT2).getType();
+                                                AttachedAbility.setAttached(player,new AttachedAbility(type,0L,AbilitySlot.SLOT2));
+                                                AttachedAbility.setAttached(player,new AttachedAbility(type2,0L,AbilitySlot.SLOT0));
+                                                ServerPlayNetworking.send(player,new ChangeAbilityS2C(3,type2));
+                                            }
                                             else{
-                                                slot = PlayerClassAbility.PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_2;
-                                                player.setAttached(slot,type);
+                                                AttachedAbility.setAttached(player,new AttachedAbility(type,0L,AbilitySlot.SLOT2));
                                             }
                                         }
                                     }
