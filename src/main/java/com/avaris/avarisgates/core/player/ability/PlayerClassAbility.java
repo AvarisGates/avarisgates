@@ -42,6 +42,9 @@ public abstract class PlayerClassAbility {
             case Whirlwind -> {
                 return new WhirlwindAbility(ability);
             }
+            case ShieldBash -> {
+                return new ShieldBashAbility(ability);
+            }
         }
         return null;
     }
