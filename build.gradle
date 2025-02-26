@@ -80,6 +80,12 @@ jar {
     from("LICENSE") {
         rename { "${it}_${project.archivesBaseName}" }
     }
+    //Added for compiling
+    manifest {
+        attributes(
+                'Main-Class': 'com.avaris.avarisgates.AvarisGates' // Main class
+        )
+    }
 }
 
 // configure the maven publication
