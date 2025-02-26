@@ -29,7 +29,7 @@ public class Attribute {
     }
 
     private void apply(LivingEntity entity) {
-        if(type == AttributeType.Vitality){
+        if(type == AttributeType.Vigor){
             Identifier health_id = Identifier.ofVanilla("max_health");
             EntityAttribute attr = Registries.ATTRIBUTE.get(health_id);
             entity.getAttributeInstance(Registries.ATTRIBUTE.getEntry(attr))
