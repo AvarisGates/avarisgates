@@ -1,6 +1,8 @@
 package com.avaris.avarisgates.core.entity.ability.renderer;
 
+import com.avaris.avarisgates.AvarisGates;
 import com.avaris.avarisgates.core.entity.ability.FireBoltEntity;
+import com.avaris.avarisgates.core.entity.ability.model.FireBoltModel;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
@@ -17,17 +19,18 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.RotationAxis;
 
 public class FireBoltEntityRenderer extends EntityRenderer<FireBoltEntity, TridentEntityRenderState> {
-    public static final Identifier TEXTURE = Identifier.ofVanilla("textures/entity/trident.png");
-    private final TridentEntityModel model;
+    public static final Identifier TEXTURE = AvarisGates.id("textures/entity/firebolt.png");
+    private final FireBoltModel model;
     public FireBoltEntityRenderer(EntityRendererFactory.Context context) {
         super(context);
-        this.model = new TridentEntityModel(context.getPart(EntityModelLayers.TRIDENT));
+        this.model = new FireBoltModel(FireBoltModel.getTexturedModelData().createModel());
     }
 
     public void render(TridentEntityRenderState tridentEntityRenderState, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i) {
         matrixStack.push();
-        matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(tridentEntityRenderState.yaw - 90.0F));
-        matrixStack.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(tridentEntityRenderState.pitch + 90.0F));
+        matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(tridentEntityRenderState.yaw));
+        matrixStack.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(tridentEntityRenderState.pitch));
+        //matrixStack.scale(10,10,10);
         VertexConsumer vertexConsumer = ItemRenderer.getItemGlintConsumer(
                 vertexConsumerProvider, this.model.getLayer(TEXTURE), false, tridentEntityRenderState.enchanted
         );

@@ -31,10 +31,9 @@ public class FireBoltAbility extends PlayerClassAbility<FireBoltAbility>{
     public void trigger(MinecraftServer server, ServerPlayerEntity player) {
         super.trigger(server, player);
         FireBoltEntity entity = new FireBoltEntity(ModEntities.FIREBOLT,player.getServerWorld());
-        entity.rotate(player.getYaw(),player.getYaw());
         entity.setOwner(player);
         entity.setPosition(player.getPos().add(0,player.getEyeHeight(player.getPose()) / 2,0));
         player.getServerWorld().spawnEntity(entity);
-        entity.setVelocity(player,player.getPitch(),player.getYaw(),0,1.f,0);
+        entity.setVelocity(player,player.getPitch(),player.getYaw(),0,0.001f,0);
     }
 }
