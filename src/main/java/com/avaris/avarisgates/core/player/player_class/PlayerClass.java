@@ -1,7 +1,7 @@
 package com.avaris.avarisgates.core.player.player_class;
 
 import com.avaris.avarisgates.AvarisGates;
-import com.avaris.avarisgates.core.player.ability.PlayerClassAbility;
+import com.avaris.avarisgates.core.player.ability.PlayerClassAbilityType;
 import com.mojang.serialization.Codec;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentSyncPredicate;
@@ -85,11 +85,11 @@ public abstract class PlayerClass {
         return level - 1;
     }
 
-    public abstract Collection<PlayerClassAbility> getValidAbilities();
+    public abstract Collection<PlayerClassAbilityType> getValidAbilities();
 
-    public abstract Collection<PlayerClassAbility> getLearnedAbilities();
+    public abstract Collection<PlayerClassAbilityType> getLearnedAbilities();
 
-    public abstract Collection<PlayerClassAbility> getActiveAbilities();
+    public abstract Collection<PlayerClassAbilityType> getActiveAbilities();
 
 
 }

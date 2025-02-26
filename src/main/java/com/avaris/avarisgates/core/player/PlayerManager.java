@@ -1,10 +1,14 @@
 package com.avaris.avarisgates.core.player;
 
 import com.avaris.avarisgates.AvarisGates;
+import com.avaris.avarisgates.core.network.AttributeIncrementS2C;
 import com.avaris.avarisgates.core.network.CastPlayerClassAbilityC2S;
 import com.avaris.avarisgates.core.network.ChangeAbilityS2C;
+import com.avaris.avarisgates.core.network.RequestAttributeIncrementC2S;
 import com.avaris.avarisgates.core.player.ability.PlayerClassAbility;
 import com.avaris.avarisgates.core.player.ability.PlayerClassAbilityType;
+import com.avaris.avarisgates.core.player.attribute.Attribute;
+import com.avaris.avarisgates.core.player.attribute.AttributeType;
 import com.avaris.avarisgates.core.player.player_class.PlayerClass;
 import com.avaris.avarisgates.core.player.player_class.PlayerClassType;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
@@ -12,6 +16,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.server.network.ConnectedClientData;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.Text;
 
 public class PlayerManager {
 
@@ -41,6 +46,12 @@ public class PlayerManager {
         ServerPlayNetworking.send(player,new ChangeAbilityS2C(0,player.getAttached(PlayerClassAbility.PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_0)));
         ServerPlayNetworking.send(player,new ChangeAbilityS2C(1,player.getAttached(PlayerClassAbility.PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_1)));
         ServerPlayNetworking.send(player,new ChangeAbilityS2C(2,player.getAttached(PlayerClassAbility.PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_2)));
+
+        for(AttributeType type : AttributeType.values()){
+            Attribute attribute = Attribute.getAttribute(player,type);
+            ServerPlayNetworking.send(player,new AttributeIncrementS2C(type,attribute.getValue()));
+            AvarisGates.LOGGER.info("{}",attribute);
+        }
     }
 
     private static <T> void ensureAttached(ServerPlayerEntity player, AttachmentType<T> type, T defaultValue){
@@ -88,5 +99,11 @@ public class PlayerManager {
             return PlayerClassAbility.build(newType,ntt,PlayerClassAbility.PLAYER_CLASS_ABILITY_NTT_ATTACHMENT_2);
         }
         return null;
+    }
+
+    public static void receiveAttributeIncrement(RequestAttributeIncrementC2S packet, ServerPlayNetworking.Context context) {
+        long newValue = Attribute.getAttribute(context.player(), packet.type()).getValue() + 1;
+        Attribute.setAttribute(context.player(),packet.type(),newValue);
+        context.player().sendMessage(Text.literal(packet.type().name() + " set to " + newValue));
     }
 }
