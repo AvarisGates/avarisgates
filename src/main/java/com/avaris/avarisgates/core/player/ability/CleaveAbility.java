@@ -11,7 +11,7 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.Vec3d;
 
-public class CleaveAbility extends PlayerClassAbility {
+public class CleaveAbility extends PlayerClassAbility<CleaveAbility> {
 
 
     public CleaveAbility(AttachedAbility ability) {

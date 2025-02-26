@@ -2,6 +2,7 @@ package com.avaris.avarisgates.core.entity;
 
 import com.avaris.avarisgates.AvarisGates;
 import com.avaris.avarisgates.core.entity.ability.CleaveEntity;
+import com.avaris.avarisgates.core.entity.ability.FireBoltEntity;
 import com.avaris.avarisgates.core.entity.ability.WhirlwindEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -18,13 +19,16 @@ public class ModEntities {
 
     public static final Identifier CLEAVE_ID = AvarisGates.id("cleave");
     public static final Identifier WHIRLWIND_ID = AvarisGates.id("whirlwind");
+    public static final Identifier FIREBOLT_ID = AvarisGates.id("fireball");
 
     public static final RegistryKey<EntityType<?>> CLEAVE_KEY = RegistryKey.of(RegistryKeys.ENTITY_TYPE,CLEAVE_ID);
     public static final RegistryKey<EntityType<?>> WHIRLWIND_KEY = RegistryKey.of(RegistryKeys.ENTITY_TYPE,WHIRLWIND_ID);
 
+    public static final RegistryKey<EntityType<?>> FIREBOLT_KEY = RegistryKey.of(RegistryKeys.ENTITY_TYPE, FIREBOLT_ID);
+
     public static final EntityType<CleaveEntity> CLEAVE = Registry.register(
             Registries.ENTITY_TYPE,
-            AvarisGates.id("cleave"),
+            CLEAVE_ID,
             EntityType.Builder
                     .create(CleaveEntity::new, SpawnGroup.MISC)
                     .dimensions(1.75f, 2)
@@ -33,10 +37,19 @@ public class ModEntities {
 
     public static final EntityType<WhirlwindEntity> WHIRLWIND = Registry.register(
             Registries.ENTITY_TYPE,
-            AvarisGates.id("whirlwind"),
+            WHIRLWIND_ID,
             EntityType.Builder
                     .create(WhirlwindEntity::new, SpawnGroup.MISC)
                     .dimensions(1.75f, 2)
+                    .build(WHIRLWIND_KEY)
+    );
+
+    public static final EntityType<FireBoltEntity> FIREBOLT = Registry.register(
+            Registries.ENTITY_TYPE,
+            FIREBOLT_ID,
+            EntityType.Builder
+                    .create(FireBoltEntity::new, SpawnGroup.MISC)
+                    .dimensions(2, 2)
                     .build(WHIRLWIND_KEY)
     );
 

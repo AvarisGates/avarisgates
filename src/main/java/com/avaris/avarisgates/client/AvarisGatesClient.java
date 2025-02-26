@@ -1,6 +1,7 @@
 package com.avaris.avarisgates.client;
 
 import com.avaris.avarisgates.core.entity.ability.renderer.CleaveEntityRenderer;
+import com.avaris.avarisgates.core.entity.ability.renderer.FireBoltEntityRenderer;
 import com.avaris.avarisgates.core.entity.ability.renderer.WhirlwindEntityRenderer;
 import com.avaris.avarisgates.core.entity.ModEntities;
 import com.avaris.avarisgates.core.network.AttributeIncrementS2C;
@@ -98,6 +99,7 @@ public class AvarisGatesClient implements ClientModInitializer {
         // In 1.17, use EntityRendererRegistry.register (seen below) instead of EntityRendererRegistry.INSTANCE.register (seen above)
         EntityRendererRegistry.register(ModEntities.CLEAVE, CleaveEntityRenderer::new);
         EntityRendererRegistry.register(ModEntities.WHIRLWIND, WhirlwindEntityRenderer::new);
+        EntityRendererRegistry.register(ModEntities.FIREBOLT, FireBoltEntityRenderer::new);
 
         ClientPlayNetworking.registerGlobalReceiver(ChangeAbilityS2C.ID, this::receiveChangeAbility);
 

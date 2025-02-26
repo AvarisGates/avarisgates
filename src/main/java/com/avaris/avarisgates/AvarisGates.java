@@ -4,6 +4,7 @@ import com.avaris.avarisgates.core.*;
 import com.avaris.avarisgates.core.command.ModCommands;
 import com.avaris.avarisgates.core.entity.ModEntities;
 import com.avaris.avarisgates.core.network.ModPackets;
+import com.avaris.avarisgates.core.player.ability.AbilityRegistrar;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
@@ -22,6 +23,7 @@ public class AvarisGates implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        AbilityRegistrar.init();
         AttributeFix.init();
         ModPackets.init();
         ModEntities.init();

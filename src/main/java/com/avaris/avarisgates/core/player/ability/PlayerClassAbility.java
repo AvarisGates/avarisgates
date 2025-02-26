@@ -10,6 +10,8 @@ import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 
+import java.lang.reflect.InvocationTargetException;
+
 // To add a new ability:
 // 1. Create a new ability type in PlayerClassAbilityType
 // 2. Add it to the build function
@@ -19,34 +21,16 @@ import net.minecraft.server.network.ServerPlayerEntity;
 // Create a new Entity Type, Entity Renderer, and register them, the type in common code, the renderer on the client only
 // 5. Implement the new Entity Type, and the Renderer, the renderer can be mostly left blank. See CleaveEntityRenderer
 // 6. I think that's it, add new steps in the future if more steps are required
-public abstract class PlayerClassAbility {
+public abstract class PlayerClassAbility<T extends PlayerClassAbility<?>> {
     protected long minLevel;
     protected long nextTriggerTime; //In ticks
+    protected Class<T> clazz;
 
     protected AttachedAbility ability;
 
     public PlayerClassAbility(AttachedAbility ability) {
         this.nextTriggerTime = ability.getNtt();
         this.ability = ability;
-    }
-
-
-    public static PlayerClassAbility build(AttachedAbility ability) {
-        switch (ability.getType()){
-            case Teleport -> {
-                return new TeleportAbility(ability);
-            }
-            case Cleave -> {
-                return new CleaveAbility(ability);
-            }
-            case Whirlwind -> {
-                return new WhirlwindAbility(ability);
-            }
-            case ShieldBash -> {
-                return new ShieldBashAbility(ability);
-            }
-        }
-        return null;
     }
 
     public abstract PlayerClassAbilityType getAbilityType();

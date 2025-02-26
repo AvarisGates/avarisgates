@@ -23,8 +23,8 @@ public class InventoryRenderer {
 
     private static int selectedTab = 0;
 
-    private static final int SELECTED_COLOR = Colors.WHITE;
-    private static final int UNSELECTED_COLOR = Colors.LIGHT_GRAY;
+    private static final int SELECTED_COLOR = 0xFF4b3d44;
+    private static final int UNSELECTED_COLOR = 0xFF574852;
     private static final Identifier CLASS_BG_TEXTURE = AvarisGates.id("textures/gui/class_screen.png");
     private static final Identifier BG_TEXTURE1 = AvarisGates.id("textures/gui/bg1.png");
 
@@ -77,7 +77,7 @@ public class InventoryRenderer {
         List<AttributeType> attribs = List.of(AttributeType.values());
         for (int i = 0; i < attribs.size(); i++) {
             int x1 = x + 8;
-            int y1 = y + i * (textRenderer.fontHeight + 12);
+            int y1 = y + i * (textRenderer.fontHeight + 9);
             context.drawBorder(x1 - 3,y1 - 4,backgroundWidth - 12,15,Colors.WHITE);
             context.drawText(textRenderer,Text.literal(attribs.get(i).name()),x + 8,y1,Colors.BLACK,false);
             String s1 = String.valueOf(AvarisGatesClient.getAttributeValue(attribs.get(i)));
@@ -120,10 +120,10 @@ public class InventoryRenderer {
         x += idx * (16 + 2);
         int color = selectedTab == idx ? SELECTED_COLOR : UNSELECTED_COLOR;
         context.fill(x,y+1,x + 16,y + 15, color);
-        context.drawText(MinecraftClient.getInstance().textRenderer, Text.literal("B"+(idx+1)),x + 2,y + 5,Colors.BLACK,false);
-        context.drawHorizontalLine(x+1,x+13,y,Colors.WHITE);
-        context.drawVerticalLine(x,y,y + 14,Colors.WHITE);
-        context.drawVerticalLine(x + 15,y,y + 15,Colors.BLACK);
+        context.drawText(MinecraftClient.getInstance().textRenderer, Text.literal("B"+(idx+1)),x + 3,y + 5,Colors.WHITE,false);
+        context.drawHorizontalLine(x+1,x+13,y,0xFFd1b187);
+        context.drawVerticalLine(x,y,y + 14,0xFFd1b187);
+        context.drawVerticalLine(x + 15,y,y + 15,0xFF927441);
     }
 
     public static void mouseClicked(double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> cir) {

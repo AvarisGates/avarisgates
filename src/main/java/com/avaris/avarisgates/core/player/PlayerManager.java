@@ -5,10 +5,7 @@ import com.avaris.avarisgates.core.network.AttributeIncrementS2C;
 import com.avaris.avarisgates.core.network.CastPlayerClassAbilityC2S;
 import com.avaris.avarisgates.core.network.ChangeAbilityS2C;
 import com.avaris.avarisgates.core.network.RequestAttributeIncrementC2S;
-import com.avaris.avarisgates.core.player.ability.AbilitySlot;
-import com.avaris.avarisgates.core.player.ability.AttachedAbility;
-import com.avaris.avarisgates.core.player.ability.PlayerClassAbility;
-import com.avaris.avarisgates.core.player.ability.PlayerClassAbilityType;
+import com.avaris.avarisgates.core.player.ability.*;
 import com.avaris.avarisgates.core.player.attribute.Attribute;
 import com.avaris.avarisgates.core.player.attribute.AttributeType;
 import com.avaris.avarisgates.core.player.player_class.PlayerClass;
@@ -78,15 +75,15 @@ public class PlayerManager {
         AttachedAbility ability1 = AttachedAbility.getAttached(context.player(), AbilitySlot.SLOT1);
         AttachedAbility ability2 = AttachedAbility.getAttached(context.player(), AbilitySlot.SLOT2);
 
-        PlayerClassAbility ability = null;
+        PlayerClassAbility<?> ability = null;
         if(ability0.getType() == packet.ability()){
-            ability = PlayerClassAbility.build(ability0);
+            ability = AbilityRegistrar.build(ability0.getType(),ability0);
         }
         if(ability1.getType() == packet.ability()){
-            ability = PlayerClassAbility.build(ability1);
+            ability = AbilityRegistrar.build(ability1.getType(),ability1);
         }
         if(ability2.getType() == packet.ability()){
-            ability = PlayerClassAbility.build(ability2);
+            ability = AbilityRegistrar.build(ability2.getType(),ability2);
         }
         if(ability == null){
             return;

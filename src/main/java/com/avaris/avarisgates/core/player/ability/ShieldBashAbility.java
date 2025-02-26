@@ -22,7 +22,7 @@ import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.*;
 import net.minecraft.world.BlockView;
 
-public class ShieldBashAbility extends PlayerClassAbility {
+public class ShieldBashAbility extends PlayerClassAbility<ShieldBashAbility> {
     public ShieldBashAbility(AttachedAbility ability) {
         super(ability);
     }
