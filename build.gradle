@@ -65,6 +65,8 @@ tasks.withType(JavaCompile).configureEach {
     }
 }
 
+
+
 java {
     def javaVersion = JavaVersion.toVersion(targetJavaVersion)
     if (JavaVersion.current() < javaVersion) {
@@ -87,6 +89,17 @@ jar {
         )
     }
 }
+
+tasks.register("remapJar", net.fabricmc.loom.task.RemapJarTask) {
+    dependsOn tasks.jar
+    inputFile.set(tasks.jar.flatMap { it.archiveFile })
+    archiveFileName.set("avarisgates-1.0-SNAPSHOT-remapped.jar")
+    destinationDirectory.set(layout.buildDirectory.dir("libs"))
+}
+
+tasks.build.dependsOn remapJar
+
+
 
 // configure the maven publication
 publishing {
