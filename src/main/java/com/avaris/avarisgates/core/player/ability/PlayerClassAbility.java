@@ -24,7 +24,6 @@ import java.lang.reflect.InvocationTargetException;
 public abstract class PlayerClassAbility<T extends PlayerClassAbility<?>> {
     protected long minLevel;
     protected long nextTriggerTime; //In ticks
-    protected Class<T> clazz;
 
     protected AttachedAbility ability;
 
