@@ -14,7 +14,7 @@ import java.lang.reflect.InvocationTargetException;
 
 // To add a new ability:
 // 1. Create a new ability type in PlayerClassAbilityType
-// 2. Add it to the build function
+// 2. Register it in the AbilityRegistrar
 // 3. Create a new ability class extending from this class, make sure to call super.trigger() at the end of the trigger function
 // so the ability goes on cooldown properly
 // 4. (If the ability doesn't require an entity go to step 6.)
