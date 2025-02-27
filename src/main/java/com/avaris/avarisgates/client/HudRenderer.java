@@ -47,7 +47,7 @@ public class HudRenderer {
         final int width = 80;
         y += 6;
         x -= 1;
-        int pixels = (1 / 1) * width;
+        int pixels = width;
         context.fill(x - 1,y + 1, x - pixels + 1,y + 7,0xFF_3476d7);
         context.drawTexture(RenderLayer::getGuiTexturedOverlay, HUD_TEXTURES, x - 110, y - 45, 0.0F, 0.0F, 110, 59, 225, 256);
     }

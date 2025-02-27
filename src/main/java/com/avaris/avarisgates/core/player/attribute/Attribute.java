@@ -10,8 +10,8 @@ import net.minecraft.util.Identifier;
 
 // An attribute instance attached to a living entity
 public class Attribute {
-    private AttributeType type;
-    private long value;
+    private final AttributeType type;
+    private final long value;
 
     public Attribute(AttributeType type, long value) {
         this.type = type;

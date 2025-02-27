@@ -30,7 +30,7 @@ public abstract class PlayerClass {
                     .syncWith(PacketCodecs.LONG, AttachmentSyncPredicate.all()) // only the player's own client needs the value for rendering
     );
 
-    private PlayerClassType type;
+    private final PlayerClassType type;
 
     public static long MAX_CLASS_LEVEL = 100;
 
@@ -78,7 +78,7 @@ public abstract class PlayerClass {
 
         while (totalXp <= experience && level < 101) {
             level++;
-            totalXp += baseXp * Math.pow(level, 1.005) * multiplier;
+            totalXp += (long) (baseXp * Math.pow(level, 1.005) * multiplier);
             totalXp = (totalXp / 100) * 100;  // Round down to the nearest multiple of 100
         }
 
