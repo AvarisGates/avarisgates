@@ -1,9 +1,8 @@
 package com.avaris.avarisgates.core.player.ability;
 
-import com.avaris.avarisgates.core.entity.WhirlwindEntity;
+import com.avaris.avarisgates.core.entity.ability.WhirlwindEntity;
 import com.avaris.avarisgates.core.entity.ModEntities;
 import com.avaris.avarisgates.core.player.player_class.PlayerClassType;
-import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -19,8 +18,8 @@ public class WhirlwindAbility extends PlayerClassAbility {
 
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
-    public WhirlwindAbility(Long ntt, AttachmentType<Long> slot) {
-        super(ntt,slot);
+    public WhirlwindAbility(AttachedAbility attachedAbility) {
+        super(attachedAbility);
     }
 
     @Override

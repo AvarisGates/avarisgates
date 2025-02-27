@@ -2,7 +2,7 @@ package com.avaris.avarisgates.core;
 
 public enum Rarity {
     COMMON,
-    UNCOMMON,
+    UNCOMMON, // Not sure if we want to keep this
     RARE,
     EPIC,
     LEGENDARY;

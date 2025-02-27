@@ -16,8 +16,8 @@ import net.minecraft.world.TeleportTarget;
 
 public class TeleportAbility extends PlayerClassAbility {
 
-    public TeleportAbility(long ntt, AttachmentType<Long> slot){
-        super(ntt,slot);
+    public TeleportAbility(AttachedAbility attachedAbility) {
+        super(attachedAbility);
     }
 
     @Override

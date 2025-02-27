@@ -74,9 +74,10 @@ public abstract class InGameHudMixin {
        cir.setReturnValue(false);
     }
 
-    @Inject(method = "renderFood",at = @At("HEAD"))
+    @Inject(method = "renderFood",at = @At("HEAD"),cancellable = true)
     void onRenderFood(DrawContext context, PlayerEntity player, int top, int right, CallbackInfo ci){
         HudRenderer.renderFood(context,player,top,right);
+        ci.cancel();
     }
     @Inject(method = "renderArmor", at=@At("HEAD"),cancellable = true)
     private static void onRenderArmor(DrawContext context, PlayerEntity player, int i, int j, int k, int x, CallbackInfo ci){

@@ -10,83 +10,40 @@ import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 
+// To add a new ability:
+// 1. Create a new ability type in PlayerClassAbilityType
+// 2. Add it to the build function
+// 3. Create a new ability class extending from this class, make sure to call super.trigger() at the end of the trigger function
+// so the ability goes on cooldown properly
+// 4. (If the ability doesn't require an entity go to step 6.)
+// Create a new Entity Type, Entity Renderer, and register them, the type in common code, the renderer on the client only
+// 5. Implement the new Entity Type, and the Renderer, the renderer can be mostly left blank. See CleaveEntityRenderer
+// 6. I think that's it, add new steps in the future if more steps are required
 public abstract class PlayerClassAbility {
     protected long minLevel;
     protected long nextTriggerTime; //In ticks
-    protected AttachmentType<Long> slot;
 
-    public PlayerClassAbility(Long ntt, AttachmentType<Long> slot) {
-        this.nextTriggerTime = ntt;
-        this.slot = slot;
+    protected AttachedAbility ability;
+
+    public PlayerClassAbility(AttachedAbility ability) {
+        this.nextTriggerTime = ability.getNtt();
+        this.ability = ability;
     }
 
-    public static final AttachmentType<PlayerClassAbilityType> PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_0 = AttachmentRegistry.create(
-            AvarisGates.id("player_class_ability_type_0"),
-            builder -> builder
-                    .initializer(() -> PlayerClassAbilityType.Cleave) // start with a default value like hunger
-                    .persistent(PlayerClassAbilityType.CODEC) // persist across restarts
-                    .copyOnDeath()
-                    .syncWith(PlayerClassAbilityType.PACKET_CODEC, AttachmentSyncPredicate.all()) // only the player's own client needs the value for rendering
-    );
 
-    //Next Trigger Time
-    public static final AttachmentType<Long> PLAYER_CLASS_ABILITY_NTT_ATTACHMENT_0 = AttachmentRegistry.create(
-            AvarisGates.id("player_class_ability_ntt_0"),
-            builder -> builder
-                    .initializer(() -> 0L) // start with a default value like hunger
-                    .persistent(Codec.LONG) // persist across restarts
-                    .copyOnDeath()
-                    .syncWith(PacketCodecs.LONG, AttachmentSyncPredicate.all()) // only the player's own client needs the value for rendering
-    );
-
-    public static final AttachmentType<PlayerClassAbilityType> PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_1 = AttachmentRegistry.create(
-            AvarisGates.id("player_class_ability_type_1"),
-            builder -> builder
-                    .initializer(() -> PlayerClassAbilityType.Cleave) // start with a default value like hunger
-                    .persistent(PlayerClassAbilityType.CODEC) // persist across restarts
-                    .copyOnDeath()
-                    .syncWith(PlayerClassAbilityType.PACKET_CODEC, AttachmentSyncPredicate.all()) // only the player's own client needs the value for rendering
-    );
-
-    //Next Trigger Time
-    public static final AttachmentType<Long> PLAYER_CLASS_ABILITY_NTT_ATTACHMENT_1 = AttachmentRegistry.create(
-            AvarisGates.id("player_class_ability_ntt_1"),
-            builder -> builder
-                    .initializer(() -> 0L) // start with a default value like hunger
-                    .persistent(Codec.LONG) // persist across restarts
-                    .copyOnDeath()
-                    .syncWith(PacketCodecs.LONG, AttachmentSyncPredicate.all()) // only the player's own client needs the value for rendering
-    );
-
-    public static final AttachmentType<PlayerClassAbilityType> PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_2 = AttachmentRegistry.create(
-            AvarisGates.id("player_class_ability_type_2"),
-            builder -> builder
-                    .initializer(() -> PlayerClassAbilityType.Cleave) // start with a default value like hunger
-                    .persistent(PlayerClassAbilityType.CODEC) // persist across restarts
-                    .copyOnDeath()
-                    .syncWith(PlayerClassAbilityType.PACKET_CODEC, AttachmentSyncPredicate.all()) // only the player's own client needs the value for rendering
-    );
-
-    //Next Trigger Time
-    public static final AttachmentType<Long> PLAYER_CLASS_ABILITY_NTT_ATTACHMENT_2 = AttachmentRegistry.create(
-            AvarisGates.id("player_class_ability_ntt_2"),
-            builder -> builder
-                    .initializer(() -> 2L) // start with a default value like hunger
-                    .persistent(Codec.LONG) // persist across restarts
-                    .copyOnDeath()
-                    .syncWith(PacketCodecs.LONG, AttachmentSyncPredicate.all()) // only the player's own client needs the value for rendering
-    );
-
-    public static PlayerClassAbility build(PlayerClassAbilityType newType, Long ntt, AttachmentType<Long> slot) {
-        switch (newType){
+    public static PlayerClassAbility build(AttachedAbility ability) {
+        switch (ability.getType()){
             case Teleport -> {
-                return new TeleportAbility(ntt,slot);
+                return new TeleportAbility(ability);
             }
             case Cleave -> {
-                return new CleaveAbility(ntt,slot);
+                return new CleaveAbility(ability);
             }
             case Whirlwind -> {
-                return new WhirlwindAbility(ntt,slot);
+                return new WhirlwindAbility(ability);
+            }
+            case ShieldBash -> {
+                return new ShieldBashAbility(ability);
             }
         }
         return null;
@@ -112,7 +69,8 @@ public abstract class PlayerClassAbility {
 
     public void trigger(MinecraftServer server, ServerPlayerEntity player){
         this.nextTriggerTime = server.getTicks() + this.getBaseCooldown();
-        player.setAttached(slot,this.nextTriggerTime);
+        this.ability.setNtt(this.nextTriggerTime);
+        AttachedAbility.setAttached(player,this.ability);
         AvarisGates.LOGGER.info("{} triggered",this.getAbilityType());
     }
 }

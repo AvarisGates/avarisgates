@@ -1,9 +1,8 @@
 package com.avaris.avarisgates.core.player.ability;
 
-import com.avaris.avarisgates.core.entity.CleaveEntity;
+import com.avaris.avarisgates.core.entity.ability.CleaveEntity;
 import com.avaris.avarisgates.core.entity.ModEntities;
 import com.avaris.avarisgates.core.player.player_class.PlayerClassType;
-import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -15,8 +14,8 @@ import net.minecraft.util.math.Vec3d;
 public class CleaveAbility extends PlayerClassAbility {
 
 
-    public CleaveAbility(Long ntt, AttachmentType<Long> slot) {
-        super(ntt,slot);
+    public CleaveAbility(AttachedAbility ability) {
+        super(ability);
     }
 
     @Override
