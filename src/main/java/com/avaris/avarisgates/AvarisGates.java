@@ -3,6 +3,7 @@ package com.avaris.avarisgates;
 import com.avaris.avarisgates.core.*;
 import com.avaris.avarisgates.core.command.ModCommands;
 import com.avaris.avarisgates.core.entity.ModEntities;
+import com.avaris.avarisgates.core.item.ModItems;
 import com.avaris.avarisgates.core.network.ModPackets;
 import com.avaris.avarisgates.core.player.ability.AbilityRegistrar;
 import net.fabricmc.api.ModInitializer;
@@ -23,6 +24,7 @@ public class AvarisGates implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        ModItems.init();
         AbilityRegistrar.init();
         AttributeFix.init();
         ModPackets.init();
