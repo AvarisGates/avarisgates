@@ -14,5 +14,6 @@ public class ModCommands {
 
         AttributeCommand.init();
         AbilityCommand.init();
+        DungeonCommand.init();
     }
 }
