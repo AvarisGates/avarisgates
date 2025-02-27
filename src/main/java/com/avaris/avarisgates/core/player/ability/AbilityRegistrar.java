@@ -2,7 +2,6 @@ package com.avaris.avarisgates.core.player.ability;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
-import java.util.Locale;
 
 public class AbilityRegistrar {
 

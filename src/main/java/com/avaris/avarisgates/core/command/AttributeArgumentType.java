@@ -1,7 +1,5 @@
 package com.avaris.avarisgates.core.command;
 
-import com.avaris.avarisgates.core.player.ability.PlayerClassAbilityType;
-import com.avaris.avarisgates.core.player.attribute.Attribute;
 import com.avaris.avarisgates.core.player.attribute.AttributeType;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.ArgumentType;

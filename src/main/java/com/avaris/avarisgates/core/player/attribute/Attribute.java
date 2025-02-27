@@ -2,7 +2,6 @@ package com.avaris.avarisgates.core.player.attribute;
 
 import com.avaris.avarisgates.core.network.AttributeIncrementS2C;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.registry.Registries;

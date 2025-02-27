@@ -3,9 +3,6 @@ package com.avaris.avarisgates.core.player.ability;
 import com.avaris.avarisgates.AvarisGates;
 import com.avaris.avarisgates.core.player.player_class.PlayerClassType;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityPose;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ShieldItem;
 import net.minecraft.particle.ParticleTypes;
@@ -17,7 +14,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.*;
+import net.minecraft.util.math.Vec3d;
 
 public class ShieldBashAbility extends PlayerClassAbility{
     public ShieldBashAbility(AttachedAbility ability) {

@@ -2,15 +2,8 @@ package com.avaris.avarisgates.core.player.ability;
 
 import com.avaris.avarisgates.AvarisGates;
 import com.avaris.avarisgates.core.player.player_class.PlayerClassType;
-import com.mojang.serialization.Codec;
-import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry;
-import net.fabricmc.fabric.api.attachment.v1.AttachmentSyncPredicate;
-import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
-import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
-
-import java.lang.reflect.InvocationTargetException;
 
 // To add a new ability:
 // 1. Create a new ability type in PlayerClassAbilityType

@@ -10,8 +10,6 @@ import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionOptions;
 import net.minecraft.world.dimension.DimensionType;
-import net.minecraft.world.dimension.DimensionTypeRegistrar;
-import net.minecraft.world.dimension.DimensionTypes;
 
 import java.util.OptionalLong;
 

@@ -3,7 +3,6 @@ package com.avaris.avarisgates.client;
 import com.avaris.avarisgates.AvarisGates;
 import com.avaris.avarisgates.core.network.RequestAttributeIncrementC2S;
 import com.avaris.avarisgates.core.player.attribute.AttributeType;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
