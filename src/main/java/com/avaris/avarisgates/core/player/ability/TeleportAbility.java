@@ -14,7 +14,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.TeleportTarget;
 
-public class TeleportAbility extends PlayerClassAbility<TeleportAbility> {
+public class TeleportAbility extends PlayerClassAbility{
 
     public TeleportAbility(AttachedAbility attachedAbility) {
         super(attachedAbility);

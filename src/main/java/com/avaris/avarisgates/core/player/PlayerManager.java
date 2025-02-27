@@ -75,7 +75,7 @@ public class PlayerManager {
         AttachedAbility ability1 = AttachedAbility.getAttached(context.player(), AbilitySlot.SLOT1);
         AttachedAbility ability2 = AttachedAbility.getAttached(context.player(), AbilitySlot.SLOT2);
 
-        PlayerClassAbility<?> ability = null;
+        PlayerClassAbility ability = null;
         if(ability0.getType() == packet.ability()){
             ability = AbilityRegistrar.build(ability0.getType(),ability0);
         }

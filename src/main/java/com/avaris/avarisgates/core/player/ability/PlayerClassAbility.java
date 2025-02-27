@@ -21,7 +21,7 @@ import java.lang.reflect.InvocationTargetException;
 // Create a new Entity Type, Entity Renderer, and register them, the type in common code, the renderer on the client only
 // 5. Implement the new Entity Type, and the Renderer, the renderer can be mostly left blank. See CleaveEntityRenderer
 // 6. I think that's it, add new steps in the future if more steps are required
-public abstract class PlayerClassAbility<T extends PlayerClassAbility<?>> {
+public abstract class PlayerClassAbility{
     protected long minLevel;
     protected long nextTriggerTime; //In ticks
 

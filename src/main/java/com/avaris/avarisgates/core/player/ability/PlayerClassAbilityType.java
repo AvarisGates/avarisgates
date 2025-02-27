@@ -12,7 +12,9 @@ public enum PlayerClassAbilityType {
     Cleave,
     Teleport,
     Whirlwind,
-    ShieldBash, FireBolt;
+    ShieldBash,
+    FireBolt,
+    Heal;
 
     public static final Codec<PlayerClassAbilityType> CODEC = new PrimitiveCodec<PlayerClassAbilityType>() {
         @Override
@@ -59,6 +61,9 @@ public enum PlayerClassAbilityType {
             }
             case 5 -> {
                 return FireBolt;
+            }
+            case 6 -> {
+                return Heal;
             }
             default -> throw new IllegalStateException("Unexpected ability type value: " + i);
         }

@@ -6,7 +6,7 @@ import com.avaris.avarisgates.core.player.player_class.PlayerClassType;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 
-public class FireBoltAbility extends PlayerClassAbility<FireBoltAbility>{
+public class FireBoltAbility extends PlayerClassAbility{
 
     public FireBoltAbility(AttachedAbility ability) {
         super(ability);

@@ -18,11 +18,12 @@ public class AbilityRegistrar {
         register(PlayerClassAbilityType.Teleport, TeleportAbility.class);
         register(PlayerClassAbilityType.Whirlwind, WhirlwindAbility.class);
         register(PlayerClassAbilityType.FireBolt, FireBoltAbility.class);
+        register(PlayerClassAbilityType.Heal, HealAbility.class);
     }
 
-    public static PlayerClassAbility<?> build(PlayerClassAbilityType type,AttachedAbility ability) {
+    public static PlayerClassAbility build(PlayerClassAbilityType type,AttachedAbility ability) {
         try{
-            return (PlayerClassAbility<?>)REGISTERED_ABILITIES.get(type).getConstructor(AttachedAbility.class).newInstance(ability);
+            return (PlayerClassAbility)REGISTERED_ABILITIES.get(type).getConstructor(AttachedAbility.class).newInstance(ability);
         } catch (NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
             //throw new RuntimeException(e);
             e.printStackTrace();
