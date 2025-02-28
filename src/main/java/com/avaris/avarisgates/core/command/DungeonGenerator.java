@@ -25,9 +25,9 @@ public class DungeonGenerator {
         for (int i = 0;i < DungeonRoom.SIDE_LENGTH;i++){
             STARTING_ROOM.put(new BlockPos(DungeonRoom.SIDE_LENGTH,0,i),Blocks.NETHER_BRICKS.getDefaultState());
         }
-        for (int i = 1;i < DungeonRoom.SIDE_LENGTH - 1;i++){
-            for (int j = 1;j < DungeonRoom.SIDE_LENGTH - 1;j++) {
-                STARTING_ROOM.put(new BlockPos(i, 1, j), Blocks.EMERALD_BLOCK.getDefaultState());
+        for (int i = 0;i < DungeonRoom.SIDE_LENGTH - 1;i++){
+            for (int j = 0;j < DungeonRoom.SIDE_LENGTH - 1;j++) {
+                STARTING_ROOM.put(new BlockPos(i + 1, 1, j + 1), Blocks.EMERALD_BLOCK.getDefaultState());
             }
         }
     }
@@ -45,9 +45,9 @@ public class DungeonGenerator {
         for (int i = 0;i < DungeonRoom.SIDE_LENGTH;i++){
             MONSTER_ROOM.put(new BlockPos(DungeonRoom.SIDE_LENGTH,0,i),Blocks.NETHER_BRICKS.getDefaultState());
         }
-        for (int i = 1;i < DungeonRoom.SIDE_LENGTH - 1;i++){
-            for (int j = 1;j < DungeonRoom.SIDE_LENGTH - 1;j++) {
-                MONSTER_ROOM.put(new BlockPos(i, 1, j), Blocks.REDSTONE_BLOCK.getDefaultState());
+        for (int i = 0;i < DungeonRoom.SIDE_LENGTH - 1;i++){
+            for (int j = 0;j < DungeonRoom.SIDE_LENGTH - 1;j++) {
+                MONSTER_ROOM.put(new BlockPos(i + 1, 1, j + 1), Blocks.REDSTONE_BLOCK.getDefaultState());
             }
         }
     }
@@ -65,22 +65,25 @@ public class DungeonGenerator {
         for (int i = 0;i < DungeonRoom.SIDE_LENGTH;i++){
             BOSS_ROOM.put(new BlockPos(DungeonRoom.SIDE_LENGTH,0,i),Blocks.NETHER_BRICKS.getDefaultState());
         }
-        for (int i = 1;i < DungeonRoom.SIDE_LENGTH - 1;i++){
-            for (int j = 1;j < DungeonRoom.SIDE_LENGTH - 1;j++) {
-                BOSS_ROOM.put(new BlockPos(i, 1, j), Blocks.GOLD_BLOCK.getDefaultState());
+        for (int i = 0;i < DungeonRoom.SIDE_LENGTH - 1;i++){
+            for (int j = 0;j < DungeonRoom.SIDE_LENGTH - 1;j++) {
+                BOSS_ROOM.put(new BlockPos(i+1, 1, j+1), Blocks.GOLD_BLOCK.getDefaultState());
             }
         }
     }
     public static HashMap<Point, DungeonRoom> generateRooms(){
         HashMap<Point, DungeonRoom> rooms = new HashMap<>();
         Random rng = new Random();
-        int bossRoomX = rng.nextInt(0,8);
-        int bossRoomY = rng.nextInt(6,8);
+        int bossRoomX = rng.nextInt(0,7);
+        int bossRoomY = rng.nextInt(5,7);
 
         ArrayList<Point> targets = new ArrayList<>();
         targets.add(new Point(bossRoomX,bossRoomY));
         targets.add(new Point(bossRoomX,bossRoomY-4));
-        targets.add(new Point(8,8));
+        targets.add(new Point(7,7));
+        targets.add(new Point(4,4));
+        targets.add(new Point(4,6));
+        targets.add(new Point(6,4));
 
         for(Point target : targets){
             int targetX = target.x;
