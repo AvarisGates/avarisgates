@@ -12,6 +12,9 @@ public class ModCommands {
         ArgumentTypeRegistry.registerArgumentType(AvarisGates.id("attribute_type_argument"),
                 AttributeArgumentType.class, ConstantArgumentSerializer.of(AttributeArgumentType::create));
 
+        ArgumentTypeRegistry.registerArgumentType(AvarisGates.id("dungeon_uuid_argument"),
+                DungeonUuidArgumentType.class, ConstantArgumentSerializer.of(DungeonUuidArgumentType::create));
+
         AttributeCommand.init();
         AbilityCommand.init();
         DungeonCommand.init();

@@ -8,6 +8,8 @@ import com.avaris.avarisgates.core.item.ModItems;
 import com.avaris.avarisgates.core.network.ModPackets;
 import com.avaris.avarisgates.core.player.ability.AbilityRegistrar;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +24,7 @@ public class AvarisGates implements ModInitializer {
         return Identifier.of(MOD_ID,id);
     }
 
+    public static DungeonManager dungeonManager = new DungeonManager();
 
     @Override
     public void onInitialize() {
@@ -31,6 +34,12 @@ public class AvarisGates implements ModInitializer {
         ModPackets.init();
         ModEntities.init();
         ModCommands.init();
+        ServerTickEvents.END_SERVER_TICK.register((minecraftServer)->{
+            dungeonManager.tick(minecraftServer);
+        });
+        ServerLifecycleEvents.SERVER_STOPPING.register((minecraftServer -> {
+            dungeonManager.removeAllDungeons();
+        }));
     }
 
 
