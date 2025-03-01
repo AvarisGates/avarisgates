@@ -7,20 +7,20 @@ import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.util.Identifier;
 
-public record AttributeIncrementS2C(AttributeType type,long value) implements CustomPayload{
-    public static final PacketCodec<PacketByteBuf, AttributeIncrementS2C> CODEC;
+public record SyncAttributeS2C(AttributeType type, long value) implements CustomPayload{
+    public static final PacketCodec<PacketByteBuf, SyncAttributeS2C> CODEC;
     public static final Identifier PACKET_ID;
-    public static final Id<AttributeIncrementS2C> ID;
+    public static final Id<SyncAttributeS2C> ID;
 
     static {
         CODEC = new PacketCodec<>() {
             @Override
-            public AttributeIncrementS2C decode(PacketByteBuf buf) {
-                return new AttributeIncrementS2C(AttributeType.fromInt(buf.readInt()),buf.readLong());
+            public SyncAttributeS2C decode(PacketByteBuf buf) {
+                return new SyncAttributeS2C(AttributeType.fromInt(buf.readInt()),buf.readLong());
             }
 
             @Override
-            public void encode(PacketByteBuf buf, AttributeIncrementS2C value) {
+            public void encode(PacketByteBuf buf, SyncAttributeS2C value) {
                buf.writeInt(value.type.ordinal());
                 buf.writeLong(value.value);
             }

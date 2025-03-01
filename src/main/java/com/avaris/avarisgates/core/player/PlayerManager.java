@@ -1,13 +1,10 @@
 package com.avaris.avarisgates.core.player;
 
 import com.avaris.avarisgates.AvarisGates;
-import com.avaris.avarisgates.core.network.AttributeIncrementS2C;
 import com.avaris.avarisgates.core.network.CastPlayerClassAbilityC2S;
-import com.avaris.avarisgates.core.network.ChangeAbilityS2C;
 import com.avaris.avarisgates.core.network.RequestAttributeIncrementC2S;
 import com.avaris.avarisgates.core.player.ability.*;
 import com.avaris.avarisgates.core.player.attribute.Attribute;
-import com.avaris.avarisgates.core.player.attribute.AttributeType;
 import com.avaris.avarisgates.core.player.player_class.PlayerClass;
 import com.avaris.avarisgates.core.player.player_class.PlayerClassType;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;

@@ -5,7 +5,7 @@ import com.avaris.avarisgates.core.entity.ModEntities;
 import com.avaris.avarisgates.core.entity.ability.renderer.CleaveEntityRenderer;
 import com.avaris.avarisgates.core.entity.ability.renderer.FireBoltEntityRenderer;
 import com.avaris.avarisgates.core.entity.ability.renderer.WhirlwindEntityRenderer;
-import com.avaris.avarisgates.core.network.AttributeIncrementS2C;
+import com.avaris.avarisgates.core.network.SyncAttributeS2C;
 import com.avaris.avarisgates.core.network.CastPlayerClassAbilityC2S;
 import com.avaris.avarisgates.core.network.ChangeAbilityS2C;
 import com.avaris.avarisgates.core.network.SyncManaS2C;
@@ -123,7 +123,7 @@ public class AvarisGatesClient implements ClientModInitializer {
 
         ClientPlayNetworking.registerGlobalReceiver(ChangeAbilityS2C.ID, this::receiveChangeAbility);
 
-        ClientPlayNetworking.registerGlobalReceiver(AttributeIncrementS2C.ID, this::receiveAttributeIncrement);
+        ClientPlayNetworking.registerGlobalReceiver(SyncAttributeS2C.ID, this::receiveAttributeIncrement);
 
         ClientPlayNetworking.registerGlobalReceiver(SyncManaS2C.ID, this::receiveSyncMana);
 
@@ -139,7 +139,7 @@ public class AvarisGatesClient implements ClientModInitializer {
         AvarisGates.LOGGER.info("Mana Synced: {}/{}", mana, maxMana);
     }
 
-    private void receiveAttributeIncrement(AttributeIncrementS2C packet, ClientPlayNetworking.Context context) {
+    private void receiveAttributeIncrement(SyncAttributeS2C packet, ClientPlayNetworking.Context context) {
         int i = 0;
         for(Attribute a : attributeList){
             if(a.getType() == packet.type()){

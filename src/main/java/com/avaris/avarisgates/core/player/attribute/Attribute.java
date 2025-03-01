@@ -1,7 +1,7 @@
 package com.avaris.avarisgates.core.player.attribute;
 
 import com.avaris.avarisgates.AvarisGates;
-import com.avaris.avarisgates.core.network.AttributeIncrementS2C;
+import com.avaris.avarisgates.core.network.SyncAttributeS2C;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
@@ -31,7 +31,7 @@ public class Attribute {
     public static void initForPlayer(ServerPlayerEntity player) {
         for(AttributeType type : AttributeType.values()){
             Attribute attribute = Attribute.getAttribute(player,type);
-            ServerPlayNetworking.send(player,new AttributeIncrementS2C(type,attribute.getValue()));
+            ServerPlayNetworking.send(player,new SyncAttributeS2C(type,attribute.getValue()));
             AvarisGates.LOGGER.info("{}",attribute);
         }
     }
@@ -63,7 +63,7 @@ public class Attribute {
         entity.setAttached(attribute.type.toValueAttachment(), attribute.value);
         attribute.apply(entity);
         if(entity instanceof ServerPlayerEntity player){
-            ServerPlayNetworking.send(player,new AttributeIncrementS2C(attribute.type,attribute.value));
+            ServerPlayNetworking.send(player,new SyncAttributeS2C(attribute.type,attribute.value));
         }
         return attribute;
     }
