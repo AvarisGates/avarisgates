@@ -10,8 +10,8 @@ import net.minecraft.text.Text;
 // To add a new ability:
 // 1. Create a new ability type in PlayerClassAbilityType
 // 2. Register it in the AbilityRegistrar
-// 3. Create a new ability class extending from this class, make sure to call super.trigger() at the end of the trigger function
-// so the ability goes on cooldown properly
+// 3. Create a new ability class extending from this class, make sure to call super.trigger() at the start of the trigger function,
+// if it returns false the ability shouldn't trigger, it's also necessary so the ability goes on cooldown properly
 // 4. (If the ability doesn't require an entity go to step 6.)
 // Create a new Entity Type, Entity Renderer, and register them, the type in common code, the renderer on the client only
 // 5. Implement the new Entity Type, and the Renderer, the renderer can be mostly left blank. See CleaveEntityRenderer
