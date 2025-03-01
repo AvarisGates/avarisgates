@@ -152,7 +152,6 @@ public class InventoryRenderer {
         x -= backgroundWidth / 2;
         y += 14;
 
-        //TODO: Fix Me!
         if(selectedTab == 2){
             int i = 0;
             for(AttributeType type : AttributeType.values()){

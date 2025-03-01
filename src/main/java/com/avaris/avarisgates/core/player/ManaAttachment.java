@@ -80,7 +80,6 @@ public class ManaAttachment extends PlayerResource{
             return;
         }
         addMana(player, Attribute.getAttribute(player,AttributeType.Intelligence).getValue());
-        AvarisGates.LOGGER.info("{}",getMana(player).getValue());
     }
 
     private static final AttachmentType<Long> PLAYER_MANA_ATTACHMENT = AttachmentRegistry.create(
