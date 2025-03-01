@@ -7,6 +7,7 @@ import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.profiler.Profilers;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -14,6 +15,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(InGameHud.class)
 public abstract class InGameHudMixin {
+
+    @Shadow private long heartJumpEndTick;
+
+    @Shadow private int ticks;
 
     @Inject(method = "renderExperienceLevel",at = @At("HEAD"),cancellable = true)
     void onRenderExperience(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci){
@@ -26,7 +31,19 @@ public abstract class InGameHudMixin {
     @Inject(method = "renderHealthBar",at = @At("HEAD"),cancellable = true)
     void onRenderHealthBar(DrawContext context, PlayerEntity player, int x, int y, int lines, int regeneratingHeartIndex, float maxHealth, int lastHealth, int health, int absorption, boolean blinking, CallbackInfo ci){
         ci.cancel();
-        HudRenderer.renderHealthBar(context,player,x,y,lines,regeneratingHeartIndex,maxHealth,lastHealth,health,absorption,blinking);
+        boolean renderDecreasedHealth = this.heartJumpEndTick >= this.ticks;
+        HudRenderer.renderHealthBar(context,
+                player,
+                x,
+                y,
+                lines,
+                regeneratingHeartIndex,
+                maxHealth,
+                lastHealth,
+                health,
+                absorption,
+                renderDecreasedHealth
+        );
         //InGameHud.HeartType heartType = InGameHud.HeartType.fromPlayerState(player);
         //boolean bl = player.getWorld().getLevelProperties().isHardcore();
         //int i = MathHelper.ceil((double)maxHealth / 2.0);
@@ -76,7 +93,7 @@ public abstract class InGameHudMixin {
 
     @Inject(method = "renderFood",at = @At("HEAD"),cancellable = true)
     void onRenderFood(DrawContext context, PlayerEntity player, int top, int right, CallbackInfo ci){
-        HudRenderer.renderFood(context,player,top,right);
+        HudRenderer.renderMana(context,player,top,right);
         ci.cancel();
     }
     @Inject(method = "renderArmor", at=@At("HEAD"),cancellable = true)
