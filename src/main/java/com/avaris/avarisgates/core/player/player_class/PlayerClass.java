@@ -26,6 +26,7 @@ public abstract class PlayerClass {
 
     static {
         //We initialize the map with experience IDs for each class type
+        EXPERIENCE_IDS.put(PlayerClassType.Beginner, "player_experience_all");
         EXPERIENCE_IDS.put(PlayerClassType.Warrior, "player_experience_warrior");
         //EXAMPLE OF CLASSES WITH THE SAME LINE:
         //EXPERIENCE_IDS.put(PlayerClassType.GreatWarrior, "player_experience_warrior");
@@ -58,19 +59,17 @@ public abstract class PlayerClass {
     public PlayerClass(PlayerClassType type,long experience){
         this.type = type;
         this.experience = experience;
-        this.level = calculateLevel(level,type);
+        this.level = calculateLevel(experience);
     }
     
-    private long calculateLevel(long experience, PlayerClassType playerclassthing) {
+    private long calculateLevel(long experience) {
         long baseXp = 100;  // Base XP requirement for level 1
         double multiplier = 1.0;
-
-
 
         int level = 0;
         long totalXp = 0;
 
-        while (totalXp <= experience && level < 101) {
+        while (totalXp <= experience) {
             level++;
             totalXp += (long) (baseXp * Math.pow(level, 1.005) * multiplier);
             totalXp = (totalXp / 100) * 100;  // Round down to the nearest multiple of 100

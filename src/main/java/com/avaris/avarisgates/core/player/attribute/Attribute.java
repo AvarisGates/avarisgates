@@ -48,7 +48,7 @@ public class Attribute {
             if(this.value <= 110){
                 newValue = 1 + (this.value - 10) * 0.01;
             }else{
-                newValue = 1 + 100 * 0.1 + (this.value - 110) * 0.001;
+                newValue = 1 + 100 * 0.01 + (this.value - 110) * 0.001;
             }
 
             // Convert the value to be compatible with vanilla minecraft attributes
