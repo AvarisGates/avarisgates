@@ -1,8 +1,6 @@
 package com.avaris.avarisgates.core.player;
 
-
-import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
-
+// An abstract resource such as mana or energy
 public abstract class PlayerResource {
     protected Long value = 0L;
     protected Long maxValue = 100L;
