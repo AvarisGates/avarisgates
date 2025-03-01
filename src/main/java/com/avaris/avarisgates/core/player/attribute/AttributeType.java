@@ -21,7 +21,7 @@ public enum AttributeType {
       return AttachmentRegistry.create(
           AvarisGates.id(id),
           builder -> builder
-                  .initializer(() -> 0L) // start with a default value like hunger
+                  .initializer(() -> 10L) // start with a default value like hunger
                   .persistent(Codec.LONG) // persist across restarts
                   .copyOnDeath()
                   .syncWith(PacketCodecs.LONG, AttachmentSyncPredicate.all()) // only the player's own client needs the value for rendering
@@ -97,9 +97,6 @@ public enum AttributeType {
     }
 
     public long defaultValue() {
-        if(this == Vitality){
-            return 10;
-        }
-        return 0;
+        return 10;
     }
 }
