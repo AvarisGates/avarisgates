@@ -27,7 +27,7 @@ public class PlayerManager {
 
         ManaAttachment.initForPlayer(player);
 
-        CurrencyAttachment.setCurrency(player,new CurrencyAttachment(1000));
+        CurrencyAttachment.getCurrency(player);
     }
 
     private static <T> void ensureAttached(ServerPlayerEntity player, AttachmentType<T> type, T defaultValue){
