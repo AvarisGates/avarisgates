@@ -20,8 +20,8 @@ public class AttachedAbility {
     }
 
     public static AttachedAbility getAttached(LivingEntity entity, AbilitySlot slot){
-        PlayerClassAbilityType type = entity.getAttached(slot.toAttachmentType());
-        Long ntt = entity.getAttached(slot.toNttAttachment());
+        PlayerClassAbilityType type = entity.getAttachedOrCreate(slot.toAttachmentType());
+        Long ntt = entity.getAttachedOrCreate(slot.toNttAttachment());
         return new AttachedAbility(type,ntt,slot);
     }
 

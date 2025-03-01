@@ -31,7 +31,7 @@ public class PlayerManager {
     }
 
     private static <T> void ensureAttached(ServerPlayerEntity player, AttachmentType<T> type, T defaultValue){
-        T attached = player.getAttached(type);
+        T attached = player.getAttachedOrCreate(type);
         if(attached == null){
             player.setAttached(type,defaultValue);
             AvarisGates.LOGGER.info("Attached '{}' value='{}' to player - '{}'",type.identifier(),defaultValue,player.getNameForScoreboard());

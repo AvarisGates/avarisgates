@@ -18,12 +18,12 @@ public class Attribute {
     }
 
     public static Attribute getAttribute(LivingEntity entity, AttributeType type){
-        Long attached = entity.getAttached(type.toValueAttachment());
+        Long attached = entity.getAttachedOrCreate(type.toValueAttachment());
         if(attached == null){
             return resetAttribute(entity,type);
         }
 
-        return new Attribute(type,entity.getAttached(type.toValueAttachment()));
+        return new Attribute(type,entity.getAttachedOrCreate(type.toValueAttachment()));
     }
 
     public static void initForPlayer(ServerPlayerEntity player) {
