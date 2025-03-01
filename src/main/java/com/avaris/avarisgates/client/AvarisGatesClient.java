@@ -1,11 +1,9 @@
 package com.avaris.avarisgates.client;
 
-import com.avaris.avarisgates.AvarisGates;
 import com.avaris.avarisgates.core.entity.ModEntities;
 import com.avaris.avarisgates.core.entity.ability.renderer.CleaveEntityRenderer;
 import com.avaris.avarisgates.core.entity.ability.renderer.FireBoltEntityRenderer;
 import com.avaris.avarisgates.core.entity.ability.renderer.WhirlwindEntityRenderer;
-import com.avaris.avarisgates.core.network.SyncAttributeS2C;
 import com.avaris.avarisgates.core.network.CastPlayerClassAbilityC2S;
 import com.avaris.avarisgates.core.network.ChangeAbilityS2C;
 import com.avaris.avarisgates.core.player.ManaAttachment;
@@ -18,13 +16,13 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
 
 public class AvarisGatesClient implements ClientModInitializer {
 
@@ -45,8 +43,7 @@ public class AvarisGatesClient implements ClientModInitializer {
             )));
 
     private static final AbilityKeyBind ABILITY_2_KEY_BIND = new AbilityKeyBind(
-            KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                    "key.averisgates.ability_2", // The translation key of the keybinding's name
+            KeyBindingHelper.registerKeyBinding(new KeyBinding("key.averisgates.ability_2", // The translation key of the keybinding's name
                     InputUtil.Type.KEYSYM, // The type of the keybinding, KEYSYM for keyboard, MOUSE for mouse.
                     GLFW.GLFW_KEY_C, // The keycode of the key
                     "category.averisgates.abilities" // The translation key of the keybinding's category.
@@ -56,25 +53,37 @@ public class AvarisGatesClient implements ClientModInitializer {
        return 300;
     }
 
-    private static final List<Attribute> attributeList = new ArrayList<>();
-
     public static long getAttributeValue(AttributeType type) {
-        for(Attribute a : attributeList){
-            if(a.getType() == type){
-                return a.getValue();
-            }
+        ClientPlayerEntity player = MinecraftClient.getInstance().player;
+        if(player == null){
+            return 0;
         }
-        return 0;
+        return Objects.requireNonNullElse(Attribute.getAttribute(player, type).getValue(),0L);
     }
 
     public static long getMana() {
-        return ManaAttachment.getMana(MinecraftClient.getInstance().player).getValue();
+        ClientPlayerEntity player = MinecraftClient.getInstance().player;
+        if(player == null){
+            return 0;
+        }
+        ManaAttachment manaAttachment = ManaAttachment.getMana(player);
+        if(manaAttachment == null){
+            return 0;
+        }
+        return Objects.requireNonNullElse(manaAttachment.getValue(),0L);
     }
 
     public static long getMaxMana() {
-        return ManaAttachment.getMana(MinecraftClient.getInstance().player).getMaxValue();
+        ClientPlayerEntity player = MinecraftClient.getInstance().player;
+        if(player == null){
+            return 0;
+        }
+        ManaAttachment manaAttachment = ManaAttachment.getMana(player);
+        if(manaAttachment == null){
+            return 0;
+        }
+        return Objects.requireNonNullElse(manaAttachment.getMaxValue(),0L);
     }
-
 
     private void checkKeyBind(MinecraftClient client,AbilityKeyBind keyBind){
         int cooldown = keyBind.tickCooldown();
@@ -112,24 +121,6 @@ public class AvarisGatesClient implements ClientModInitializer {
         EntityRendererRegistry.register(ModEntities.FIREBOLT, FireBoltEntityRenderer::new);
 
         ClientPlayNetworking.registerGlobalReceiver(ChangeAbilityS2C.ID, this::receiveChangeAbility);
-
-        ClientPlayNetworking.registerGlobalReceiver(SyncAttributeS2C.ID, this::receiveAttributeIncrement);
-
-        for(AttributeType type : AttributeType.values()){
-            attributeList.add(new Attribute(type,0));
-        }
-
-    }
-
-    private void receiveAttributeIncrement(SyncAttributeS2C packet, ClientPlayNetworking.Context context) {
-        int i = 0;
-        for(Attribute a : attributeList){
-            if(a.getType() == packet.type()){
-                attributeList.set(i,new Attribute(a.getType(), packet.value()));
-                return;
-            }
-            i++;
-        }
     }
 
     private void receiveChangeAbility(ChangeAbilityS2C packet, ClientPlayNetworking.Context context) {

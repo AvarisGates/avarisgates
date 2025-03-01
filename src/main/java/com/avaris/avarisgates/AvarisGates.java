@@ -8,6 +8,10 @@ import com.avaris.avarisgates.core.item.ModItems;
 import com.avaris.avarisgates.core.network.ModPackets;
 import com.avaris.avarisgates.core.player.ManaAttachment;
 import com.avaris.avarisgates.core.player.ability.AbilityRegistrar;
+import com.avaris.avarisgates.core.player.ability.AbilitySlot;
+import com.avaris.avarisgates.core.player.attribute.Attribute;
+import com.avaris.avarisgates.core.player.attribute.AttributeType;
+import com.avaris.avarisgates.core.player.player_class.PlayerClass;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
@@ -29,6 +33,13 @@ public class AvarisGates implements ModInitializer {
 
     @Override
     public void onInitialize() {
+
+        // Init fabric attachments
+        AbilitySlot.init();
+        PlayerClass.init();
+        AttributeType.init();
+        ManaAttachment.init();
+
         ModItems.init();
         AbilityRegistrar.init();
         AttributeFix.init();

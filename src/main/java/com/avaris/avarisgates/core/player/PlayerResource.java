@@ -4,10 +4,10 @@ package com.avaris.avarisgates.core.player;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 
 public abstract class PlayerResource {
-    protected long value = 0;
-    protected long maxValue = 100;
+    protected Long value = 0L;
+    protected Long maxValue = 100L;
 
-    public long getMaxValue() {
+    public Long getMaxValue() {
         return maxValue;
     }
 
@@ -15,7 +15,7 @@ public abstract class PlayerResource {
         this.maxValue = max_value;
     }
 
-    public long getValue() {
+    public Long getValue() {
         return value;
     }
 

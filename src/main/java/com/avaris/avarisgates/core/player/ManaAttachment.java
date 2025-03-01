@@ -12,6 +12,12 @@ import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 public class ManaAttachment extends PlayerResource{
+
+    // Call this on startup to make fabric realise that the attachments exist
+    public static void init(){
+
+    }
+
     public ManaAttachment(long value, long maxValue){
         this.value = value;
         this.maxValue = maxValue;

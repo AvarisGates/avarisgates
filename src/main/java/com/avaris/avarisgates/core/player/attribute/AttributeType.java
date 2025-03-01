@@ -17,6 +17,10 @@ public enum AttributeType {
    Will,
    Faith;
 
+   // Call this on startup to make fabric realise that the attachments exist
+   public static void init(){
+
+   }
    private static AttachmentType<Long> register(String id){
       return AttachmentRegistry.create(
           AvarisGates.id(id),

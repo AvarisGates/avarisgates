@@ -30,6 +30,11 @@ public abstract class PlayerClass {
                     .syncWith(PacketCodecs.LONG, AttachmentSyncPredicate.all()) // only the player's own client needs the value for rendering
     );
 
+    // Call this on startup to make fabric realise that the attachments exist
+    public static void init(){
+
+    }
+
     private final PlayerClassType type;
 
     public static long MAX_CLASS_LEVEL = 100;
