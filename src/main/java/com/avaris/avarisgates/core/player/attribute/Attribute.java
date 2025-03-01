@@ -35,6 +35,7 @@ public class Attribute {
     public static void initForPlayer(ServerPlayerEntity player) {
         for(AttributeType type : AttributeType.values()){
             Attribute attribute = Attribute.getAttribute(player,type);
+            attribute.apply(player);
             AvarisGates.LOGGER.info("{}",attribute);
         }
     }
