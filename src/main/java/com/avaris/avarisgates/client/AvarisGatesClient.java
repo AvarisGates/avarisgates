@@ -113,17 +113,7 @@ public class AvarisGatesClient implements ClientModInitializer {
             checkKeyBind(client,ABILITY_2_KEY_BIND);
         });
 
-
-        /*
-         * Registers our Cube Entity's renderer, which provides a model and texture for the entity.
-         *
-         * Entity Renderers can also manipulate the model before it renders based on entity context (EndermanEntityRenderer#render).
-         */
-
-        // In 1.17, use EntityRendererRegistry.register (seen below) instead of EntityRendererRegistry.INSTANCE.register (seen above)
-        EntityRendererRegistry.register(ModEntities.CLEAVE, CleaveEntityRenderer::new);
-        EntityRendererRegistry.register(ModEntities.WHIRLWIND, WhirlwindEntityRenderer::new);
-        EntityRendererRegistry.register(ModEntities.FIREBOLT, FireBoltEntityRenderer::new);
+        ModEntities.registerEntityRenderers();
 
         ClientPlayNetworking.registerGlobalReceiver(ChangeAbilityS2C.ID, this::receiveChangeAbility);
     }

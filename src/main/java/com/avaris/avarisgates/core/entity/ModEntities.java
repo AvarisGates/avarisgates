@@ -4,8 +4,12 @@ import com.avaris.avarisgates.AvarisGates;
 import com.avaris.avarisgates.core.entity.ability.CleaveEntity;
 import com.avaris.avarisgates.core.entity.ability.FireBoltEntity;
 import com.avaris.avarisgates.core.entity.ability.WhirlwindEntity;
+import com.avaris.avarisgates.core.entity.ability.renderer.CleaveEntityRenderer;
+import com.avaris.avarisgates.core.entity.ability.renderer.FireBoltEntityRenderer;
+import com.avaris.avarisgates.core.entity.ability.renderer.WhirlwindEntityRenderer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
@@ -70,6 +74,9 @@ public class ModEntities {
     }
 
     @Environment(EnvType.CLIENT)
-    public static void initClient(){
+    public static void registerEntityRenderers(){
+        EntityRendererRegistry.register(ModEntities.CLEAVE, CleaveEntityRenderer::new);
+        EntityRendererRegistry.register(ModEntities.WHIRLWIND, WhirlwindEntityRenderer::new);
+        EntityRendererRegistry.register(ModEntities.FIREBOLT, FireBoltEntityRenderer::new);
     }
 }
