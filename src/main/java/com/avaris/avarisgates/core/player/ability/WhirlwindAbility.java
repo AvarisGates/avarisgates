@@ -40,7 +40,10 @@ public class WhirlwindAbility extends PlayerClassAbility{
     }
 
     @Override
-    public void trigger(MinecraftServer server, ServerPlayerEntity player) {
+    public boolean trigger(MinecraftServer server, ServerPlayerEntity player) {
+        if(!super.trigger(server,player)){
+            return false;
+        }
         for (int i = 0; i < 3; i++) {
             scheduler.schedule(() -> {
                 ServerWorld serverWorld = player.getServerWorld();
@@ -67,6 +70,6 @@ public class WhirlwindAbility extends PlayerClassAbility{
                 serverWorld.playSound(null,pos.x,pos.y,pos.z, SoundEvents.BLOCK_BELL_USE, SoundCategory.PLAYERS);
             }, i, TimeUnit.SECONDS);
         }
-        super.trigger(server,player);
+        return true;
     }
 }

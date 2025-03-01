@@ -1,5 +1,6 @@
 package com.avaris.avarisgates.client;
 
+import com.avaris.avarisgates.AvarisGates;
 import com.avaris.avarisgates.core.entity.ModEntities;
 import com.avaris.avarisgates.core.entity.ability.renderer.CleaveEntityRenderer;
 import com.avaris.avarisgates.core.entity.ability.renderer.FireBoltEntityRenderer;
@@ -7,6 +8,7 @@ import com.avaris.avarisgates.core.entity.ability.renderer.WhirlwindEntityRender
 import com.avaris.avarisgates.core.network.AttributeIncrementS2C;
 import com.avaris.avarisgates.core.network.CastPlayerClassAbilityC2S;
 import com.avaris.avarisgates.core.network.ChangeAbilityS2C;
+import com.avaris.avarisgates.core.network.SyncManaS2C;
 import com.avaris.avarisgates.core.player.ability.PlayerClassAbilityType;
 import com.avaris.avarisgates.core.player.attribute.Attribute;
 import com.avaris.avarisgates.core.player.attribute.AttributeType;
@@ -25,6 +27,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AvarisGatesClient implements ClientModInitializer {
+
+    private static long maxMana = 0;
+    private static long mana = 0;
 
         private static final AbilityKeyBind ABILITY_0_KEY_BIND = new AbilityKeyBind(
                 KeyBindingHelper.registerKeyBinding(new KeyBinding(
@@ -63,6 +68,14 @@ public class AvarisGatesClient implements ClientModInitializer {
             }
         }
         return 0;
+    }
+
+    public static long getMaxMana() {
+        return maxMana;
+    }
+
+    public static long getMana() {
+        return mana;
     }
 
 
@@ -105,10 +118,18 @@ public class AvarisGatesClient implements ClientModInitializer {
 
         ClientPlayNetworking.registerGlobalReceiver(AttributeIncrementS2C.ID, this::receiveAttributeIncrement);
 
+        ClientPlayNetworking.registerGlobalReceiver(SyncManaS2C.ID, this::receiveSyncMana);
+
         for(AttributeType type : AttributeType.values()){
             attributeList.add(new Attribute(type,0));
         }
 
+    }
+
+    private void receiveSyncMana(SyncManaS2C packet, ClientPlayNetworking.Context context) {
+        maxMana = packet.manaAttachment().getMaxValue();
+        mana = packet.manaAttachment().getValue();
+        AvarisGates.LOGGER.info("Mana Synced: {}/{}", mana, maxMana);
     }
 
     private void receiveAttributeIncrement(AttributeIncrementS2C packet, ClientPlayNetworking.Context context) {

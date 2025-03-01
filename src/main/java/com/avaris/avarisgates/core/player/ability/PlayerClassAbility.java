@@ -1,9 +1,11 @@
 package com.avaris.avarisgates.core.player.ability;
 
 import com.avaris.avarisgates.AvarisGates;
+import com.avaris.avarisgates.core.player.ManaAttachment;
 import com.avaris.avarisgates.core.player.player_class.PlayerClassType;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.Text;
 
 // To add a new ability:
 // 1. Create a new ability type in PlayerClassAbilityType
@@ -35,6 +37,10 @@ public abstract class PlayerClassAbility{
 
     public abstract long getBaseCooldown();
 
+    public long getBaseManaCost(){
+        return 20;
+    }
+
     public long getNextTriggerTime(){
         return nextTriggerTime;
     }
@@ -43,10 +49,17 @@ public abstract class PlayerClassAbility{
        return Math.max(0, nextTriggerTime - time);
     }
 
-    public void trigger(MinecraftServer server, ServerPlayerEntity player){
+    public boolean trigger(MinecraftServer server, ServerPlayerEntity player){
+        if(!player.isCreative()){
+            if(!ManaAttachment.consumeMana(player,getBaseManaCost())){
+                player.sendMessage(Text.literal("You don't have enough mana"));
+                return false;
+            }
+        }
         this.nextTriggerTime = server.getTicks() + this.getBaseCooldown();
         this.ability.setNtt(this.nextTriggerTime);
         AttachedAbility.setAttached(player,this.ability);
         AvarisGates.LOGGER.info("{} triggered",this.getAbilityType());
+        return true;
     }
 }

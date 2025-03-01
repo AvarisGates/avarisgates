@@ -35,8 +35,10 @@ public class HealAbility extends PlayerClassAbility{
     }
 
     @Override
-    public void trigger(MinecraftServer server, ServerPlayerEntity player) {
-        super.trigger(server, player);
+    public boolean trigger(MinecraftServer server, ServerPlayerEntity player) {
+        if(!super.trigger(server, player)){
+            return false;
+        }
         HitResult hitResult = AbilityUtil.findCrosshairTarget(player,0,player.getEntityInteractionRange(),0);
         if(hitResult instanceof EntityHitResult entityHitResult){
             if(entityHitResult.getEntity() instanceof LivingEntity entity){
@@ -76,5 +78,6 @@ public class HealAbility extends PlayerClassAbility{
                 }
             }
         }
+        return true;
     }
 }

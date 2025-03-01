@@ -6,6 +6,7 @@ import com.avaris.avarisgates.core.dungeon.DungeonManager;
 import com.avaris.avarisgates.core.entity.ModEntities;
 import com.avaris.avarisgates.core.item.ModItems;
 import com.avaris.avarisgates.core.network.ModPackets;
+import com.avaris.avarisgates.core.player.ManaAttachment;
 import com.avaris.avarisgates.core.player.ability.AbilityRegistrar;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
@@ -36,6 +37,9 @@ public class AvarisGates implements ModInitializer {
         ModCommands.init();
         ServerTickEvents.END_SERVER_TICK.register((minecraftServer)->{
             dungeonManager.tick(minecraftServer);
+            if(minecraftServer.getTicks() % 20 == 0){
+                minecraftServer.getPlayerManager().getPlayerList().forEach(ManaAttachment::tickMana);
+            }
         });
         ServerLifecycleEvents.SERVER_STOPPING.register((minecraftServer -> {
             dungeonManager.removeAllDungeons();

@@ -56,6 +56,13 @@ public class PlayerManager {
             ServerPlayNetworking.send(player,new AttributeIncrementS2C(type,attribute.getValue()));
             AvarisGates.LOGGER.info("{}",attribute);
         }
+
+        ManaAttachment manaAttachment = ManaAttachment.getMana(player);
+        if(manaAttachment == null||manaAttachment.maxValue == 0){
+            manaAttachment = new ManaAttachment(100,100);
+        }
+        //Sync mana with the client
+        ManaAttachment.setMana(player,manaAttachment);
     }
 
     private static <T> void ensureAttached(ServerPlayerEntity player, AttachmentType<T> type, T defaultValue){

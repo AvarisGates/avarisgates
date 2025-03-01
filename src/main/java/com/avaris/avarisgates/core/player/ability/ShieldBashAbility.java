@@ -37,8 +37,10 @@ public class ShieldBashAbility extends PlayerClassAbility{
     }
 
     @Override
-    public void trigger(MinecraftServer server, ServerPlayerEntity player) {
-        super.trigger(server, player);
+    public boolean trigger(MinecraftServer server, ServerPlayerEntity player) {
+        if(!super.trigger(server, player)){
+            return false;
+        }
         for(Hand hand : Hand.values()){
             ItemStack stack = player.getStackInHand(hand);
             if(stack.getItem() instanceof ShieldItem shieldItem){
@@ -91,6 +93,7 @@ public class ShieldBashAbility extends PlayerClassAbility{
             break;
             }
         }
+        return true;
     }
 
 

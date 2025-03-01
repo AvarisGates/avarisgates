@@ -36,7 +36,10 @@ public class TeleportAbility extends PlayerClassAbility{
     }
 
     @Override
-    public void trigger(MinecraftServer server, ServerPlayerEntity player) {
+    public boolean trigger(MinecraftServer server, ServerPlayerEntity player) {
+        if(!super.trigger(server,player)){
+            return false;
+        }
         HitResult hr = player.raycast(player.getBlockInteractionRange() + 10,0,false);
         if(hr instanceof BlockHitResult blockHitResult){
             BlockPos blockPos = player.getBlockPos().add(0,1,0);
@@ -72,6 +75,6 @@ public class TeleportAbility extends PlayerClassAbility{
             serverWorld.playSound(null,blockPos, SoundEvents.BLOCK_AMETHYST_BLOCK_HIT, SoundCategory.PLAYERS);
             serverWorld.playSound(null,blockPos, SoundEvents.BLOCK_AZALEA_STEP, SoundCategory.PLAYERS);
         }
-        super.trigger(server,player);
+        return true;
     }
 }
