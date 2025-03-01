@@ -4,6 +4,7 @@
   "package": "com.avaris.avarisgates.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "AttachmentChangeMixin",
     "ClampedEntityAttributeAccessor",
     "HungerManagerMixin",
     "PlayerManagerMixin"

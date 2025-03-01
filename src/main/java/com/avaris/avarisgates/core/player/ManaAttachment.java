@@ -114,11 +114,6 @@ public class ManaAttachment extends PlayerResource{
     }
 
     public static void initForPlayer(ServerPlayerEntity player) {
-        ManaAttachment manaAttachment = ManaAttachment.getMana(player);
-        if(manaAttachment == null||manaAttachment.maxValue == 0){
-            manaAttachment = new ManaAttachment(100,100);
-        }
-        //Sync mana with the client
-        ManaAttachment.setMana(player,manaAttachment,true);
+
     }
 }
