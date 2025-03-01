@@ -32,6 +32,7 @@ public class ManaAttachment extends PlayerResource{
     }
 
     // Get mana attached to a player
+    // If the attachments aren't found attach default values
     public static ManaAttachment getMana(PlayerEntity player){
         Long value = player.getAttachedOrCreate(getValueAttachment());
         Long maxValue = player.getAttachedOrCreate(getMaxAttachment());
