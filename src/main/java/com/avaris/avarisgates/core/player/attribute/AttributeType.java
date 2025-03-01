@@ -7,33 +7,44 @@ import net.fabricmc.fabric.api.attachment.v1.AttachmentSyncPredicate;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 import net.minecraft.network.codec.PacketCodecs;
 
+// Specifies all attribute types.
+// Mostly used to get/set attributes for a LivingEntity.
 public enum AttributeType {
    Strength,
    Vitality,
+   Vigor,
    Dexterity,
    Agility,
    Intelligence,
    Will,
    Faith;
 
+   // Call this on startup to make fabric realise that the attachments exist
+   public static void init(){
+
+   }
+
+   // A helper function used to register attributes as fabric attachments
    private static AttachmentType<Long> register(String id){
       return AttachmentRegistry.create(
           AvarisGates.id(id),
           builder -> builder
-                  .initializer(() -> 0L) // start with a default value like hunger
+                  .initializer(() -> 10L) // start with a default value like hunger
                   .persistent(Codec.LONG) // persist across restarts
                   .copyOnDeath()
-                  .syncWith(PacketCodecs.LONG, AttachmentSyncPredicate.all()) // only the player's own client needs the value for rendering
+                  .syncWith(PacketCodecs.LONG, AttachmentSyncPredicate.targetOnly()) // only the player's own client needs the value for rendering
       );
    }
     public static final AttachmentType<Long> STRENGTH_ATTACHMENT = register("strength_attribute");
     public static final AttachmentType<Long> VITALITY_ATTACHMENT = register("vitality_attribute");
+    public static final AttachmentType<Long> VIGOR_ATTACHMENT = register("vigor_attribute");
     public static final AttachmentType<Long> DEXTERITY_ATTACHMENT = register("dexterity_attribute");
     public static final AttachmentType<Long> AGILITY_ATTACHMENT = register("agility_attribute");
     public static final AttachmentType<Long> INTELLIGENCE_ATTACHMENT = register("intelligence_attribute");
     public static final AttachmentType<Long> WILL_ATTACHMENT = register("will_attribute");
     public static final AttachmentType<Long> FAITH_ATTACHMENT = register("faith_attribute");
 
+    // Convert ordinal/index to AttachmentType
     public static AttributeType fromInt(int i){
        switch (i){
            case 0 -> {
@@ -43,24 +54,28 @@ public enum AttributeType {
                return Vitality;
            }
            case 2 -> {
-               return Dexterity;
+               return Vigor;
            }
            case 3 -> {
-               return Agility;
+               return Dexterity;
            }
            case 4 -> {
-               return Intelligence;
+               return Agility;
            }
            case 5 -> {
-               return Will;
+               return Intelligence;
            }
            case 6 -> {
+               return Will;
+           }
+           case 7 -> {
                return Faith;
            }
            default -> throw new IllegalStateException("Invalid Attribute Type: "+i);
        }
     }
 
+    // Get attachment value attachment type
     public AttachmentType<Long> toValueAttachment() {
         switch (this){
             case Strength -> {
@@ -68,6 +83,9 @@ public enum AttributeType {
             }
             case Vitality -> {
                 return VITALITY_ATTACHMENT;
+            }
+            case Vigor -> {
+                return VIGOR_ATTACHMENT;
             }
             case Dexterity -> {
                 return DEXTERITY_ATTACHMENT;
@@ -89,9 +107,6 @@ public enum AttributeType {
     }
 
     public long defaultValue() {
-        if(this == Vitality){
-            return 10;
-        }
-        return 0;
+        return 10;
     }
 }

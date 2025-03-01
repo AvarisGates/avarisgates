@@ -1,7 +1,6 @@
 package com.avaris.avarisgates.core.player.ability;
 
 import com.avaris.avarisgates.core.player.player_class.PlayerClassType;
-import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -14,10 +13,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.TeleportTarget;
 
-public class TeleportAbility extends PlayerClassAbility {
+public class TeleportAbility extends PlayerClassAbility{
 
-    public TeleportAbility(long ntt, AttachmentType<Long> slot){
-        super(ntt,slot);
+    public TeleportAbility(AttachedAbility attachedAbility) {
+        super(attachedAbility);
     }
 
     @Override
@@ -37,7 +36,10 @@ public class TeleportAbility extends PlayerClassAbility {
     }
 
     @Override
-    public void trigger(MinecraftServer server, ServerPlayerEntity player) {
+    public boolean trigger(MinecraftServer server, ServerPlayerEntity player) {
+        if(!super.trigger(server,player)){
+            return false;
+        }
         HitResult hr = player.raycast(player.getBlockInteractionRange() + 10,0,false);
         if(hr instanceof BlockHitResult blockHitResult){
             BlockPos blockPos = player.getBlockPos().add(0,1,0);
@@ -73,6 +75,6 @@ public class TeleportAbility extends PlayerClassAbility {
             serverWorld.playSound(null,blockPos, SoundEvents.BLOCK_AMETHYST_BLOCK_HIT, SoundCategory.PLAYERS);
             serverWorld.playSound(null,blockPos, SoundEvents.BLOCK_AZALEA_STEP, SoundCategory.PLAYERS);
         }
-        super.trigger(server,player);
+        return true;
     }
 }

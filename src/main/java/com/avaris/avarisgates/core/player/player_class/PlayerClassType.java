@@ -9,6 +9,7 @@ import net.minecraft.network.codec.PacketCodec;
 
 public enum PlayerClassType {
     //AVAILABLE IN BETA
+    Beginner,
     Warrior,
     Archer,
     Mage,
@@ -22,10 +23,11 @@ public enum PlayerClassType {
 
     private static PlayerClassType fromInt(int i) {
         return switch (i) {
-            case 0 -> Warrior;
-            case 1 -> Archer;
-            case 2 -> Mage;
-            case 3 -> Priest;
+            case 0 -> Beginner;
+            case 1 -> Warrior;
+            case 2 -> Archer;
+            case 3 -> Mage;
+            case 4 -> Priest;
 
             default -> throw new IllegalStateException("Invalid payer class type: " + i);
         };
