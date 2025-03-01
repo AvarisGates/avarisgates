@@ -18,5 +18,6 @@ public class ModCommands {
         AttributeCommand.init();
         AbilityCommand.init();
         DungeonCommand.init();
+        CurrencyCommand.init();
     }
 }

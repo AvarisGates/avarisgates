@@ -36,6 +36,7 @@ public class InventoryRenderer {
     private static int Y = 0;
 
     public static void render(DrawContext context, int x, int y, int mouseX, int mouseY, float delta) {
+        context.drawText(MinecraftClient.getInstance().textRenderer, AvarisGatesClient.getBasicCurrency() +"$",10,10,Colors.YELLOW,true);
         renderTabs(context,x,y,mouseX,mouseY,delta);
         if(selectedTab == 0){
             context.drawTexture(RenderLayer::getGuiTextured, BACKGROUND_TEXTURE, x, y, 0.0F, 0.0F, InventoryRenderer.backgroundWidth, InventoryRenderer.backgroundHeight, 256, 256);

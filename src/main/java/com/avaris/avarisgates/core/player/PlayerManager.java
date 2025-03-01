@@ -1,6 +1,7 @@
 package com.avaris.avarisgates.core.player;
 
 import com.avaris.avarisgates.AvarisGates;
+import com.avaris.avarisgates.core.currency.CurrencyAttachment;
 import com.avaris.avarisgates.core.network.CastPlayerClassAbilityC2S;
 import com.avaris.avarisgates.core.network.RequestAttributeIncrementC2S;
 import com.avaris.avarisgates.core.player.ability.*;
@@ -25,6 +26,8 @@ public class PlayerManager {
         Attribute.initForPlayer(player);
 
         ManaAttachment.initForPlayer(player);
+
+        CurrencyAttachment.setCurrency(player,new CurrencyAttachment(1000));
     }
 
     private static <T> void ensureAttached(ServerPlayerEntity player, AttachmentType<T> type, T defaultValue){

@@ -2,6 +2,7 @@ package com.avaris.avarisgates;
 
 import com.avaris.avarisgates.core.AttributeFix;
 import com.avaris.avarisgates.core.command.ModCommands;
+import com.avaris.avarisgates.core.currency.CurrencyAttachment;
 import com.avaris.avarisgates.core.dungeon.DungeonManager;
 import com.avaris.avarisgates.core.entity.ModEntities;
 import com.avaris.avarisgates.core.item.ModItems;
@@ -39,6 +40,7 @@ public class AvarisGates implements ModInitializer {
         PlayerClass.init();
         AttributeType.init();
         ManaAttachment.init();
+        CurrencyAttachment.init();
 
         ModItems.init();
         AbilityRegistrar.init();

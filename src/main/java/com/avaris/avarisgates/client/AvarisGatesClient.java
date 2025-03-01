@@ -1,5 +1,6 @@
 package com.avaris.avarisgates.client;
 
+import com.avaris.avarisgates.core.currency.CurrencyAttachment;
 import com.avaris.avarisgates.core.entity.ModEntities;
 import com.avaris.avarisgates.core.entity.ability.renderer.CleaveEntityRenderer;
 import com.avaris.avarisgates.core.entity.ability.renderer.FireBoltEntityRenderer;
@@ -83,6 +84,10 @@ public class AvarisGatesClient implements ClientModInitializer {
             return 0;
         }
         return Objects.requireNonNullElse(manaAttachment.getMaxValue(),0L);
+    }
+
+    public static long getBasicCurrency() {
+        return CurrencyAttachment.getCurrency(MinecraftClient.getInstance().player).getBasicCurrency();
     }
 
     private void checkKeyBind(MinecraftClient client,AbilityKeyBind keyBind){
