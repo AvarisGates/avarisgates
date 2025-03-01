@@ -11,6 +11,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.server.network.ServerPlayerEntity;
 
+// Handles mana value and max mana value for a given player
 public class ManaAttachment extends PlayerResource{
 
     // Call this on startup to make fabric realise that the attachments exist
@@ -18,25 +19,31 @@ public class ManaAttachment extends PlayerResource{
 
     }
 
+    // Init a new instance storing the values
     public ManaAttachment(long value, long maxValue){
         this.value = value;
         this.maxValue = maxValue;
     }
 
+    // Sets the mana as a frabric attachment
     public static void setMana(PlayerEntity player, ManaAttachment mana){
         player.setAttached(getMaxAttachment(), mana.getMaxValue());
         player.setAttached(getValueAttachment(), Math.min(mana.getMaxValue(), mana.getValue()));
     }
 
+    // Get mana attached to a player
     public static ManaAttachment getMana(PlayerEntity player){
-        Long value = player.getAttached(getValueAttachment());
-        Long maxValue = player.getAttached(getMaxAttachment());
+        Long value = player.getAttachedOrCreate(getValueAttachment());
+        Long maxValue = player.getAttachedOrCreate(getMaxAttachment());
         if(value == null||maxValue == null){
             return null;
         }
         return new ManaAttachment(Math.min(value,maxValue),maxValue);
     }
 
+    // Try to consume a given amount of mana
+    // If the player doesn't have enough mana returns false, and doesn't update the players mana
+    // Otherwise retrurns true and subtracts the amount from player's mana
     public static boolean consumeMana(PlayerEntity player,long amount){
         ManaAttachment manaAttachment = getMana(player);
         if(manaAttachment == null){
@@ -67,6 +74,8 @@ public class ManaAttachment extends PlayerResource{
         return manaAttachment.maxValue >= manaAttachment.value + amount;
     }
 
+    // Handle player mana regeneration
+    // Should be called every second (once 20 in-game ticks)
     public static void tickMana(PlayerEntity player){
         ManaAttachment manaAttachment = getMana(player);
         if(manaAttachment == null){
@@ -106,9 +115,14 @@ public class ManaAttachment extends PlayerResource{
         return PLAYER_MAX_MANA_ATTACHMENT;
     }
 
+    // Initialize mana value for a player if it's not present
+    // Then sync it to the client
+    // Should be called when a player joins a world
     public static void initForPlayer(ServerPlayerEntity player) {
+        // getMana automatically attaches a new ManaAttachment to the player if it isn;t present
         ManaAttachment manaAttachment = ManaAttachment.getMana(player);
         if(manaAttachment == null||manaAttachment.maxValue == 0){
+            // Initialize default values
             manaAttachment = new ManaAttachment(100,100);
         }
         //Sync mana with the client
