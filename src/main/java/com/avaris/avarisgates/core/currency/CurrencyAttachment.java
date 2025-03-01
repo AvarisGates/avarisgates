@@ -36,6 +36,7 @@ public class CurrencyAttachment {
             builder -> builder
                     .initializer(() -> 0L)
                     .persistent(Codec.LONG)
+                    .copyOnDeath()
                     .syncWith(PacketCodecs.LONG, AttachmentSyncPredicate.targetOnly())
     );
 
