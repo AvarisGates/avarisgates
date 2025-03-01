@@ -12,11 +12,14 @@ public class Attribute {
     private final AttributeType type;
     private final long value;
 
+    // Init a new instance storing the values
     public Attribute(AttributeType type, long value) {
         this.type = type;
         this.value = value;
     }
 
+    // Get an attribute of a given type attached to a LivingEntity (An entity with health and such)
+    // If the attachments aren't found attach default values
     public static Attribute getAttribute(LivingEntity entity, AttributeType type){
         Long attached = entity.getAttachedOrCreate(type.toValueAttachment());
         if(attached == null){
@@ -26,6 +29,9 @@ public class Attribute {
         return new Attribute(type,entity.getAttachedOrCreate(type.toValueAttachment()));
     }
 
+    // Initialize attachment values for a player if it's not present
+    // Then sync it to the client
+    // Should be called when a player joins a world
     public static void initForPlayer(ServerPlayerEntity player) {
         for(AttributeType type : AttributeType.values()){
             Attribute attribute = Attribute.getAttribute(player,type);
@@ -33,6 +39,8 @@ public class Attribute {
         }
     }
 
+    // Apply attribute values to vanilla attributes
+    // Called after Attribute.setAttribute
     private void apply(LivingEntity entity) {
         if(type == AttributeType.Vigor){
             Identifier health_id = Identifier.ofVanilla("max_health");
@@ -56,18 +64,21 @@ public class Attribute {
         }
     }
 
+    // Sets attribute value and applies it to vanilla attributes
     public static Attribute setAttribute(LivingEntity entity,Attribute attribute){
         entity.setAttached(attribute.type.toValueAttachment(), attribute.value);
         attribute.apply(entity);
         return attribute;
     }
 
+    // Sets attribute value and applies it to vanilla attributes
     public static Attribute setAttribute(LivingEntity entity,AttributeType type,long value){
         Attribute attr = new Attribute(type,value);
         setAttribute(entity,attr);
         return attr;
     }
 
+    // Resets attribute value to the default one and applies it to vanilla attributes
     public static Attribute resetAttribute(LivingEntity entity,AttributeType type){
         return setAttribute(entity,type, type.defaultValue());
     }
