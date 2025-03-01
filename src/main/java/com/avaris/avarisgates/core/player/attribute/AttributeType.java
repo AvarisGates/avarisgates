@@ -7,6 +7,8 @@ import net.fabricmc.fabric.api.attachment.v1.AttachmentSyncPredicate;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 import net.minecraft.network.codec.PacketCodecs;
 
+// Specifies all attribute types.
+// Mostly used to get/set attributes for a LivingEntity.
 public enum AttributeType {
    Strength,
    Vitality,
@@ -21,6 +23,8 @@ public enum AttributeType {
    public static void init(){
 
    }
+
+   // A helper function used to register attributes as fabric attachments
    private static AttachmentType<Long> register(String id){
       return AttachmentRegistry.create(
           AvarisGates.id(id),
@@ -28,7 +32,7 @@ public enum AttributeType {
                   .initializer(() -> 10L) // start with a default value like hunger
                   .persistent(Codec.LONG) // persist across restarts
                   .copyOnDeath()
-                  .syncWith(PacketCodecs.LONG, AttachmentSyncPredicate.all()) // only the player's own client needs the value for rendering
+                  .syncWith(PacketCodecs.LONG, AttachmentSyncPredicate.targetOnly()) // only the player's own client needs the value for rendering
       );
    }
     public static final AttachmentType<Long> STRENGTH_ATTACHMENT = register("strength_attribute");
@@ -40,6 +44,7 @@ public enum AttributeType {
     public static final AttachmentType<Long> WILL_ATTACHMENT = register("will_attribute");
     public static final AttachmentType<Long> FAITH_ATTACHMENT = register("faith_attribute");
 
+    // Convert ordinal/index to AttachmentType
     public static AttributeType fromInt(int i){
        switch (i){
            case 0 -> {
@@ -70,6 +75,7 @@ public enum AttributeType {
        }
     }
 
+    // Get attachment value attachment type
     public AttachmentType<Long> toValueAttachment() {
         switch (this){
             case Strength -> {
