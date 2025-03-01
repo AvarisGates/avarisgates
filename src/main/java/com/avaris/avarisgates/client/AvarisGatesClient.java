@@ -9,6 +9,7 @@ import com.avaris.avarisgates.core.network.AttributeIncrementS2C;
 import com.avaris.avarisgates.core.network.CastPlayerClassAbilityC2S;
 import com.avaris.avarisgates.core.network.ChangeAbilityS2C;
 import com.avaris.avarisgates.core.network.SyncManaS2C;
+import com.avaris.avarisgates.core.player.ManaAttachment;
 import com.avaris.avarisgates.core.player.ability.PlayerClassAbilityType;
 import com.avaris.avarisgates.core.player.attribute.Attribute;
 import com.avaris.avarisgates.core.player.attribute.AttributeType;
@@ -100,6 +101,12 @@ public class AvarisGatesClient implements ClientModInitializer {
             checkKeyBind(client,ABILITY_0_KEY_BIND);
             checkKeyBind(client,ABILITY_1_KEY_BIND);
             checkKeyBind(client,ABILITY_2_KEY_BIND);
+
+            if(client.world != null&&client.player != null){
+                if(client.world.getTime() % 20 == 0){
+                    mana = ManaAttachment.tickClientMana(mana,maxMana);
+                }
+            }
         });
 
 

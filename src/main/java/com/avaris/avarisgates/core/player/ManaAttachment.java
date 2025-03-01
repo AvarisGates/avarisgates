@@ -9,6 +9,7 @@ import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentSyncPredicate;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.server.network.ServerPlayerEntity;
 
@@ -19,9 +20,15 @@ public class ManaAttachment extends PlayerResource{
     }
 
     public static void setMana(ServerPlayerEntity player, ManaAttachment mana){
+        setMana(player,mana,false);
+    }
+
+    public static void setMana(ServerPlayerEntity player, ManaAttachment mana,boolean sendToClient){
         player.setAttached(getMaxAttachment(), mana.getMaxValue());
         player.setAttached(getValueAttachment(), Math.min(mana.getMaxValue(), mana.getValue()));
-        ServerPlayNetworking.send(player,new SyncManaS2C(mana));
+        if(sendToClient){
+            ServerPlayNetworking.send(player,new SyncManaS2C(mana));
+        }
     }
 
     public static ManaAttachment getMana(ServerPlayerEntity player){
@@ -40,7 +47,7 @@ public class ManaAttachment extends PlayerResource{
         }
         if(manaAttachment.value >= amount){
             manaAttachment.value -= amount;
-            setMana(player,manaAttachment);
+            setMana(player,manaAttachment,true);
             return true;
         }
         return false;
@@ -76,6 +83,10 @@ public class ManaAttachment extends PlayerResource{
             return;
         }
         addMana(player, Attribute.getAttribute(player,AttributeType.Intelligence).getValue());
+    }
+
+    public static long tickClientMana(long mana, long maxMana) {
+        return Math.min(maxMana, mana + Attribute.getAttribute(MinecraftClient.getInstance().player, AttributeType.Intelligence).getValue());
     }
 
     private static final AttachmentType<Long> PLAYER_MANA_ATTACHMENT = AttachmentRegistry.create(

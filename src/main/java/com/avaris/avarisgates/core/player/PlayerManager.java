@@ -62,7 +62,7 @@ public class PlayerManager {
             manaAttachment = new ManaAttachment(100,100);
         }
         //Sync mana with the client
-        ManaAttachment.setMana(player,manaAttachment);
+        ManaAttachment.setMana(player,manaAttachment,true);
     }
 
     private static <T> void ensureAttached(ServerPlayerEntity player, AttachmentType<T> type, T defaultValue){

@@ -1,6 +1,9 @@
 package com.avaris.avarisgates.core.player.ability;
 
+import com.avaris.avarisgates.core.network.ChangeAbilityS2C;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.server.network.ServerPlayerEntity;
 
 // Use this class to get/set attached abilities to players/entities
 // This includes the ability type and cooldown in the future more info will be added
@@ -25,6 +28,10 @@ public class AttachedAbility {
     public static void setAttached(LivingEntity entity,AttachedAbility ability){
         entity.setAttached(ability.slot.toAttachmentType(),ability.type);
         entity.setAttached(ability.slot.toNttAttachment(),ability.ntt);
+    }
+
+    public static void initForPlayer(ServerPlayerEntity player) {
+
     }
 
     public Long getNtt() {
