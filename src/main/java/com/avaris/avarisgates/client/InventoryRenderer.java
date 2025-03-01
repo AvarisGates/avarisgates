@@ -158,7 +158,7 @@ public class InventoryRenderer {
             for(AttributeType type : AttributeType.values()){
                 int x1;
                 x1 = x + backgroundWidth - 8 - MinecraftClient.getInstance().textRenderer.getWidth("+") - 6;
-                int y1 = y + (i++) * (MinecraftClient.getInstance().textRenderer.fontHeight + 12);
+                int y1 = y + (i++) * (MinecraftClient.getInstance().textRenderer.fontHeight + 9);
                 if(x1 + 3 <= mouseX&&mouseX <= x1 + 10&&y1 <= mouseY&&mouseY <= y1 + 7){
                     ClientPlayNetworking.send(new RequestAttributeIncrementC2S(type));
                 }
