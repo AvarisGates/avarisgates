@@ -1,15 +1,13 @@
 package com.avaris.avarisgates.core.player;
 
 import com.avaris.avarisgates.AvarisGates;
-import com.avaris.avarisgates.core.network.SyncManaS2C;
 import com.avaris.avarisgates.core.player.attribute.Attribute;
 import com.avaris.avarisgates.core.player.attribute.AttributeType;
 import com.mojang.serialization.Codec;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentSyncPredicate;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.server.network.ServerPlayerEntity;
 
@@ -19,19 +17,12 @@ public class ManaAttachment extends PlayerResource{
         this.maxValue = maxValue;
     }
 
-    public static void setMana(ServerPlayerEntity player, ManaAttachment mana){
-        setMana(player,mana,false);
-    }
-
-    public static void setMana(ServerPlayerEntity player, ManaAttachment mana,boolean sendToClient){
+    public static void setMana(PlayerEntity player, ManaAttachment mana){
         player.setAttached(getMaxAttachment(), mana.getMaxValue());
         player.setAttached(getValueAttachment(), Math.min(mana.getMaxValue(), mana.getValue()));
-        if(sendToClient){
-            ServerPlayNetworking.send(player,new SyncManaS2C(mana));
-        }
     }
 
-    public static ManaAttachment getMana(ServerPlayerEntity player){
+    public static ManaAttachment getMana(PlayerEntity player){
         Long value = player.getAttached(getValueAttachment());
         Long maxValue = player.getAttached(getMaxAttachment());
         if(value == null||maxValue == null){
@@ -40,21 +31,21 @@ public class ManaAttachment extends PlayerResource{
         return new ManaAttachment(Math.min(value,maxValue),maxValue);
     }
 
-    public static boolean consumeMana(ServerPlayerEntity player,long amount){
+    public static boolean consumeMana(PlayerEntity player,long amount){
         ManaAttachment manaAttachment = getMana(player);
         if(manaAttachment == null){
             return false;
         }
         if(manaAttachment.value >= amount){
             manaAttachment.value -= amount;
-            setMana(player,manaAttachment,true);
+            setMana(player,manaAttachment);
             return true;
         }
         return false;
     }
 
     // Returns true if the full mana amount was added
-    public static boolean addMana(ServerPlayerEntity player,long amount){
+    public static boolean addMana(PlayerEntity player,long amount){
         ManaAttachment manaAttachment = getMana(player);
         if(manaAttachment == null){
             manaAttachment = new ManaAttachment(0,100);
@@ -70,7 +61,7 @@ public class ManaAttachment extends PlayerResource{
         return manaAttachment.maxValue >= manaAttachment.value + amount;
     }
 
-    public static void tickMana(ServerPlayerEntity player){
+    public static void tickMana(PlayerEntity player){
         ManaAttachment manaAttachment = getMana(player);
         if(manaAttachment == null){
             manaAttachment = new ManaAttachment(0,100);
@@ -83,10 +74,7 @@ public class ManaAttachment extends PlayerResource{
             return;
         }
         addMana(player, Attribute.getAttribute(player,AttributeType.Intelligence).getValue());
-    }
-
-    public static long tickClientMana(long mana, long maxMana) {
-        return Math.min(maxMana, mana + Attribute.getAttribute(MinecraftClient.getInstance().player, AttributeType.Intelligence).getValue());
+        AvarisGates.LOGGER.info("{}",getMana(player).getValue());
     }
 
     private static final AttachmentType<Long> PLAYER_MANA_ATTACHMENT = AttachmentRegistry.create(
@@ -119,6 +107,6 @@ public class ManaAttachment extends PlayerResource{
             manaAttachment = new ManaAttachment(100,100);
         }
         //Sync mana with the client
-        ManaAttachment.setMana(player,manaAttachment,true);
+        ManaAttachment.setMana(player,manaAttachment);
     }
 }
