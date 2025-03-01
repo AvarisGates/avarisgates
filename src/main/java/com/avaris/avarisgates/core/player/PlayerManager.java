@@ -63,6 +63,7 @@ public class PlayerManager {
 
     }
 
+    //TODO: add check, this is for debug only!!!!
     public static void receiveAttributeIncrement(RequestAttributeIncrementC2S packet, ServerPlayNetworking.Context context) {
         long newValue = Attribute.getAttribute(context.player(), packet.type()).getValue() + 1;
         Attribute.setAttribute(context.player(),packet.type(),newValue);
