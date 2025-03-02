@@ -5,6 +5,7 @@ import com.avaris.avarisgates.core.command.ModCommands;
 import com.avaris.avarisgates.core.currency.CurrencyAttachment;
 import com.avaris.avarisgates.core.dungeon.DungeonManager;
 import com.avaris.avarisgates.core.entity.ModEntities;
+import com.avaris.avarisgates.core.entity.custom.GoblinEntity;
 import com.avaris.avarisgates.core.item.ModItems;
 import com.avaris.avarisgates.core.network.ModPackets;
 import com.avaris.avarisgates.core.player.ManaAttachment;
@@ -16,6 +17,7 @@ import com.avaris.avarisgates.core.player.player_class.PlayerClass;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,6 +59,8 @@ public class AvarisGates implements ModInitializer {
         ServerLifecycleEvents.SERVER_STOPPING.register((minecraftServer -> {
             dungeonManager.removeAllDungeons();
         }));
+        //TODO: CUSTOM MOBS TO FIX, SORRY c-c
+        FabricDefaultAttributeRegistry.register(ModEntities.GOBLIN, GoblinEntity.createAttributes());
     }
 
 

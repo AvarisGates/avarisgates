@@ -7,6 +7,7 @@ import com.avaris.avarisgates.core.entity.ability.WhirlwindEntity;
 import com.avaris.avarisgates.core.entity.ability.renderer.CleaveEntityRenderer;
 import com.avaris.avarisgates.core.entity.ability.renderer.FireBoltEntityRenderer;
 import com.avaris.avarisgates.core.entity.ability.renderer.WhirlwindEntityRenderer;
+import com.avaris.avarisgates.core.entity.custom.GoblinEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
@@ -20,7 +21,7 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 
 public class ModEntities {
-
+    //ABILITIES
     public static final Identifier CLEAVE_ID = AvarisGates.id("cleave");
     public static final Identifier WHIRLWIND_ID = AvarisGates.id("whirlwind");
     public static final Identifier FIREBOLT_ID = AvarisGates.id("fireball");
@@ -78,5 +79,18 @@ public class ModEntities {
         EntityRendererRegistry.register(ModEntities.CLEAVE, CleaveEntityRenderer::new);
         EntityRendererRegistry.register(ModEntities.WHIRLWIND, WhirlwindEntityRenderer::new);
         EntityRendererRegistry.register(ModEntities.FIREBOLT, FireBoltEntityRenderer::new);
+    }
+
+    //CUSTOM MOBS
+    //ADD ID FOR THE REGISTRY KEY
+    public static final Identifier GOBLIN_ID = AvarisGates.id("goblin");
+    //ADD REGISTRY KEY
+    public static final RegistryKey<EntityType<?>> GOBLIN_KEY = RegistryKey.of(RegistryKeys.ENTITY_TYPE,GOBLIN_ID);
+    public static final EntityType<GoblinEntity> GOBLIN = Registry.register(Registries.ENTITY_TYPE,
+            Identifier.of(AvarisGates.MOD_ID, "goblin"),
+            EntityType.Builder.create(GoblinEntity::new, SpawnGroup.MONSTER)
+                    .dimensions(1f, 1.5f).build(GOBLIN_KEY));
+    public static void registerModEntities(){
+        AvarisGates.LOGGER.info("Registering custom mobs for AvarisGates("+AvarisGates.MOD_ID+")");
     }
 }

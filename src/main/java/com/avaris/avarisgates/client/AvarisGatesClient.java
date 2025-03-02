@@ -2,6 +2,8 @@ package com.avaris.avarisgates.client;
 
 import com.avaris.avarisgates.core.currency.CurrencyAttachment;
 import com.avaris.avarisgates.core.entity.ModEntities;
+import com.avaris.avarisgates.core.entity.client.GoblinModel;
+import com.avaris.avarisgates.core.entity.client.GoblinRenderer;
 import com.avaris.avarisgates.core.network.ChangeAbilityS2C;
 import com.avaris.avarisgates.core.player.ManaAttachment;
 import com.avaris.avarisgates.core.player.attribute.Attribute;
@@ -9,6 +11,8 @@ import com.avaris.avarisgates.core.player.attribute.AttributeType;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 
@@ -70,6 +74,9 @@ public class AvarisGatesClient implements ClientModInitializer {
         ModEntities.registerEntityRenderers();
 
         ClientPlayNetworking.registerGlobalReceiver(ChangeAbilityS2C.ID, ClientKeyBinds::receiveChangeAbility);
+        //TODO:CUSTOM MOBS STUFF TO FIX
+        //EntityModelLayerRegistry.registerModelLayer(GoblinModel.GOBLIN, GoblinModel::getTexturedModelData);
+        //EntityRendererRegistry.register(ModEntities.GOBLIN, GoblinRenderer::new);
     }
 
 }
