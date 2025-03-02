@@ -14,7 +14,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.TeleportTarget;
 
-import java.awt.*;
 import java.util.UUID;
 
 import static net.minecraft.server.command.CommandManager.argument;
