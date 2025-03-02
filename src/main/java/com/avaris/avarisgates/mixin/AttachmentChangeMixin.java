@@ -1,8 +1,10 @@
 package com.avaris.avarisgates.mixin;
 
+import net.fabricmc.fabric.api.attachment.v1.AttachmentTarget;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 import net.fabricmc.fabric.impl.attachment.sync.AttachmentChange;
 import net.fabricmc.fabric.impl.attachment.sync.AttachmentTargetInfo;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -34,9 +36,15 @@ public abstract class AttachmentChangeMixin {
 
     @Inject(method = "apply",at = @At("HEAD"), cancellable = true)
     void onApply(World world, CallbackInfo ci){
-        scheduler.schedule(() -> {
-                targetInfo.getTarget(world).setAttached((AttachmentType<Object>) type, decodeValue(world.getRegistryManager()));
-        },100, TimeUnit.MILLISECONDS);
+        AttachmentTarget target = targetInfo.getTarget(world);
+        if(target == null){
+            scheduler.schedule(() -> {
+                    targetInfo.getTarget(world).setAttached((AttachmentType<Object>) type, decodeValue(world.getRegistryManager()));
+            },100, TimeUnit.MILLISECONDS);
+        }
+        else{
+            target.setAttached((AttachmentType<Object>) type, decodeValue(world.getRegistryManager()));
+        }
         ci.cancel();
     }
 
