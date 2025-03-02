@@ -14,6 +14,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.TeleportTarget;
 
+import java.awt.*;
 import java.util.UUID;
 
 import static net.minecraft.server.command.CommandManager.argument;
@@ -28,7 +29,10 @@ public class DungeonCommand {
                 .then(literal("test").executes(DungeonCommand::createTestDungeon))
                 .then(literal("create").executes(DungeonCommand::createDungeon))
                 .then(literal("remove").then(argument("id",UuidArgumentType.uuid()).executes(DungeonCommand::removeDungeon)))
-                .then(literal("dim").executes(DungeonCommand::teleportToDim))
+                .then(literal("dimension").requires(serverCommandSource -> serverCommandSource.hasPermissionLevel(2))
+                        .then(literal("enter").executes(DungeonCommand::teleportToDim))
+                        .then(literal("exit").executes(DungeonCommand::exitDim))
+                )
         ));
     }
 
@@ -53,6 +57,21 @@ public class DungeonCommand {
             return 1;
         }
         player.teleportTo(new TeleportTarget(player.server.getWorld(ModDimensions.DUNGEON_LEVEL_KEY), Vec3d.ZERO,Vec3d.ZERO,player.getYaw(),player.getPitch(),TeleportTarget.NO_OP));
+        return 0;
+    }
+
+    private static int exitDim(CommandContext<ServerCommandSource> context) {
+        ServerPlayerEntity player = context.getSource().getPlayer();
+        if(player == null){
+            return 1;
+        }
+        player.teleportTo(new TeleportTarget(
+                player.server.getWorld(ServerWorld.OVERWORLD),
+                Vec3d.ofCenter(player.server.getWorld(ServerWorld.OVERWORLD).getSpawnPos()),
+                Vec3d.ZERO,
+                player.getYaw(),
+                player.getPitch(),
+                TeleportTarget.NO_OP));
         return 0;
     }
 
