@@ -1,21 +1,11 @@
 package com.avaris.avarisgates.core.command;
 
-import com.avaris.avarisgates.AvarisGates;
 import com.avaris.avarisgates.core.currency.CurrencyAttachment;
-import com.avaris.avarisgates.core.dim.ModDimensions;
-import com.avaris.avarisgates.core.dungeon.Dungeon;
 import com.mojang.brigadier.context.CommandContext;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
-import net.minecraft.command.argument.UuidArgumentType;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.TeleportTarget;
-
-import java.util.UUID;
 
 import static com.mojang.brigadier.arguments.IntegerArgumentType.integer;
 import static net.minecraft.server.command.CommandManager.argument;

@@ -2,8 +2,6 @@ package com.avaris.avarisgates.core.dungeon;
 
 import com.avaris.avarisgates.AvarisGates;
 import com.avaris.avarisgates.core.Rarity;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;

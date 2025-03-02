@@ -1,7 +1,6 @@
 package com.avaris.avarisgates.core.command;
 
 import com.avaris.avarisgates.AvarisGates;
-import com.avaris.avarisgates.core.player.ability.PlayerClassAbilityType;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.context.CommandContext;
@@ -11,7 +10,6 @@ import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.minecraft.text.Text;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Locale;
 import java.util.UUID;

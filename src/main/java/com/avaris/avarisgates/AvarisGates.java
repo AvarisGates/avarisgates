@@ -10,7 +10,6 @@ import com.avaris.avarisgates.core.network.ModPackets;
 import com.avaris.avarisgates.core.player.ManaAttachment;
 import com.avaris.avarisgates.core.player.ability.AbilityRegistrar;
 import com.avaris.avarisgates.core.player.ability.AbilitySlot;
-import com.avaris.avarisgates.core.player.attribute.Attribute;
 import com.avaris.avarisgates.core.player.attribute.AttributeType;
 import com.avaris.avarisgates.core.player.player_class.PlayerClass;
 import net.fabricmc.api.ModInitializer;
