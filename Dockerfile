@@ -10,6 +10,7 @@ RUN apt update && apt install -y \
     unzip \
     wget \
     git \
+    screen \
     openjdk-21-jdk \
     && rm -rf /var/lib/apt/lists/*
 
@@ -29,6 +30,8 @@ WORKDIR /app
 
 # Copy the entire project from the correct build context
 COPY . .
+
+RUN chmod +x /app/docker_run.sh
 
 RUN pwd
 RUN ls
