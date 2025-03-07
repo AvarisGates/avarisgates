@@ -8,6 +8,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt update && apt install -y \
     curl \
     unzip \
+    vim \
     wget \
     git \
     screen \
@@ -31,11 +32,8 @@ WORKDIR /app
 # Copy the entire project from the correct build context
 COPY . .
 
-RUN chmod +x /app/docker_run.sh
 
-RUN pwd
-RUN ls
-RUN ls ..
+RUN chmod +x /app/docker_run.sh
 
 # Ensure the Gradle Wrapper uses the correct Gradle version
 RUN echo "distributionUrl=https\://services.gradle.org/distributions/gradle-8.12.1-bin.zip" > gradle/wrapper/gradle-wrapper.properties
@@ -52,10 +50,16 @@ RUN ls -l /app/build/libs/ || (echo "No JAR file found!" && exit 1)
 # **Copy the built JAR file into the run directory**
 RUN mkdir -p /app/run/mods && cp /app/build/libs/*.jar /app/run/mods
 RUN curl https://piston-data.mojang.com/v1/objects/4707d00eb834b446575d89a61a11b5d548d8c001/server.jar --output server.jar
+# RUN wget -P /app/ "https://piston-data.mojang.com/v1/objects/4707d00eb834b446575d89a61a11b5d548d8c001/server.jar"
 RUN echo "eula=true">eula.txt
+
+RUN ls -l /app
+
 
 # Expose the Minecraft server port
 EXPOSE 25565
 
 # Set the entrypoint to run the Minecraft server with the mod
+
+# CMD ["java", "-Xmx1024M", "-Xms1024M", "-jar", "server.jar", "nogui"]
 CMD ["sh", "docker_run.sh"]
