@@ -1,6 +1,5 @@
-package com.avaris.avarisgates.core.command;
+package com.avaris.avarisgates.core.dungeon;
 
-import com.avaris.avarisgates.core.dungeon.DungeonRoom;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;

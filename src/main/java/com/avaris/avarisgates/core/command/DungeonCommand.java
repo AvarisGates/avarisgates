@@ -3,6 +3,7 @@ package com.avaris.avarisgates.core.command;
 import com.avaris.avarisgates.AvarisGates;
 import com.avaris.avarisgates.core.dim.ModDimensions;
 import com.avaris.avarisgates.core.dungeon.Dungeon;
+import com.avaris.avarisgates.core.dungeon.DungeonGenerator;
 import com.mojang.brigadier.context.CommandContext;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.command.argument.UuidArgumentType;
@@ -80,7 +81,7 @@ public class DungeonCommand {
             return 1;
         }
         ServerWorld world = player.server.getWorld(ModDimensions.DUNGEON_LEVEL_KEY);
-        Dungeon dungeon = new Dungeon(world,DungeonGenerator.generateRooms(),0,player.getUuid());
+        Dungeon dungeon = new Dungeon(world, DungeonGenerator.generateRooms(),0,player.getUuid());
         BlockPos pos = AvarisGates.dungeonManager.addDungeon(dungeon);
         context.getSource().sendMessage(Text.of("New Dungeon Created: "+dungeon.getUuid().toString()+" "+pos));
         return 0;
