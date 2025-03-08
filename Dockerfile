@@ -25,13 +25,13 @@ RUN wget https://services.gradle.org/distributions/gradle-8.12.1-bin.zip \
 # Set Gradle and Java environment variables
 ENV JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
 ENV PATH=$PATH:/opt/gradle-8.12.1/bin
+ENV SHELL=/bin/bash
 
 # Set the working directory inside the container
 WORKDIR /app
 
 # Copy the entire project from the correct build context
 COPY . .
-
 
 RUN chmod +x /app/docker_run.sh
 
@@ -49,12 +49,16 @@ RUN ls -l /app/build/libs/ || (echo "No JAR file found!" && exit 1)
 
 # **Copy the built JAR file into the run directory**
 RUN mkdir -p /app/run/mods && cp /app/build/libs/*.jar /app/run/mods
-RUN curl https://piston-data.mojang.com/v1/objects/4707d00eb834b446575d89a61a11b5d548d8c001/server.jar --output server.jar
+# Download fabric api
+RUN curl https://mediafilez.forgecdn.net/files/6214/360/fabric-api-0.118.0%2B1.21.4.jar --output /app/run/mods/fabric-api-0.118.0+1.21.4.jar
+# Download fabric server
+RUN curl https://meta.fabricmc.net/v2/versions/loader/1.21.4/0.16.10/1.0.1/server/jar --output /app/run/server.jar
 # RUN wget -P /app/ "https://piston-data.mojang.com/v1/objects/4707d00eb834b446575d89a61a11b5d548d8c001/server.jar"
-RUN echo "eula=true">eula.txt
+
+# Accept eula, otherwise the server won't start
+RUN echo "eula=true">/app/run/eula.txt
 
 RUN ls -l /app
-
 
 # Expose the Minecraft server port
 EXPOSE 25565
