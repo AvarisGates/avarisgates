@@ -23,7 +23,7 @@ public class PartyManager {
 
     public static void requestToJoinParty(ServerPlayerEntity requester, ServerPlayerEntity requestee) {
         if(getPlayerParty(requestee.getUuid()) != null){
-            if(isPartyLeader(requestee.getUuid())){
+            if(!isPartyLeader(requestee.getUuid())){
                 return;
             }
         }
