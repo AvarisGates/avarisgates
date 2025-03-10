@@ -98,6 +98,11 @@ public class PartyCommand {
             return 0;
         }
 
+        if(invitee.equals(inviter)){
+            context.getSource().sendError(Text.literal("You cannot invite yourself."));
+            return 1;
+        }
+
         if(PartyManager.areInTheSameParty(inviter,invitee)){
             context.getSource().sendError(Text.literal(invitee.getNameForScoreboard() + " is already in your party."));
             return 0;

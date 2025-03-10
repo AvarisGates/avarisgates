@@ -2,8 +2,12 @@ package com.avaris.avarisgates.core.player.party;
 
 import net.minecraft.server.PlayerManager;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.ClickEvent;
+import net.minecraft.text.HoverEvent;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 
+import java.net.URI;
 import java.util.*;
 
 public class PartyManager {
@@ -15,15 +19,23 @@ public class PartyManager {
     // Leader UUID
     private static final HashMap<UUID,PartyJoinRequest> joinRequests = new HashMap<>();
 
+    private static final int EXPIRE_TIME = 6_000; // In ticks. 6000 ticks = 5 minutes.
+
     public static void requestToJoinParty(ServerPlayerEntity requester, ServerPlayerEntity requestee) {
         if(getPlayerParty(requestee.getUuid()) != null){
             if(isPartyLeader(requestee.getUuid())){
                 return;
             }
         }
-        requestee.sendMessage(Text.literal(requester.getNameForScoreboard() + " requests to join your party."));
 
-        joinRequests.put(requestee.getUuid(),new PartyJoinRequest(requester.getUuid(),requestee.getUuid(),requestee.getServer().getTicks() + 20 * 60 * 5));
+        String acceptCommand = "/party accept request " + requester.getNameForScoreboard();
+        String rejectCommand = "TODO!!!";
+
+        requestee.sendMessage(Text.literal(requester.getNameForScoreboard() + " requests to join your party."));
+        requestee.sendMessage(Text.literal("[ACCEPT]").formatted(Formatting.GREEN).styled((style) -> style.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Text.literal(acceptCommand))).withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,acceptCommand))));
+        requestee.sendMessage(Text.literal("[REJECT]").formatted(Formatting.RED).styled((style) -> style.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Text.literal(rejectCommand))).withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,rejectCommand))));
+
+        joinRequests.put(requestee.getUuid(),new PartyJoinRequest(requester.getUuid(),requestee.getUuid(),requestee.getServer().getTicks() + EXPIRE_TIME));
     }
 
     public static void acceptJoinRequest(ServerPlayerEntity requester, ServerPlayerEntity requestee) {
@@ -54,14 +66,18 @@ public class PartyManager {
 
     public static boolean invitePlayer(ServerPlayerEntity inviter, ServerPlayerEntity invitee) {
         if(getPlayerParty(inviter.getUuid()) != null){
-            if(isPartyLeader(inviter.getUuid())){
+            if(!isPartyLeader(inviter.getUuid())){
                 return false;
             }
         }
+        String inviteCommand = "/party accept invite "+inviter.getNameForScoreboard();
+        String rejectCommand = "TODO!!!";
         inviter.sendMessage(Text.literal("Party invite sent to "+invitee.getNameForScoreboard()));
-        invitee.sendMessage(Text.literal(inviter.getNameForScoreboard() + " invited you to join their party"));
 
-        invites.put(inviter.getUuid(),new PartyInvite(inviter.getUuid(),invitee.getUuid(),invitee.getServer().getTicks() + 20 * 60 * 5));
+        invitee.sendMessage(Text.literal(inviter.getNameForScoreboard() + " invited you to join their party."));
+        invitee.sendMessage(Text.literal("[ACCEPT]").formatted(Formatting.GREEN).styled((style) -> style.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Text.literal(inviteCommand))).withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,inviteCommand))));
+        invitee.sendMessage(Text.literal("[REJECT]").formatted(Formatting.RED).styled((style) -> style.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Text.literal(rejectCommand))).withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,rejectCommand))));
+        invites.put(inviter.getUuid(),new PartyInvite(inviter.getUuid(),invitee.getUuid(),invitee.getServer().getTicks() + EXPIRE_TIME));
         return true;
     }
 
