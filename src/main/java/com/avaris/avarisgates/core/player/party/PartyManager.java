@@ -19,9 +19,25 @@ public class PartyManager {
     // Leader UUID
     private static final HashMap<UUID,PartyJoinRequest> joinRequests = new HashMap<>();
 
+    private static final HashMap<UUID,Integer> requestTimeouts = new HashMap<>();
+
+    private static final HashMap<UUID,Integer> inviteTimeouts = new HashMap<>();
+
     private static final int EXPIRE_TIME = 6_000; // In ticks. 6000 ticks = 5 minutes.
 
+    private static final int REQUEST_TIMEOUT = 600; // In ticks. 600 ticks = 30 seconds.
+
+    private static final int INVITE_TIMEOUT = 600; // In ticks. 600 ticks = 30 seconds.
+
     public static void requestToJoinParty(ServerPlayerEntity requester, ServerPlayerEntity requestee) {
+        Integer timeout = requestTimeouts.get(requester.getUuid());
+        int ticks = requester.getServer().getTicks();
+        if(timeout != null&&timeout > ticks){
+            requester.sendMessage(Text.of("Please wait before requesting to join a party again."));
+            return;
+        }
+        requestTimeouts.put(requester.getUuid(),ticks + REQUEST_TIMEOUT);
+
         if(getPlayerParty(requestee.getUuid()) != null){
             if(!isPartyLeader(requestee.getUuid())){
                 return;
@@ -45,6 +61,7 @@ public class PartyManager {
             return;
         }
         joinRequests.remove(requestee.getUuid());
+        requestTimeouts.remove(requester.getUuid());
         boolean expired = request.expireTime() < requestee.getServer().getTicks();
         if(expired){
             requestee.sendMessage(Text.literal("That player did not request to join your party."));
@@ -65,6 +82,14 @@ public class PartyManager {
 
 
     public static boolean invitePlayer(ServerPlayerEntity inviter, ServerPlayerEntity invitee) {
+        Integer timeout = requestTimeouts.get(inviter.getUuid());
+        int ticks = inviter.getServer().getTicks();
+        if(timeout != null&&timeout > ticks){
+            inviter.sendMessage(Text.of("Please wait before inviting a player to your party again."));
+            return false;
+        }
+        requestTimeouts.put(inviter.getUuid(),ticks + INVITE_TIMEOUT);
+
         if(getPlayerParty(inviter.getUuid()) != null){
             if(!isPartyLeader(inviter.getUuid())){
                 return false;
@@ -221,6 +246,7 @@ public class PartyManager {
             return;
         }
         invites.remove(inviter.getUuid());
+        inviteTimeouts.remove(inviter.getUuid());
         boolean expired = invite.expireTime() < inviter.getServer().getTicks();
         if(expired){
             invitee.sendMessage(Text.literal("That player did not invite you to their party."));
