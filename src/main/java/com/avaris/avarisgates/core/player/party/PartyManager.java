@@ -171,28 +171,32 @@ public class PartyManager {
             return false;
         }
         PlayerManager manager = player.getServer().getPlayerManager();
-        if(!player.isDisconnected()){
-            player.sendMessage(Text.literal("You left " +getPartyLeader(player).getNameForScoreboard() + "'s party."));
-        }
-        for(UUID player_uuid : getPartyInstance(partyUuid).getPlayers()){
-            if(playerUuid.equals(player_uuid)){
-                continue;
-            }
-            manager.getPlayer(player_uuid).sendMessage(Text.of(player.getNameForScoreboard()+" left your party!"));
-        }
+
         PlayerParty party = getPartyInstance(partyUuid);
-        if(isPartyLeader(playerUuid)||party.getPlayers().size() == 1){
-            disbandParty(partyUuid);
+        ServerPlayerEntity leader = getPartyLeader(player);
+        if(Objects.equals(leader, player) ||party.getPlayers().size() == 1){
+            disbandParty(manager,partyUuid);
         }else{
             party.removePlayer(playerUuid);
             playerToParty.remove(playerUuid);
         }
 
+        if(!player.isDisconnected()){
+            player.sendMessage(Text.literal("You left " + leader.getNameForScoreboard() + "'s party."));
+        }
+        for(UUID player_uuid : party.getPlayers()){
+            if(playerUuid.equals(player_uuid)){
+                continue;
+            }
+            manager.getPlayer(player_uuid).sendMessage(Text.of(player.getNameForScoreboard()+" left your party!"));
+        }
+
         return true;
     }
 
-    private static void disbandParty(UUID partyUuid) {
+    private static void disbandParty(PlayerManager manager, UUID partyUuid) {
         for(UUID playerUuid: getPartyInstance(partyUuid).getPlayers()){
+            manager.getPlayer(playerUuid).sendMessage(Text.of("Your party has been disbanded."));
             playerToParty.remove(playerUuid);
         }
         playerParties.remove(partyUuid);
