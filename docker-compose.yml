@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  avarisgates:
+    build: .
+    container_name: avarisgates
+    ports:
+      - "25565:25565"
+    volumes:
+      - "avarisgates_data:/app"
+    user: "1000:1000"
+
+volumes:
+  avarisgates_data:
