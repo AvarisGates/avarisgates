@@ -43,29 +43,10 @@ public enum PlayerClassAbilityType {
     };
 
     public static PlayerClassAbilityType fromInt(int i) {
-        switch (i) {
-            case 0 -> {
-                return Swing;
-            }
-            case 1 -> {
-                return Cleave;
-            }
-            case 2 -> {
-                return Teleport;
-            }
-            case 3 -> {
-                return Whirlwind;
-            }
-            case 4 -> {
-                return ShieldBash;
-            }
-            case 5 -> {
-                return FireBolt;
-            }
-            case 6 -> {
-                return Heal;
-            }
-            default -> throw new IllegalStateException("Unexpected ability type value: " + i);
+        PlayerClassAbilityType ret = PlayerClassAbilityType.values()[i];
+        if(ret == null){
+            throw new IllegalStateException("Unexpected ability type value: " + i);
         }
+        return ret;
     }
 }
