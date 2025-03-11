@@ -1,16 +1,14 @@
 package com.avaris.avarisgates.core.player;
 
 import com.avaris.avarisgates.AvarisGates;
-import com.avaris.avarisgates.core.network.AttributeIncrementS2C;
+import com.avaris.avarisgates.core.currency.CurrencyAttachment;
 import com.avaris.avarisgates.core.network.CastPlayerClassAbilityC2S;
-import com.avaris.avarisgates.core.network.ChangeAbilityS2C;
 import com.avaris.avarisgates.core.network.RequestAttributeIncrementC2S;
+import com.avaris.avarisgates.core.player.ability.AbilityRegistrar;
 import com.avaris.avarisgates.core.player.ability.AbilitySlot;
 import com.avaris.avarisgates.core.player.ability.AttachedAbility;
 import com.avaris.avarisgates.core.player.ability.PlayerClassAbility;
-import com.avaris.avarisgates.core.player.ability.PlayerClassAbilityType;
 import com.avaris.avarisgates.core.player.attribute.Attribute;
-import com.avaris.avarisgates.core.player.attribute.AttributeType;
 import com.avaris.avarisgates.core.player.player_class.PlayerClass;
 import com.avaris.avarisgates.core.player.player_class.PlayerClassType;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
@@ -26,43 +24,17 @@ public class PlayerManager {
         ensureAttached(player, PlayerClass.PLAYER_EXPERIENCE_ATTACHMENT,0L);
         ensureAttached(player,PlayerClass.PLAYER_CLASS_TYPE_ATTACHMENT, PlayerClassType.Warrior);
 
-        AttachedAbility ability0 = AttachedAbility.getAttached(player, AbilitySlot.SLOT0);
-        if(ability0.getType() == null||ability0.getNtt() == null){
-           AttachedAbility.setAttached(player,new AttachedAbility(PlayerClassAbilityType.Teleport,0L,AbilitySlot.SLOT0));
-        }else if(ability0.getNtt() > player.server.getTicks()){
-            ability0.setNtt(0L);
-            AttachedAbility.setAttached(player,ability0);
-        }
+        AttachedAbility.initForPlayer(player);
 
-        AttachedAbility ability1 = AttachedAbility.getAttached(player, AbilitySlot.SLOT1);
-        if(ability1.getType() == null || ability1.getNtt() == null){
-            AttachedAbility.setAttached(player,new AttachedAbility(PlayerClassAbilityType.Cleave,0L,AbilitySlot.SLOT1));
-        } else if(ability1.getNtt() > player.server.getTicks()){
-            ability1.setNtt(0L);
-            AttachedAbility.setAttached(player,ability1);
-        }
+        Attribute.initForPlayer(player);
 
-        AttachedAbility ability2 = AttachedAbility.getAttached(player, AbilitySlot.SLOT2);
-        if(ability2.getType() == null||ability2.getNtt() == null){
-            AttachedAbility.setAttached(player,new AttachedAbility(PlayerClassAbilityType.Whirlwind,0L,AbilitySlot.SLOT2));
-        } else if(ability2.getNtt() > player.server.getTicks()){
-            ability2.setNtt(0L);
-            AttachedAbility.setAttached(player,ability2);
-        }
+        ManaAttachment.initForPlayer(player);
 
-        ServerPlayNetworking.send(player,new ChangeAbilityS2C(0,AttachedAbility.getAttached(player,AbilitySlot.SLOT0).getType()));
-        ServerPlayNetworking.send(player,new ChangeAbilityS2C(1,AttachedAbility.getAttached(player,AbilitySlot.SLOT1).getType()));
-        ServerPlayNetworking.send(player,new ChangeAbilityS2C(2,AttachedAbility.getAttached(player,AbilitySlot.SLOT2).getType()));
-
-        for(AttributeType type : AttributeType.values()){
-            Attribute attribute = Attribute.getAttribute(player,type);
-            ServerPlayNetworking.send(player,new AttributeIncrementS2C(type,attribute.getValue()));
-            AvarisGates.LOGGER.info("{}",attribute);
-        }
+        CurrencyAttachment.getCurrency(player);
     }
 
     private static <T> void ensureAttached(ServerPlayerEntity player, AttachmentType<T> type, T defaultValue){
-        T attached = player.getAttached(type);
+        T attached = player.getAttachedOrCreate(type);
         if(attached == null){
             player.setAttached(type,defaultValue);
             AvarisGates.LOGGER.info("Attached '{}' value='{}' to player - '{}'",type.identifier(),defaultValue,player.getNameForScoreboard());
@@ -80,13 +52,13 @@ public class PlayerManager {
 
         PlayerClassAbility ability = null;
         if(ability0.getType() == packet.ability()){
-            ability = PlayerClassAbility.build(ability0);
+            ability = AbilityRegistrar.build(ability0.getType(),ability0);
         }
         if(ability1.getType() == packet.ability()){
-            ability = PlayerClassAbility.build(ability1);
+            ability = AbilityRegistrar.build(ability1.getType(),ability1);
         }
         if(ability2.getType() == packet.ability()){
-            ability = PlayerClassAbility.build(ability2);
+            ability = AbilityRegistrar.build(ability2.getType(),ability2);
         }
         if(ability == null){
             return;
@@ -97,6 +69,7 @@ public class PlayerManager {
 
     }
 
+    //TODO: add check, this is for debug only!!!!
     public static void receiveAttributeIncrement(RequestAttributeIncrementC2S packet, ServerPlayNetworking.Context context) {
         long newValue = Attribute.getAttribute(context.player(), packet.type()).getValue() + 1;
         Attribute.setAttribute(context.player(),packet.type(),newValue);

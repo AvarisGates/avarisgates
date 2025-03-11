@@ -14,6 +14,10 @@ public enum AbilitySlot {
 
     PASSIVE_SLOT0;
 
+    // Call this on startup to make fabric realise that the attachments exist
+    public static void init(){
+
+    }
     public AttachmentType<PlayerClassAbilityType> toAttachmentType(){
         switch (this){
             case SLOT0 -> {

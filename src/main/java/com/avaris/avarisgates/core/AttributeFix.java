@@ -7,10 +7,12 @@ import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Objects;
+
 // This class fixes the vanilla attribute cap, it isn't related to modded abilities
 public class AttributeFix {
     private static final Double AttrLimit = 1000000000D; //Very important limit (VIL)
-    private static Logger LOGGER = LoggerFactory.getLogger("avarisgates | AttributeFix");
+    private static final Logger LOGGER = LoggerFactory.getLogger("avarisgates | AttributeFix");
 
     private static final ImmutableMap<Identifier,Double> NEW_DEFAULT_ATTRIBUTES = ImmutableMap.of(
             Identifier.ofVanilla("max_health"), AttrLimit,
@@ -24,11 +26,7 @@ public class AttributeFix {
         for (Identifier id : Registries.ATTRIBUTE.getIds()) {
             Double new_def_value = NEW_DEFAULT_ATTRIBUTES.get(id);
             ClampedEntityAttributeAccessor attr = (ClampedEntityAttributeAccessor)Registries.ATTRIBUTE.get(id);
-            if(new_def_value == null){
-                attr.attributefix$setMaxValue(AttrLimit);
-            }else{
-                attr.attributefix$setMaxValue(new_def_value);
-            }
+            attr.attributefix$setMaxValue(Objects.requireNonNullElse(new_def_value, AttrLimit));
             LOGGER.info("Set {} max value to: {}",id,new_def_value == null ? AttrLimit : new_def_value);
         }
     }

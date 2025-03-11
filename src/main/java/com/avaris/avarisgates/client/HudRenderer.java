@@ -30,25 +30,29 @@ public class HudRenderer {
         context.drawTexture(RenderLayer::getGuiTexturedOverlay, HUD_TEXTURES, screenWidth - width + 20, y - 21, 0.0F, 0.0F, 220, 100, 450, 128);
     }
 
-    public static void renderHealthBar(DrawContext context, PlayerEntity player, int x, int y, int lines, int regeneratingHeartIndex, float maxHealth, int lastHealth, int health, int absorption, boolean blinking) {
-        final int width = 80;
+    public static void renderHealthBar(DrawContext context, PlayerEntity player, int x, int y, int lines, int regeneratingHeartIndex, float maxHealth, int lastHealth, int health, int absorption, boolean healthDecreased) {
+        final int width = 78;
         y += 6;
 
-        //Health before last damage instance
-        float pixels = (health / maxHealth) * width;
-        context.fill(x + 1,y + 1, x + (int)pixels - 1,y + 7,Colors.LIGHT_RED);
-        //Health after last damage instance
-        pixels += ((lastHealth - health) / maxHealth) * width;
-        context.fill(x + 1,y + 1, x + (int)pixels - 1,y + 7,0xFF_a80c0c);
+        if(player.isAlive()){
+            //Health before last damage instance
+            float pixels = (health / maxHealth) * width;
+            if(healthDecreased){
+                context.fill(x + 1,y + 1, x + (int)pixels,y + 7,0xAF_FF_0F_0F);
+            }
+            //Health after last damage instance
+            pixels += ((lastHealth - health) / maxHealth) * width;
+            context.fill(x + 1,y + 1, x + (int)pixels,y + 7,0xFF_a80c0c);
+        }
         context.drawTexture(RenderLayer::getGuiTexturedOverlay, HUD_TEXTURES, x - 30, y - 45, 0.0F, 0.0F, 110, 59, 225, 256);
     }
 
-    public static void renderFood(DrawContext context, PlayerEntity player, int y, int x) {
+    public static void renderMana(DrawContext context, PlayerEntity player, int y, int x) {
         final int width = 80;
         y += 6;
         x -= 1;
-        int pixels = (1 / 1) * width;
-        context.fill(x - 1,y + 1, x - pixels + 1,y + 7,0xFF_3476d7);
+        float pixels = ((float) AvarisGatesClient.getMana() / AvarisGatesClient.getMaxMana()) * width;
+        context.fill(x - 2, y + 1, (int) (x - pixels), y + 7, 0xFF_3476d7);
         context.drawTexture(RenderLayer::getGuiTexturedOverlay, HUD_TEXTURES, x - 110, y - 45, 0.0F, 0.0F, 110, 59, 225, 256);
     }
 }
