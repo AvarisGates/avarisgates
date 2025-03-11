@@ -1,4 +1,4 @@
-package com.avaris.avarisgates.core.entity;
+package com.avaris.avarisgates.core.entity.ability;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -8,17 +8,14 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;
 
-import java.util.List;
 import java.util.UUID;
 
-public class CleaveEntity extends Entity {
-    private UUID ownerUUID;
-    private float damage;
+public class AbilityEntity extends Entity{
+    protected UUID ownerUUID;
+    protected float damage;
+    protected int tickLeft; //Ticks left until despawn
 
-
-    private int tickLeft; //Ticks left until despawn
-
-    public CleaveEntity(EntityType<?> type, World world) {
+    public AbilityEntity(EntityType<?> type, World world) {
         super(type, world);
     }
 
@@ -52,15 +49,6 @@ public class CleaveEntity extends Entity {
             return;
         }
         super.tick();
-        if(this.getWorld() instanceof ServerWorld world){
-            List<Entity> collisions = world.getOtherEntities(this,this.getBoundingBox());
-            for(Entity collision : collisions){
-                if(collision.getUuid().equals(this.ownerUUID)){
-                    continue;
-                }
-                collision.damage(world,this.getDamageSources().generic(),this.damage);
-            }
-        }
     }
 
     public void setDamage(float damage) {
@@ -84,5 +72,5 @@ public class CleaveEntity extends Entity {
 
     public void setTickLeft(int tickLeft) {
         this.tickLeft = tickLeft;
-    }
+        }
 }

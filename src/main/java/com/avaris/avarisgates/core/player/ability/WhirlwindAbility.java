@@ -1,9 +1,8 @@
 package com.avaris.avarisgates.core.player.ability;
 
-import com.avaris.avarisgates.core.entity.WhirlwindEntity;
 import com.avaris.avarisgates.core.entity.ModEntities;
+import com.avaris.avarisgates.core.entity.ability.WhirlwindEntity;
 import com.avaris.avarisgates.core.player.player_class.PlayerClassType;
-import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -11,16 +10,17 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.Vec3d;
+
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class WhirlwindAbility extends PlayerClassAbility {
+public class WhirlwindAbility extends PlayerClassAbility{
 
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
-    public WhirlwindAbility(Long ntt, AttachmentType<Long> slot) {
-        super(ntt,slot);
+    public WhirlwindAbility(AttachedAbility attachedAbility) {
+        super(attachedAbility);
     }
 
     @Override
@@ -40,7 +40,10 @@ public class WhirlwindAbility extends PlayerClassAbility {
     }
 
     @Override
-    public void trigger(MinecraftServer server, ServerPlayerEntity player) {
+    public boolean trigger(MinecraftServer server, ServerPlayerEntity player) {
+        if(!super.trigger(server,player)){
+            return false;
+        }
         for (int i = 0; i < 3; i++) {
             scheduler.schedule(() -> {
                 ServerWorld serverWorld = player.getServerWorld();
@@ -67,6 +70,6 @@ public class WhirlwindAbility extends PlayerClassAbility {
                 serverWorld.playSound(null,pos.x,pos.y,pos.z, SoundEvents.BLOCK_BELL_USE, SoundCategory.PLAYERS);
             }, i, TimeUnit.SECONDS);
         }
-        super.trigger(server,player);
+        return true;
     }
 }

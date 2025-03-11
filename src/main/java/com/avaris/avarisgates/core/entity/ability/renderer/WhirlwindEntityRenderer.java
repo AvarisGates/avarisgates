@@ -1,5 +1,6 @@
-package com.avaris.avarisgates.core.entity;
+package com.avaris.avarisgates.core.entity.ability.renderer;
 
+import com.avaris.avarisgates.core.entity.ability.WhirlwindEntity;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.state.EntityRenderState;

@@ -4,13 +4,17 @@
   "package": "com.avaris.avarisgates.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "AttachmentChangeMixin",
     "ClampedEntityAttributeAccessor",
+    "HungerManagerMixin",
     "PlayerManagerMixin"
   ],
   "client": [
     "client.InGameHudMixin",
+    "client.InteractionManagerMixin",
     "client.InventoryScreenMixin",
-    "client.RecipeBookScreenMixin"
+    "client.RecipeBookScreenMixin",
+    "client.MinecraftClientMixin"
   ],
   "injectors": {
     "defaultRequire": 1

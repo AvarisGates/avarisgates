@@ -4,14 +4,10 @@ import com.avaris.avarisgates.client.InventoryRenderer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
-import net.minecraft.client.render.RenderLayer;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import static net.minecraft.client.gui.screen.ingame.HandledScreen.BACKGROUND_TEXTURE;
 
 @Mixin(InventoryScreen.class)
 public abstract class InventoryScreenMixin {

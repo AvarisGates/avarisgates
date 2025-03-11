@@ -9,20 +9,36 @@ import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 import net.minecraft.network.codec.PacketCodecs;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class PlayerClass {
     public static final AttachmentType<PlayerClassType> PLAYER_CLASS_TYPE_ATTACHMENT = AttachmentRegistry.create(
             AvarisGates.id("player_class_type"),
             builder -> builder
-                .initializer(() -> PlayerClassType.Warrior) // start with a default value like hunger
+                .initializer(() -> PlayerClassType.Beginner) // start with a default value like hunger
                 .persistent(PlayerClassType.CODEC) // persist across restarts
                 .copyOnDeath()
                 .syncWith(PlayerClassType.PACKET_CODEC, AttachmentSyncPredicate.all()) // only the player's own client needs the value for rendering
     );
 
+    private static final Map<PlayerClassType, String> EXPERIENCE_IDS = new HashMap<>();
+
+    static {
+        //We initialize the map with experience IDs for each class type
+        EXPERIENCE_IDS.put(PlayerClassType.Beginner, "player_experience_all");
+        EXPERIENCE_IDS.put(PlayerClassType.Warrior, "player_experience_warrior");
+        //EXAMPLE OF CLASSES WITH THE SAME LINE:
+        //EXPERIENCE_IDS.put(PlayerClassType.GreatWarrior, "player_experience_warrior");
+        EXPERIENCE_IDS.put(PlayerClassType.Mage, "player_experience_mage");
+        EXPERIENCE_IDS.put(PlayerClassType.Archer, "player_experience_archer");
+        EXPERIENCE_IDS.put(PlayerClassType.Priest, "player_experience_priest");
+        //EXPERIENCE_IDS.put(PlayerClassType.Rogue, "player_experience_rogue");
+        //ADD REMAINING CLASSES LIKE THE ONES ABOVE
+    }
 
     public static final AttachmentType<Long> PLAYER_EXPERIENCE_ATTACHMENT = AttachmentRegistry.create(
-            AvarisGates.id("player_experience"),
+            AvarisGates.id(getExperienceId(PlayerClassType.Beginner)),
             builder -> builder
                     .initializer(() -> 0L) // start with a default value like hunger
                     .persistent(Codec.LONG) // persist across restarts
@@ -30,9 +46,12 @@ public abstract class PlayerClass {
                     .syncWith(PacketCodecs.LONG, AttachmentSyncPredicate.all()) // only the player's own client needs the value for rendering
     );
 
-    private PlayerClassType type;
+    // Call this on startup to make fabric realise that the attachments exist
+    public static void init(){
 
-    public static long MAX_CLASS_LEVEL = 100;
+    }
+
+    private final PlayerClassType type;
 
     private long experience; //Class experience
     private long level; //Class levels
@@ -40,49 +59,29 @@ public abstract class PlayerClass {
     public PlayerClass(PlayerClassType type,long experience){
         this.type = type;
         this.experience = experience;
-        this.level = calculateLevel(level,type);
+        this.level = calculateLevel(experience);
     }
     
-    private long calculateLevel(long experience, PlayerClassType playerclassthing) {
+    private long calculateLevel(long experience) {
         long baseXp = 100;  // Base XP requirement for level 1
-        double multiplier;
-
-        // We gotta retrieve the class rarity but idk how to do it
-        // String rarity = playerclassthing.getRarity();
-
-        // PLACEHOLDER
-        String rarity = "COMMON"; // Replace this with the actual retrieval from playerclassthing
-
-        switch (rarity.toUpperCase()) {
-            case "COMMON":
-                multiplier = 1.0;
-                break;
-            case "UNCOMMON":
-                multiplier = 1.5;
-                break;
-            case "RARE":
-                multiplier = 3.0;
-                break;
-            case "EPIC":
-                multiplier = 6.0;
-                break;
-            case "LEGENDARY":
-                multiplier = 12.0;
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid rarity. Choose from COMMON, UNCOMMON, RARE, EPIC, LEGENDARY.");
-        }
+        double multiplier = 1.0;
 
         int level = 0;
         long totalXp = 0;
 
-        while (totalXp <= experience && level < 101) {
+        while (totalXp <= experience) {
             level++;
-            totalXp += baseXp * Math.pow(level, 1.005) * multiplier;
+            totalXp += (long) (baseXp * Math.pow(level, 1.005) * multiplier);
             totalXp = (totalXp / 100) * 100;  // Round down to the nearest multiple of 100
         }
 
         return level - 1;
+    }
+
+    private static String getExperienceId(PlayerClassType type69){
+        //TODO: ADD A WORKING RETRIEVING EXPERIENCE ID FUNCTION, idk if this works
+        AvarisGates.LOGGER.info("Print type:{}",type69.toString()); //DEBUGGING
+        return EXPERIENCE_IDS.getOrDefault(type69, "player_experience_all");
     }
 
     public abstract Collection<PlayerClassAbilityType> getValidAbilities();

@@ -90,6 +90,8 @@ jar {
     }
 }
 
+tasks.build.dependsOn(remapJar)
+
 // configure the maven publication
 publishing {
     publications {
