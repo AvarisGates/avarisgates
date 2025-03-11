@@ -82,13 +82,13 @@ public class PartyManager {
 
 
     public static boolean invitePlayer(ServerPlayerEntity inviter, ServerPlayerEntity invitee) {
-        Integer timeout = requestTimeouts.get(inviter.getUuid());
+        Integer timeout = inviteTimeouts.get(inviter.getUuid());
         int ticks = inviter.getServer().getTicks();
         if(timeout != null&&timeout > ticks){
             inviter.sendMessage(Text.of("Please wait before inviting a player to your party again."));
             return false;
         }
-        requestTimeouts.put(inviter.getUuid(),ticks + INVITE_TIMEOUT);
+        inviteTimeouts.put(inviter.getUuid(),ticks + INVITE_TIMEOUT);
 
         if(getPlayerParty(inviter.getUuid()) != null){
             if(!isPartyLeader(inviter.getUuid())){
