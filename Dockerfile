@@ -56,6 +56,7 @@ RUN curl https://mediafilez.forgecdn.net/files/6214/360/fabric-api-0.118.0%2B1.2
 # Download fabric server
 RUN curl https://meta.fabricmc.net/v2/versions/loader/1.21.4/0.16.10/1.0.1/server/jar --output /app/run/server.jar
 # RUN wget -P /app/ "https://piston-data.mojang.com/v1/objects/4707d00eb834b446575d89a61a11b5d548d8c001/server.jar"
+RUN wget --max-redirect=20 -P /app/run/mods https://mediafilez.forgecdn.net/files/6122/278/worldedit-mod-7.3.10.jar
 
 # Accept eula, otherwise the server won't start
 RUN echo "eula=true">/app/run/eula.txt
