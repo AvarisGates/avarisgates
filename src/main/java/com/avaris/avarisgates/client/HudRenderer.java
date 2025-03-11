@@ -2,6 +2,7 @@ package com.avaris.avarisgates.client;
 
 import com.avaris.avarisgates.AvarisGates;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderTickCounter;
@@ -43,16 +44,30 @@ public class HudRenderer {
             //Health after last damage instance
             pixels += ((lastHealth - health) / maxHealth) * width;
             context.fill(x + 1,y + 1, x + (int)pixels,y + 7,0xFF_a80c0c);
+
+
+            TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
+
+            //We have to use player.getHealth to get the most recent, not rounded value
+            String s = ((int)((player.getHealth() / maxHealth) * 100)) + "%";
+            context.drawText(textRenderer, Text.literal(s),x + width / 2 - textRenderer.getWidth(s) / 2,y - 10,Colors.WHITE,true);
         }
         context.drawTexture(RenderLayer::getGuiTexturedOverlay, HUD_TEXTURES, x - 30, y - 45, 0.0F, 0.0F, 110, 59, 225, 256);
     }
 
     public static void renderMana(DrawContext context, PlayerEntity player, int y, int x) {
+        long mana = AvarisGatesClient.getMana();
+        long maxMana = AvarisGatesClient.getMaxMana();
+        String s = ((int)(((float)mana / maxMana) * 100)) + "%";
         final int width = 80;
         y += 6;
         x -= 1;
-        float pixels = ((float) AvarisGatesClient.getMana() / AvarisGatesClient.getMaxMana()) * width;
+        float pixels = ((float) mana / maxMana) * width;
         context.fill(x - 2, y + 1, (int) (x - pixels), y + 7, 0xFF_3476d7);
         context.drawTexture(RenderLayer::getGuiTexturedOverlay, HUD_TEXTURES, x - 110, y - 45, 0.0F, 0.0F, 110, 59, 225, 256);
+
+        TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
+
+        context.drawText(textRenderer, Text.literal(s),x - width / 2 - textRenderer.getWidth(s) / 2,y - 10,Colors.WHITE,true);
     }
 }
