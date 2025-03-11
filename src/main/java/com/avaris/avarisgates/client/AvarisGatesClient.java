@@ -2,8 +2,10 @@ package com.avaris.avarisgates.client;
 
 import com.avaris.avarisgates.core.currency.CurrencyAttachment;
 import com.avaris.avarisgates.core.entity.ModEntities;
+import com.avaris.avarisgates.core.network.CastPlayerClassAbilityC2S;
 import com.avaris.avarisgates.core.network.ChangeAbilityS2C;
 import com.avaris.avarisgates.core.player.ManaAttachment;
+import com.avaris.avarisgates.core.player.ability.PlayerClassAbilityType;
 import com.avaris.avarisgates.core.player.attribute.Attribute;
 import com.avaris.avarisgates.core.player.attribute.AttributeType;
 import net.fabricmc.api.ClientModInitializer;
@@ -11,6 +13,8 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 
 import java.util.Objects;
 
@@ -55,6 +59,13 @@ public class AvarisGatesClient implements ClientModInitializer {
 
     public static long getBasicCurrency() {
         return CurrencyAttachment.getCurrency(MinecraftClient.getInstance().player).getBasicCurrency();
+    }
+
+    public static void onMissedDoAttack(ClientPlayerEntity player, ItemStack stack) {
+        if(!stack.getItem().equals(Items.GRASS_BLOCK)){
+            return;
+        }
+        ClientPlayNetworking.send(new CastPlayerClassAbilityC2S(PlayerClassAbilityType.MagicOrb));
     }
 
 

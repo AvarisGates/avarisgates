@@ -11,6 +11,7 @@ public enum AbilitySlot {
     SLOT0,
     SLOT1,
     SLOT2,
+    BASIC,
 
     PASSIVE_SLOT0;
 
@@ -29,6 +30,9 @@ public enum AbilitySlot {
             case SLOT2 -> {
                 return PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_2;
             }
+            case BASIC -> {
+                return PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_BASIC;
+            }
             default -> {
                 throw new IllegalStateException("Invalid ability type");
             }
@@ -45,6 +49,9 @@ public enum AbilitySlot {
             }
             case SLOT2 -> {
                 return PLAYER_CLASS_ABILITY_NTT_ATTACHMENT_2;
+            }
+            case BASIC -> {
+                return PLAYER_CLASS_ABILITY_NTT_ATTACHMENT_BASIC;
             }
             default -> {
                 throw new IllegalStateException("Invalid ability type");
@@ -104,6 +111,25 @@ public enum AbilitySlot {
             AvarisGates.id("player_class_ability_ntt_2"),
             builder -> builder
                     .initializer(() -> 2L) // start with a default value like hunger
+                    .persistent(Codec.LONG) // persist across restarts
+                    .copyOnDeath()
+                    .syncWith(PacketCodecs.LONG, AttachmentSyncPredicate.all()) // only the player's own client needs the value for rendering
+    );
+
+    private static final AttachmentType<PlayerClassAbilityType> PLAYER_CLASS_ABILITY_TYPE_ATTACHMENT_BASIC = AttachmentRegistry.create(
+            AvarisGates.id("player_class_ability_type_basic"),
+            builder -> builder
+                    .initializer(() -> PlayerClassAbilityType.Cleave) // start with a default value like hunger
+                    .persistent(PlayerClassAbilityType.CODEC) // persist across restarts
+                    .copyOnDeath()
+                    .syncWith(PlayerClassAbilityType.PACKET_CODEC, AttachmentSyncPredicate.all()) // only the player's own client needs the value for rendering
+    );
+
+    //Next Trigger Time
+    private static final AttachmentType<Long> PLAYER_CLASS_ABILITY_NTT_ATTACHMENT_BASIC = AttachmentRegistry.create(
+            AvarisGates.id("player_class_ability_ntt_basic"),
+            builder -> builder
+                    .initializer(() -> 0L) // start with a default value like hunger
                     .persistent(Codec.LONG) // persist across restarts
                     .copyOnDeath()
                     .syncWith(PacketCodecs.LONG, AttachmentSyncPredicate.all()) // only the player's own client needs the value for rendering

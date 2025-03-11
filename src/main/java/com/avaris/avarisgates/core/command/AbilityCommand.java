@@ -26,9 +26,11 @@ public class AbilityCommand {
                                         PlayerClassAbilityType type0 = AttachedAbility.getAttached(player, AbilitySlot.SLOT0).getType();
                                         PlayerClassAbilityType type1 = AttachedAbility.getAttached(player, AbilitySlot.SLOT1).getType();
                                         PlayerClassAbilityType type2 = AttachedAbility.getAttached(player, AbilitySlot.SLOT2).getType();
+                                        PlayerClassAbilityType type_basic = AttachedAbility.getAttached(player, AbilitySlot.BASIC).getType();
                                         player.sendMessage(Text.literal("Ability 1 - ").append(Text.literal(type0.name()).formatted(Formatting.GOLD))
                                                 .append("\nAbility 2 - ").append(Text.literal(type1.name()).formatted(Formatting.GOLD))
-                                                .append("\nAbility 3 - ").append(Text.literal(type2.name()).formatted(Formatting.GOLD)));
+                                                .append("\nAbility 3 - ").append(Text.literal(type2.name()).formatted(Formatting.GOLD))
+                                                .append("\nBasic - ").append(Text.literal(type_basic.name()).formatted(Formatting.BLUE)));
                                     }
                                     return 0;
                                 })

@@ -20,8 +20,8 @@ public class AttachedAbility {
     }
 
     public static AttachedAbility getAttached(LivingEntity entity, AbilitySlot slot){
-        PlayerClassAbilityType type = entity.getAttachedOrCreate(slot.toAttachmentType());
-        Long ntt = entity.getAttachedOrCreate(slot.toNttAttachment());
+        PlayerClassAbilityType type = entity.getAttached(slot.toAttachmentType());
+        Long ntt = entity.getAttached(slot.toNttAttachment());
         return new AttachedAbility(type,ntt,slot);
     }
 
@@ -55,9 +55,18 @@ public class AttachedAbility {
             AttachedAbility.setAttached(player,ability2);
         }
 
+        AttachedAbility basic_ability = AttachedAbility.getAttached(player, AbilitySlot.BASIC);
+        if(basic_ability.getType() == null||basic_ability.getNtt() == null){
+            AttachedAbility.setAttached(player,new AttachedAbility(PlayerClassAbilityType.MagicOrb,0L,AbilitySlot.BASIC));
+        } else if(basic_ability.getNtt() > player.server.getTicks()){
+            basic_ability.setNtt(0L);
+            AttachedAbility.setAttached(player,basic_ability);
+        }
+
         ServerPlayNetworking.send(player,new ChangeAbilityS2C(0,AttachedAbility.getAttached(player,AbilitySlot.SLOT0).getType()));
         ServerPlayNetworking.send(player,new ChangeAbilityS2C(1,AttachedAbility.getAttached(player,AbilitySlot.SLOT1).getType()));
         ServerPlayNetworking.send(player,new ChangeAbilityS2C(2,AttachedAbility.getAttached(player,AbilitySlot.SLOT2).getType()));
+        ServerPlayNetworking.send(player,new ChangeAbilityS2C(3,AttachedAbility.getAttached(player,AbilitySlot.BASIC).getType()));
     }
 
     public Long getNtt() {

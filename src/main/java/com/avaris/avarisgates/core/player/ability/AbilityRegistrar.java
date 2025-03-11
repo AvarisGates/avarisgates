@@ -18,6 +18,7 @@ public class AbilityRegistrar {
         register(PlayerClassAbilityType.Whirlwind, WhirlwindAbility.class);
         register(PlayerClassAbilityType.FireBolt, FireBoltAbility.class);
         register(PlayerClassAbilityType.Heal, HealAbility.class);
+        register(PlayerClassAbilityType.MagicOrb, MagicOrbAbility.class);
     }
 
     public static PlayerClassAbility build(PlayerClassAbilityType type,AttachedAbility ability) {

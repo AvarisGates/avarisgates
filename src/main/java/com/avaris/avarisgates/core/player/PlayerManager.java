@@ -4,10 +4,7 @@ import com.avaris.avarisgates.AvarisGates;
 import com.avaris.avarisgates.core.currency.CurrencyAttachment;
 import com.avaris.avarisgates.core.network.CastPlayerClassAbilityC2S;
 import com.avaris.avarisgates.core.network.RequestAttributeIncrementC2S;
-import com.avaris.avarisgates.core.player.ability.AbilityRegistrar;
-import com.avaris.avarisgates.core.player.ability.AbilitySlot;
-import com.avaris.avarisgates.core.player.ability.AttachedAbility;
-import com.avaris.avarisgates.core.player.ability.PlayerClassAbility;
+import com.avaris.avarisgates.core.player.ability.*;
 import com.avaris.avarisgates.core.player.attribute.Attribute;
 import com.avaris.avarisgates.core.player.player_class.PlayerClass;
 import com.avaris.avarisgates.core.player.player_class.PlayerClassType;
@@ -49,6 +46,7 @@ public class PlayerManager {
         AttachedAbility ability0 = AttachedAbility.getAttached(context.player(), AbilitySlot.SLOT0);
         AttachedAbility ability1 = AttachedAbility.getAttached(context.player(), AbilitySlot.SLOT1);
         AttachedAbility ability2 = AttachedAbility.getAttached(context.player(), AbilitySlot.SLOT2);
+        AttachedAbility basic_ability = AttachedAbility.getAttached(context.player(),AbilitySlot.BASIC);
 
         PlayerClassAbility ability = null;
         if(ability0.getType() == packet.ability()){
@@ -60,6 +58,12 @@ public class PlayerManager {
         if(ability2.getType() == packet.ability()){
             ability = AbilityRegistrar.build(ability2.getType(),ability2);
         }
+
+        //Account for basic attacks
+        if(basic_ability.getType() == packet.ability()){
+            ability = AbilityRegistrar.build(basic_ability.getType(),basic_ability);
+        }
+
         if(ability == null){
             return;
         }

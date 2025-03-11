@@ -14,7 +14,8 @@ public enum PlayerClassAbilityType {
     Whirlwind,
     ShieldBash,
     FireBolt,
-    Heal;
+    Heal,
+    MagicOrb;
 
     public static final Codec<PlayerClassAbilityType> CODEC = new PrimitiveCodec<PlayerClassAbilityType>() {
         @Override
