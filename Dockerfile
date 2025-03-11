@@ -9,6 +9,7 @@ RUN apt update && apt install -y \
     curl \
     unzip \
     vim \
+    dos2unix \
     wget \
     git \
     screen \
@@ -32,6 +33,7 @@ WORKDIR /app
 
 # Copy the entire project from the correct build context
 COPY . .
+
 
 RUN chmod +x /app/docker_run.sh
 
@@ -65,5 +67,5 @@ EXPOSE 25565
 
 # Set the entrypoint to run the Minecraft server with the mod
 
-# CMD ["java", "-Xmx1024M", "-Xms1024M", "-jar", "server.jar", "nogui"]
-CMD ["sh", "docker_run.sh"]
+ENTRYPOINT ["/bin/bash", "/app/docker_run.sh"]
+#CMD ["java", "-Xmx1024M", "-Xms1024M", "-jar", "/app/run/server.jar", "nogui"]
