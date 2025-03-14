@@ -60,7 +60,8 @@ public class PlayerManager {
         }
 
         //Account for basic attacks
-        if(basic_ability.getType() == packet.ability()){
+        if(basic_ability.getType() == packet.ability()&&
+                PlayerClass.isBasicWeapon(context.player(),context.player().getWeaponStack())){
             ability = AbilityRegistrar.build(basic_ability.getType(),basic_ability);
         }
 

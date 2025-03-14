@@ -6,6 +6,10 @@ import com.mojang.serialization.Codec;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentSyncPredicate;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
+import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.network.codec.PacketCodecs;
 
 import java.util.Collection;
@@ -61,7 +65,12 @@ public abstract class PlayerClass {
         this.experience = experience;
         this.level = calculateLevel(experience);
     }
-    
+
+    //TODO: implement using tags
+    public static boolean isBasicWeapon(PlayerEntity player, ItemStack stack) {
+        return stack.getItem().equals(Items.GRASS_BLOCK);
+    }
+
     private long calculateLevel(long experience) {
         long baseXp = 100;  // Base XP requirement for level 1
         double multiplier = 1.0;

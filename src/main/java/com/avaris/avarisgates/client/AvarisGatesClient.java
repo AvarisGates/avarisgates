@@ -5,9 +5,12 @@ import com.avaris.avarisgates.core.entity.ModEntities;
 import com.avaris.avarisgates.core.network.CastPlayerClassAbilityC2S;
 import com.avaris.avarisgates.core.network.ChangeAbilityS2C;
 import com.avaris.avarisgates.core.player.ManaAttachment;
+import com.avaris.avarisgates.core.player.ability.AbilitySlot;
+import com.avaris.avarisgates.core.player.ability.AttachedAbility;
 import com.avaris.avarisgates.core.player.ability.PlayerClassAbilityType;
 import com.avaris.avarisgates.core.player.attribute.Attribute;
 import com.avaris.avarisgates.core.player.attribute.AttributeType;
+import com.avaris.avarisgates.core.player.player_class.PlayerClass;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -62,10 +65,9 @@ public class AvarisGatesClient implements ClientModInitializer {
     }
 
     public static void onMissedDoAttack(ClientPlayerEntity player, ItemStack stack) {
-        if(!stack.getItem().equals(Items.GRASS_BLOCK)){
-            return;
+        if(PlayerClass.isBasicWeapon(player,stack)){
+            ClientPlayNetworking.send(new CastPlayerClassAbilityC2S(AttachedAbility.getAttached(player, AbilitySlot.BASIC).getType()));
         }
-        ClientPlayNetworking.send(new CastPlayerClassAbilityC2S(PlayerClassAbilityType.MagicOrb));
     }
 
 
