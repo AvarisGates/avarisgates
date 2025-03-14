@@ -10,6 +10,12 @@ import net.minecraft.registry.Registry;
 
 import java.util.List;
 
+/**
+ * This class contains all the AvarisGates item components.<br>
+ * Please put new ones here, otherwise they may not be properly initialized.
+ * Since the need to be initialized at initialization time. <br>
+ * @see ModComponents#init()
+ **/
 public class ModComponents {
     public static final ComponentType<Integer> FREE_SOCKETS = Registry.register(
             Registries.DATA_COMPONENT_TYPE,
@@ -29,6 +35,10 @@ public class ModComponents {
                     .build()
     );
 
+    /**
+     * This function is necessary for the components to be properly initialized.
+     * At first glance it may seem like it does nothing, but it actually allows the components to be registered at initialization time.
+     */
     public static void init(){
         AvarisGates.LOGGER.info("Initializing Components");
     }
