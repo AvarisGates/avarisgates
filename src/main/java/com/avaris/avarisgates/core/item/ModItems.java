@@ -47,6 +47,14 @@ public class ModItems {
             RUBY_GEM_ID
     );
 
+    public static final Identifier FUCK_YOU_GEM_ID = AvarisGates.id("fuck_you_gem");
+    public static final RegistryKey<Item> FUCK_YOU_GEM_KEY = RegistryKey.of(RegistryKeys.ITEM, FUCK_YOU_GEM_ID);
+
+    public static final FuckYouGemItem FUCK_YOU_GEM = (FuckYouGemItem) register(
+            new FuckYouGemItem(new Item.Settings().registryKey(FUCK_YOU_GEM_KEY)),
+            FUCK_YOU_GEM_ID
+    );
+
     public static final RegistryKey<ItemGroup> AVARISGATES_ITEM_GROUP_KEY = RegistryKey.of(Registries.ITEM_GROUP.getKey(), AvarisGates.id("item_group"));
     public static final ItemGroup AVARISGATES_ITEM_GROUP = FabricItemGroup.builder()
             .icon(() -> new ItemStack(ModItems.RUBY_GEM))
@@ -61,6 +69,7 @@ public class ModItems {
                     itemGroup.add(GREAT_SWORD);
                     itemGroup.add(TEST_SOCKETABLE);
                     itemGroup.add(RUBY_GEM);
+                    itemGroup.add(FUCK_YOU_GEM);
                 });
 
     }

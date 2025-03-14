@@ -13,7 +13,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class HungerManagerMixin {
     @Inject(method = "update",at = @At(value = "INVOKE", target = "Lnet/minecraft/server/network/ServerPlayerEntity;heal(F)V",shift = At.Shift.BEFORE), cancellable = true)
     public void update(ServerPlayerEntity player, CallbackInfo ci) {
-        player.heal(Math.min(Attribute.getAttribute(player, AttributeType.Vitality).getValue() * 0.01f,1000.f));
+        player.heal(
+                Math.max(0,Math.min(Attribute.getAttributeWithEffects(player, AttributeType.Vitality).getValue() * 0.01f,1000.f))
+        );
        ci.cancel();
     }
 }

@@ -2,10 +2,14 @@ package com.avaris.avarisgates.core.item;
 
 import com.avaris.avarisgates.AvarisGates;
 import com.avaris.avarisgates.core.ModComponents;
+import com.avaris.avarisgates.core.player.attribute.AttributeType;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.component.ComponentMap;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.StackReference;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -15,10 +19,12 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.ClickType;
+import net.minecraft.world.World;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 public class SocketableItem extends Item {
 
@@ -117,6 +123,35 @@ public class SocketableItem extends Item {
         stack.set(ModComponents.SOCKET_EFFECTS,socketEffects);
         return stack;
     }
+
+    public static long getAttributeAdditiveModifications(LivingEntity entity, AttributeType type) {
+        long modifier = 0;
+        if(entity instanceof PlayerEntity player){
+            PlayerInventory inventory = player.getInventory();
+            int selectedSlot = inventory.selectedSlot;
+            for(int i = 0; i < inventory.size(); i++){
+                ItemStack stack = inventory.getStack(i);
+                if(stack.getItem() instanceof SocketableItem item){
+                    if(!item.isInCorrectSlot(i,selectedSlot)){
+                        continue;
+                    }
+                    Optional<Long> current_modifier = getSocketEffects(stack).stream()
+                            .map(effect -> effect.getAttributeAdditiveModification(type))
+                            .reduce(Long::sum);
+                   if(current_modifier.isPresent()){
+                       modifier += current_modifier.get();
+                   }
+                }
+
+            }
+        }
+        return modifier;
+    }
+
+    private boolean isInCorrectSlot(int slotIndex, int selectedSlot) {
+        return slotIndex == selectedSlot;
+    }
+
 
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {

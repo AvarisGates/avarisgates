@@ -7,7 +7,6 @@ import com.avaris.avarisgates.core.network.ChangeAbilityS2C;
 import com.avaris.avarisgates.core.player.ManaAttachment;
 import com.avaris.avarisgates.core.player.ability.AbilitySlot;
 import com.avaris.avarisgates.core.player.ability.AttachedAbility;
-import com.avaris.avarisgates.core.player.ability.PlayerClassAbilityType;
 import com.avaris.avarisgates.core.player.attribute.Attribute;
 import com.avaris.avarisgates.core.player.attribute.AttributeType;
 import com.avaris.avarisgates.core.player.player_class.PlayerClass;
@@ -17,7 +16,6 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 
 import java.util.Objects;
 
@@ -33,7 +31,7 @@ public class AvarisGatesClient implements ClientModInitializer {
         if(player == null){
             return 0;
         }
-        return Objects.requireNonNullElse(Attribute.getAttribute(player, type).getValue(),0L);
+        return Attribute.getAttributeWithEffects(player, type).getValue();
     }
 
     public static long getMana() {

@@ -1,10 +1,10 @@
 package com.avaris.avarisgates.core.item;
 
+import com.avaris.avarisgates.core.player.attribute.AttributeType;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.InputUtil;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -16,8 +16,11 @@ import java.util.stream.Collectors;
 
 public record SocketEffect(int type, long value) {
 
-    public void apply(LivingEntity entity){
-        
+    public long getAttributeAdditiveModification(AttributeType type){
+       if(!this.getType().isMultiplicative&&this.getType().getAttributeType() == type){
+           return this.value;
+       }
+       return 0;
     }
 
     public SocketEffectType getType(){
@@ -37,7 +40,7 @@ public record SocketEffect(int type, long value) {
             s += "+";
         }
         s += value;
-        if(this.getType().isPercentValue){
+        if(this.getType().isMultiplicative){
             s += "%";
         }
         s += " ";
@@ -57,15 +60,21 @@ public record SocketEffect(int type, long value) {
 
 
     public enum SocketEffectType{
+        AddStrength(true,false),
+        AddVitality(true,false),
+        AddVigor(true,false),
+        AddDexterity(true,false),
+        AddAgility(true,false),
         AddIntelligence(true,false),
-        AddVitality(true,false);
+        AddWill(true,false),
+        AddFaith(true,false);
 
-        private final boolean isPercentValue;
+        private final boolean isMultiplicative;
         private final boolean hasModifier;
 
         SocketEffectType(boolean hasModifier,boolean isPercentValue){
             this.hasModifier = hasModifier;
-            this.isPercentValue = isPercentValue;
+            this.isMultiplicative = isPercentValue;
         }
 
         public static SocketEffectType fromInt(int i){
@@ -77,17 +86,61 @@ public record SocketEffect(int type, long value) {
         }
 
         public Text getTooltipText() {
-            switch (this){
-                case AddIntelligence -> {
-                    return Text.literal("Intelligence").formatted(Formatting.BLUE);
+            switch (this) {
+                case AddStrength -> {
+                    return Text.literal("Strength").formatted(Formatting.YELLOW);
                 }
                 case AddVitality -> {
                     return Text.literal("Vitality").formatted(Formatting.RED);
+                }
+                case AddVigor -> {
+                    return Text.literal("Vigor").formatted(Formatting.GREEN);
+                }
+                case AddDexterity -> {
+                    return Text.literal("Dexterity").formatted(Formatting.AQUA);
+                }
+                case AddAgility -> {
+                    return Text.literal("Agility").formatted(Formatting.GOLD);
+                }
+                case AddIntelligence -> {
+                    return Text.literal("Intelligence").formatted(Formatting.BLUE);
+                }
+                case AddWill -> {
+                    return Text.literal("Will").formatted(Formatting.DARK_PURPLE);
+                }
+                case AddFaith -> {
+                    return Text.literal("Faith").formatted(Formatting.WHITE);
                 }
             }
             return Text.empty();
         }
 
+        public AttributeType getAttributeType() {
+            switch (this){
+                case AddStrength -> {
+                    return AttributeType.Strength;
+                }
+                case AddVitality -> {
+                    return AttributeType.Vitality;
+                }
+                case AddVigor -> {
+                    return AttributeType.Vigor;
+                }
+                case AddDexterity -> {
+                    return AttributeType.Dexterity;
+                }
+                case AddAgility -> {
+                    return AttributeType.Agility;
+                }
+                case AddIntelligence -> {
+                    return AttributeType.Intelligence;
+                }
+                case AddWill -> {
+                    return AttributeType.Will;
+                }
+            }
+            return null;
+        }
     }
 
     public static Collection<SocketEffect> combineEffects(Collection<SocketEffect> effects){

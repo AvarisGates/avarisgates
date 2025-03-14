@@ -62,7 +62,7 @@ public class AttributeCommand {
         if (player == null) {
             return 1;
         }
-        Attribute attribute = Attribute.getAttribute(player, type);
+        Attribute attribute = Attribute.getAttributeWithEffects(player, type);
         player.sendMessage(Text.literal(attribute.getType() + ": " + attribute.getValue()));
         return 0;
     }
@@ -73,7 +73,7 @@ public class AttributeCommand {
             return 1;
         }
         for (AttributeType type : AttributeType.values()) {
-            Attribute attribute = Attribute.getAttribute(player, type);
+            Attribute attribute = Attribute.getAttributeWithEffects(player, type);
             player.sendMessage(Text.literal(attribute.getType() + ": " + attribute.getValue()));
         }
         return 0;

@@ -1,6 +1,7 @@
 package com.avaris.avarisgates.core.player.attribute;
 
 import com.avaris.avarisgates.AvarisGates;
+import com.avaris.avarisgates.core.item.SocketableItem;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.registry.Registries;
@@ -19,8 +20,9 @@ public class Attribute {
     }
 
     // Get an attribute of a given type attached to a LivingEntity (An entity with health and such)
+    // This function doesn't take into account SocketEffects
     // If the attachments aren't found attach default values
-    public static Attribute getAttribute(LivingEntity entity, AttributeType type){
+    public static Attribute getAttributeValue(LivingEntity entity, AttributeType type){
         Long attached = entity.getAttachedOrCreate(type.toValueAttachment());
         if(attached == null){
             return resetAttribute(entity,type);
@@ -29,12 +31,23 @@ public class Attribute {
         return new Attribute(type,entity.getAttachedOrCreate(type.toValueAttachment()));
     }
 
+    // Get an attribute of a given type attached to a LivingEntity (An entity with health and such)
+    // This function takes into account SocketEffects
+    // If the attachments aren't found attach default values
+    public static Attribute getAttributeWithEffects(LivingEntity entity, AttributeType type){
+        Attribute attribute = getAttributeValue(entity,type);
+        long modifier = SocketableItem.getAttributeAdditiveModifications(entity,type);
+        //TODO: add multiplicative modifiers
+        //long modifier = SocketableItem.getAttributeAdditiveModifications(entity,type);
+        return new Attribute(type,attribute.value + modifier);
+    }
+
     // Initialize attachment values for a player if it's not present
     // Then sync it to the client
     // Should be called when a player joins a world
     public static void initForPlayer(ServerPlayerEntity player) {
         for(AttributeType type : AttributeType.values()){
-            Attribute attribute = Attribute.getAttribute(player,type);
+            Attribute attribute = Attribute.getAttributeWithEffects(player,type);
             attribute.apply(player);
             AvarisGates.LOGGER.info("{}",attribute);
         }
@@ -47,12 +60,12 @@ public class Attribute {
             Identifier health_id = Identifier.ofVanilla("max_health");
             EntityAttribute attr = Registries.ATTRIBUTE.get(health_id);
             entity.getAttributeInstance(Registries.ATTRIBUTE.getEntry(attr))
-                    .setBaseValue(2 * this.getValue());
+                    .setBaseValue(2 * Attribute.getAttributeWithEffects(entity,AttributeType.Vitality).getValue());
         }
         if(type == AttributeType.Agility){
             Identifier movement_speed = Identifier.ofVanilla("movement_speed");
             EntityAttribute attr = Registries.ATTRIBUTE.get(movement_speed);
-            Attribute.getAttribute(entity,AttributeType.Vitality).getValue();
+            Attribute.getAttributeWithEffects(entity,AttributeType.Vitality).getValue();
             double newValue = 1;
             if(this.value <= 110){
                 newValue = 1 + (this.value - 10) * 0.01;
@@ -75,8 +88,7 @@ public class Attribute {
     // Sets attribute value and applies it to vanilla attributes
     public static Attribute setAttribute(LivingEntity entity,AttributeType type,long value){
         Attribute attr = new Attribute(type,value);
-        setAttribute(entity,attr);
-        return attr;
+        return setAttribute(entity,attr);
     }
 
     // Resets attribute value to the default one and applies it to vanilla attributes
@@ -98,5 +110,12 @@ public class Attribute {
 
     public AttributeType getType() {
         return type;
+    }
+
+    public static void updateAttributes(ServerPlayerEntity player) {
+        for(AttributeType type : AttributeType.values()){
+            Attribute attribute = Attribute.getAttributeWithEffects(player,type);
+            attribute.apply(player);
+        }
     }
 }

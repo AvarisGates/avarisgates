@@ -42,7 +42,7 @@ public class HealAbility extends PlayerClassAbility{
         HitResult hitResult = AbilityUtil.findCrosshairTarget(player,0,player.getEntityInteractionRange(),0);
         if(hitResult instanceof EntityHitResult entityHitResult){
             if(entityHitResult.getEntity() instanceof LivingEntity entity){
-               entity.heal(Attribute.getAttribute(player, AttributeType.Faith).getValue());
+               entity.heal(Attribute.getAttributeWithEffects(player, AttributeType.Faith).getValue());
                 if(entity.getWorld() instanceof ServerWorld serverWorld){
                     Vec3d pos = entity.getPos();
                     serverWorld

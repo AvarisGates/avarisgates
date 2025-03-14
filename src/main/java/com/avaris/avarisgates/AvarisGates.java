@@ -11,6 +11,7 @@ import com.avaris.avarisgates.core.network.ModPackets;
 import com.avaris.avarisgates.core.player.ManaAttachment;
 import com.avaris.avarisgates.core.player.ability.AbilityRegistrar;
 import com.avaris.avarisgates.core.player.ability.AbilitySlot;
+import com.avaris.avarisgates.core.player.attribute.Attribute;
 import com.avaris.avarisgates.core.player.attribute.AttributeType;
 import com.avaris.avarisgates.core.player.player_class.PlayerClass;
 import net.fabricmc.api.ModInitializer;
@@ -54,6 +55,8 @@ public class AvarisGates implements ModInitializer {
             if(minecraftServer.getTicks() % 20 == 0){
                 minecraftServer.getPlayerManager().getPlayerList().forEach(ManaAttachment::tickMana);
             }
+            // This is kind of inefficient
+            minecraftServer.getPlayerManager().getPlayerList().forEach(Attribute::updateAttributes);
         });
         ServerLifecycleEvents.SERVER_STOPPING.register((minecraftServer -> {
             dungeonManager.removeAllDungeons();

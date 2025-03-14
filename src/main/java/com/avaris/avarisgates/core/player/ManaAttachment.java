@@ -86,10 +86,13 @@ public class ManaAttachment extends PlayerResource{
             manaAttachment.value = manaAttachment.maxValue;
             setMana(player,manaAttachment);
             return;
-        } else if(manaAttachment.value == manaAttachment.maxValue){
+        } else if(manaAttachment.value.equals(manaAttachment.maxValue)){
             return;
         }
-        addMana(player, Attribute.getAttribute(player,AttributeType.Intelligence).getValue());
+        long value = Attribute.getAttributeWithEffects(player,AttributeType.Intelligence).getValue();
+        if(value > 0){
+            addMana(player, value);
+        }
     }
 
     private static final AttachmentType<Long> PLAYER_MANA_ATTACHMENT = AttachmentRegistry.create(
