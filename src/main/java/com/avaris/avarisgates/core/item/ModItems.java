@@ -2,13 +2,16 @@ package com.avaris.avarisgates.core.item;
 
 import com.avaris.avarisgates.AvarisGates;
 import com.avaris.avarisgates.core.ModComponents;
+import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroups;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
@@ -44,10 +47,21 @@ public class ModItems {
             RUBY_GEM_ID
     );
 
+    public static final RegistryKey<ItemGroup> AVARISGATES_ITEM_GROUP_KEY = RegistryKey.of(Registries.ITEM_GROUP.getKey(), AvarisGates.id("item_group"));
+    public static final ItemGroup AVARISGATES_ITEM_GROUP = FabricItemGroup.builder()
+            .icon(() -> new ItemStack(ModItems.RUBY_GEM))
+            .displayName(Text.translatable("itemGroup.avarisgates"))
+            .build();
+
     public static void init(){
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT)
+        Registry.register(Registries.ITEM_GROUP, AVARISGATES_ITEM_GROUP_KEY, AVARISGATES_ITEM_GROUP);
+
+        ItemGroupEvents.modifyEntriesEvent(AVARISGATES_ITEM_GROUP_KEY)
                 .register((itemGroup) -> {
                     itemGroup.add(GREAT_SWORD);
+                    itemGroup.add(TEST_SOCKETABLE);
+                    itemGroup.add(RUBY_GEM);
                 });
+
     }
 }
