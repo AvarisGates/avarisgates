@@ -149,7 +149,7 @@ public class PartyManager {
     }
 
     private static boolean isPartyLeader(UUID playerUuid) {
-        return getPartyLeaderUuid(playerUuid) == playerUuid;
+        return Objects.equals(getPartyLeaderUuid(playerUuid),playerUuid);
     }
 
     // Check if two players are in the same party
