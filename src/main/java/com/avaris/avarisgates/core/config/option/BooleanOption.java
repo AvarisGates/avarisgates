@@ -1,6 +1,7 @@
 package com.avaris.avarisgates.core.config.option;
 
 import com.avaris.avarisgates.core.config.ConfigContainer;
+import com.google.gson.JsonPrimitive;
 import org.jetbrains.annotations.Nullable;
 
 public class BooleanOption extends ConfigOption<Boolean> {
@@ -26,7 +27,7 @@ public class BooleanOption extends ConfigOption<Boolean> {
     }
 
     @Override
-    public @Nullable Class<?> getJsonPrimitiveType() {
-        return Boolean.class;
+    public @Nullable JsonPrimitive toJsonPrimitive() {
+        return new JsonPrimitive(this.getValue());
     }
 }

@@ -1,6 +1,7 @@
 package com.avaris.avarisgates.core.config.option;
 
 import com.avaris.avarisgates.core.config.ConfigContainer;
+import com.google.gson.JsonPrimitive;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -62,10 +63,10 @@ public abstract class ConfigOption<T> {
 
     /**
      * A utility function simplifying the JSON config loading process.
-     * @return the class value type if it can be considered a JSON primitive, otherwise null
+     * @return the value if it can be considered a JSON primitive, otherwise null
      */
     @Nullable
-    public Class<?> getJsonPrimitiveType(){
+    public JsonPrimitive toJsonPrimitive(){
         return null;
     }
 }

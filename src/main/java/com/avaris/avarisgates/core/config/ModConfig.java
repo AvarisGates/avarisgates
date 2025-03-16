@@ -30,7 +30,10 @@ public class ModConfig {
     public static final BooleanOption DEBUG_MODE = new BooleanOption("debug_mode", true);
     public static final StringOption HOW_WE_FEELIN = new StringOption("how_we_feelin", "good");
     public static final IntegerOption AM_INTEGER = new IntegerOption("am_integer", -7331);
-    public static final EnumOption<UGood> U_GOOD = new EnumOption<>("U_GOOD", UGood.Yeeeee);
+    public static final EnumOption<UGood> U_GOOD = new EnumOption<>("u_good", UGood.Yeeeee);
+    public static final FloatOption AM_FLOAT = new FloatOption("am_float", 0.0000123f);
+    public static final DoubleOption AM_DOUBLE = new DoubleOption("am_double",1.24442424110001111);
+    public static final LongOption AM_LONG = new LongOption("am_long", 1234567890123456789L);
 
     public enum UGood {
         Yeeeee,

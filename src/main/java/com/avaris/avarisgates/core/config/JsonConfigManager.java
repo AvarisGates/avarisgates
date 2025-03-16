@@ -143,6 +143,57 @@ public class JsonConfigManager extends AbstractConfigManager {
                             }
                         }
                     }
+                }else if(FloatOption.class.isAssignableFrom(field.getType())){
+                    JsonElement element = json.get(fieldName);
+                    if(element == null || !element.isJsonPrimitive()){
+                        this.getLogger().warn("{} not found in config file.",fieldName);
+                        errorFound = true;
+                        continue;
+                    }
+                    try{
+                        float value = element.getAsFloat();
+                        if(!Objects.equals(value,ConfigContainer.getOptionF(fieldName))){
+                            configChanged = true;
+                        }
+                        ConfigContainer.setOptionF(fieldName,value);
+                    }catch (UnsupportedOperationException | NumberFormatException | IllegalStateException e){
+                        this.getLogger().warn("Config file contains an invalid value for {}. Expected Float",fieldName);
+                        errorFound = true;
+                    }
+                }else if(DoubleOption.class.isAssignableFrom(field.getType())){
+                    JsonElement element = json.get(fieldName);
+                    if(element == null || !element.isJsonPrimitive()){
+                        this.getLogger().warn("{} not found in config file.",fieldName);
+                        errorFound = true;
+                        continue;
+                    }
+                    try{
+                        double value = element.getAsDouble();
+                        if(!Objects.equals(value,ConfigContainer.getOptionD(fieldName))){
+                            configChanged = true;
+                        }
+                        ConfigContainer.setOptionD(fieldName,value);
+                    }catch (UnsupportedOperationException | NumberFormatException | IllegalStateException e){
+                        this.getLogger().warn("Config file contains an invalid value for {}. Expected Double",fieldName);
+                        errorFound = true;
+                    }
+                }else if(LongOption.class.isAssignableFrom(field.getType())){
+                    JsonElement element = json.get(fieldName);
+                    if(element == null || !element.isJsonPrimitive()){
+                        this.getLogger().warn("{} not found in config file.",fieldName);
+                        errorFound = true;
+                        continue;
+                    }
+                    try{
+                        Long value = element.getAsLong();
+                        if(!Objects.equals(value,ConfigContainer.getOptionL(fieldName))){
+                            configChanged = true;
+                        }
+                        ConfigContainer.setOptionL(fieldName,value);
+                    }catch (UnsupportedOperationException | NumberFormatException | IllegalStateException e){
+                        this.getLogger().warn("Config file contains an invalid value for {}. Expected Long",fieldName);
+                        errorFound = true;
+                    }
                 }
             }
 
@@ -190,8 +241,9 @@ public class JsonConfigManager extends AbstractConfigManager {
                 }
                 String fieldName = field.getName().toLowerCase(Locale.ROOT);
                 ConfigOption<?> option = (ConfigOption<?>) field.get(null);
-                if(option.getJsonPrimitiveType() != null){
-                    json.add(fieldName, new JsonPrimitive(option.getValue().toString()));
+                JsonPrimitive primitive = option.toJsonPrimitive();
+                if(primitive != null){
+                    json.add(fieldName, primitive);
                 }
                 else if(EnumOption.class.isAssignableFrom(field.getType())){
                     Type generic = ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0];

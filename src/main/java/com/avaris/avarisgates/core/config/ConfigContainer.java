@@ -19,6 +19,9 @@ public class ConfigContainer {
     private static final ConfigMap<String> stringOptions = new ConfigMap<>();
     private static final ConfigMap<Integer> integerOptions = new ConfigMap<>();
     private static final ConfigMap<Enum<?>> enumOptions = new ConfigMap<>();
+    private static final ConfigMap<Float> floatOptions = new ConfigMap<>();
+    private static final ConfigMap<Double> doubleOptions = new ConfigMap<>();
+    private static final ConfigMap<Long> longOptions = new ConfigMap<>();
 
     private static boolean isInTransaction = false;
 
@@ -37,6 +40,9 @@ public class ConfigContainer {
         stringOptions.beginTransaction();
         integerOptions.beginTransaction();
         enumOptions.beginTransaction();
+        floatOptions.beginTransaction();
+        doubleOptions.beginTransaction();
+        longOptions.beginTransaction();
         return true;
     }
 
@@ -56,6 +62,9 @@ public class ConfigContainer {
         stringOptions.endTransaction(discard);
         integerOptions.endTransaction(discard);
         enumOptions.endTransaction(discard);
+        floatOptions.endTransaction(discard);
+        doubleOptions.endTransaction(discard);
+        longOptions.endTransaction(discard);
         return true;
     }
 
@@ -163,5 +172,65 @@ public class ConfigContainer {
      */
     public static boolean setOptionERaw(String name, Enum<?> value) {
         return enumOptions.put(name, value) != null;
+    }
+
+    /**
+     * Retrieves the value of a Float option.
+     * @param name name of the option
+     * @return value of the option or null if the option doesn't exist
+     */
+    public static Float getOptionF(String name) {
+        return floatOptions.get(name);
+    }
+
+    /**
+     * Sets the specified value for the Float option.
+     * If in a transaction the option is saved in a temporary variable.
+     * @param name name of the option
+     * @param value the new value to be set for the option
+     * @return true if the option had a previous value, otherwise false
+     */
+    public static boolean setOptionF(String name, Float value) {
+        return floatOptions.put(name, value) != null;
+    }
+
+    /**
+     * Retrieves the value of a Double option.
+     * @param name name of the option
+     * @return value of the option or null if the option doesn't exist
+     */
+    public static Double getOptionD(String name) {
+        return doubleOptions.get(name);
+    }
+
+    /**
+     * Sets the specified value for the Double option.
+     * If in a transaction the option is saved in a temporary variable.
+     * @param name name of the option
+     * @param value the new value to be set for the option
+     * @return true if the option had a previous value, otherwise false
+     */
+    public static boolean setOptionD(String name, Double value) {
+        return doubleOptions.put(name, value) != null;
+    }
+
+    /**
+     * Retrieves the value of a Long option.
+     * @param name name of the option
+     * @return value of the option or null if the option doesn't exist
+     */
+    public static Long getOptionL(String name) {
+        return longOptions.get(name);
+    }
+
+    /**
+     * Sets the specified value for the Long option.
+     * If in a transaction the option is saved in a temporary variable.
+     * @param name name of the option
+     * @param value the new value to be set for the option
+     * @return true if the option had a previous value, otherwise false
+     */
+    public static boolean setOptionL(String name, Long value) {
+        return longOptions.put(name, value) != null;
     }
 }

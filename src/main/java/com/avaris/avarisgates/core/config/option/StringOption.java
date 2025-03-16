@@ -1,6 +1,7 @@
 package com.avaris.avarisgates.core.config.option;
 
 import com.avaris.avarisgates.core.config.ConfigContainer;
+import com.google.gson.JsonPrimitive;
 
 public class StringOption extends ConfigOption<String> {
 
@@ -24,7 +25,7 @@ public class StringOption extends ConfigOption<String> {
     }
 
     @Override
-    public Class<?> getJsonPrimitiveType() {
-        return String.class;
+    public JsonPrimitive toJsonPrimitive() {
+        return new JsonPrimitive(this.getValue());
     }
 }
