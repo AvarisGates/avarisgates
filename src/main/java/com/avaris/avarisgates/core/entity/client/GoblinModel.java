@@ -2,6 +2,7 @@ package com.avaris.avarisgates.core.entity.client;
 
 import com.avaris.avarisgates.AvarisGates;
 import com.avaris.avarisgates.core.entity.custom.GoblinEntity;
+import com.avaris.avarisgates.core.entity.state.GoblinRenderState;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
@@ -12,7 +13,7 @@ import net.minecraft.util.math.MathHelper;
 
 import java.util.Optional;
 
-public class GoblinModel extends EntityModel<GoblinEntity> {
+public class GoblinModel extends EntityModel<GoblinRenderState> {
     public static final EntityModelLayer GOBLIN = new EntityModelLayer(Identifier.of(AvarisGates.MOD_ID, "goblin"), "main");
 
     private final ModelPart goblin;
@@ -62,13 +63,14 @@ public class GoblinModel extends EntityModel<GoblinEntity> {
                 .uv(0, 48).cuboid(-2.0F, 0.0F, -2.0F, 4.0F, 10.0F, 4.0F, new Dilation(0.25F)), ModelTransform.of(1.9F, -10.0F, 0.0F, -0.1745F, 0.0F, -0.0349F));
         return TexturedModelData.of(modelData, 64, 64);
     }
-    @Override
+
     public void setAngles(GoblinEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         this.getPart().traverse().forEach(ModelPart::resetTransform);
         this.setHeadAngles(netHeadYaw, headPitch);
 
-        this.animateMovement(GoblinAnimations.ANIMATION_GOBLIN_IDLE, limbSwing, limbSwingAmount, 2f, 2.5f); //TODO: CHANGE THIS WITH A WALKING ANIMATION
-        this.updateAnimation(entity.idleAnimationState, GoblinAnimations.ANIMATION_GOBLIN_IDLE, ageInTicks, 1f);
+        //TODO: TO FIX ç_ç i'm sorry future self
+        //this.animateMovement(GoblinAnimations.ANIMATION_GOBLIN_IDLE, limbSwing, limbSwingAmount, 2f, 2.5f); //TODO: CHANGE THIS WITH A WALKING ANIMATION
+        //this.updateAnimation(entity.idleAnimationState, GoblinAnimations.ANIMATION_GOBLIN_IDLE, ageInTicks, 1f);
     }
 
     private void setHeadAngles(float headYaw, float headPitch) {
@@ -79,12 +81,12 @@ public class GoblinModel extends EntityModel<GoblinEntity> {
         this.head.pitch = headPitch * 0.017453292F;
     }
 
-    @Override
+
     public void renderToBuffer(MatrixStack matrices, VertexConsumer vertexConsumer, int light, int overlay, int color) {
         goblin.render(matrices, vertexConsumer, light, overlay, color);
     }
 
-    @Override
+
     public ModelPart getPart() {
         return goblin;
     }
