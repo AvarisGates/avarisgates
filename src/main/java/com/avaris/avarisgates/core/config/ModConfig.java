@@ -11,6 +11,15 @@ import com.avaris.avarisgates.core.config.option.*;
  * For example:<br>
  * {@code DEBUG_MODE.setValue(false);}<br><br>
  *
+ * To add a new option add a filed to this class of your type choice,<br>
+ * initialized with the type's constructor, option name and default value.<br>
+ * Option name MUST match the field name (case-insensitive).<br>
+ * For example:<br>
+ * {@code public static final BooleanOption DEBUG_MODE = new BooleanOption("debug_mode",true);}<br>
+ * Notice that the field name -{@code DEBUG_MODE}matches the option name -{@code "debug_mode"}.<br>
+ * This is all you need. Now the option will be saved, loaded and accessible at runtime.<br><br>
+ *
+ *
  * Options are loaded using{@link AbstractConfigManager#loadConfig()}
  * (use an implementation ex:{@link JsonConfigManager})<br><br>
  *
