@@ -1,5 +1,9 @@
-package com.avaris.avarisgates.core.api.config;
+package com.avaris.avarisgates;
 
+import com.avaris.avarisgates.core.api.config.AbstractConfigManager;
+import com.avaris.avarisgates.core.api.config.ConfigContainer;
+import com.avaris.avarisgates.core.api.config.IModConfig;
+import com.avaris.avarisgates.core.api.config.JsonConfigManager;
 import com.avaris.avarisgates.core.api.config.option.*;
 
 /**
@@ -35,7 +39,7 @@ import com.avaris.avarisgates.core.api.config.option.*;
  * @see AbstractConfigManager
  * @see ConfigContainer
  */
-public class ModConfig {
+public class ModConfig implements IModConfig {
     public static final BooleanOption DEBUG_MODE = new BooleanOption("debug_mode", true);
     public static final StringOption HOW_WE_FEELIN = new StringOption("how_we_feelin", "good");
     public static final IntegerOption AM_INTEGER = new IntegerOption("am_integer", -7331);
@@ -51,9 +55,5 @@ public class ModConfig {
         IDK,
         Maybe,
         IHaveNoIdea;
-    }
-
-    // Another dummy function to initialize static members
-    public static void init() {
     }
 }

@@ -1,5 +1,6 @@
 package com.avaris.avarisgates.core.api.config;
 
+import com.avaris.avarisgates.ModConfig;
 import com.avaris.avarisgates.core.api.config.option.*;
 import com.google.gson.*;
 import org.slf4j.Logger;
@@ -20,13 +21,17 @@ import java.util.Objects;
 /**
  * An implementation of{@link AbstractConfigManager}used for saving and loading JSON config files.
  * @see ConfigContainer
- * @see ModConfig
+ * @see IModConfig
  */
 public class JsonConfigManager extends AbstractConfigManager {
     private static final Gson GSON = new Gson().newBuilder().setPrettyPrinting().create();
     private static final String CONFIG_FILE_NAME = "avarisgates.json";
     private static final Logger LOGGER = LoggerFactory.getLogger("AvarisGates|JsonConfigManager");
-    private static final JsonConfigManager INSTANCE = new JsonConfigManager();
+    private static final JsonConfigManager INSTANCE = new JsonConfigManager(ModConfig.class);
+
+    protected JsonConfigManager(Class<? extends IModConfig> modConfigClass) {
+        super(modConfigClass);
+    }
 
     public static JsonConfigManager getInstance(){
         return INSTANCE;
@@ -68,7 +73,7 @@ public class JsonConfigManager extends AbstractConfigManager {
                 this.getLogger().warn("ConfigContainer is already in a transaction, this may cause issues.");
             }
 
-            for(Field field : ModConfig.class.getDeclaredFields()){
+            for(Field field : this.modConfigClass.getDeclaredFields()){
                 if(!this.shouldSaveField(field)){
                     continue;
                 }
@@ -235,7 +240,7 @@ public class JsonConfigManager extends AbstractConfigManager {
         }
         JsonObject json = new JsonObject();
         try{
-            for(Field field : ModConfig.class.getDeclaredFields()){
+            for(Field field : this.modConfigClass.getDeclaredFields()){
                 if(!this.shouldSaveField(field)){
                     continue;
                 }

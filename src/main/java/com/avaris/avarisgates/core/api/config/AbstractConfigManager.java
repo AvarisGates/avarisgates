@@ -1,5 +1,6 @@
 package com.avaris.avarisgates.core.api.config;
 
+import com.avaris.avarisgates.ModConfig;
 import com.avaris.avarisgates.core.api.config.option.ConfigOption;
 import com.avaris.avarisgates.core.api.event.ConfigEvents;
 import net.fabricmc.loader.api.FabricLoader;
@@ -22,6 +23,12 @@ public abstract class AbstractConfigManager {
      * Each ConfigManager subclass can have different paths (mostly for different extensions).
      */
     protected Path configPath = null;
+
+    protected final Class<? extends IModConfig> modConfigClass;
+
+    protected AbstractConfigManager(Class<? extends IModConfig> modConfigClass) {
+        this.modConfigClass = modConfigClass;
+    }
 
     /**
      * This method allows us to create a specific logger for each ConfigManager,
@@ -71,7 +78,7 @@ public abstract class AbstractConfigManager {
      * @see AbstractConfigManager#configPath
      */
     protected boolean setupConfigPath(){
-        ModConfig.init();
+        IModConfig.init();
         if(configPath != null){
             this.getLogger().info("Config path found: {}",this.configPath);
             return true;
@@ -90,7 +97,7 @@ public abstract class AbstractConfigManager {
             return;
         }
         this.getLogger().info("Debug mode enabled");
-        for(Field field : ModConfig.class.getDeclaredFields()){
+        for(Field field : modConfigClass.getDeclaredFields()){
             if(!this.shouldSaveField(field)){
                 continue;
             }

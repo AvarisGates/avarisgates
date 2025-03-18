@@ -1,5 +1,6 @@
 package com.avaris.avarisgates.core.api.config;
 
+import com.avaris.avarisgates.ModConfig;
 import com.avaris.avarisgates.core.api.config.option.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,10 +15,19 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
 
+/**
+ * An implementation of{@link AbstractConfigManager}used for saving and loading the java properties config files.
+ * @see ConfigContainer
+ * @see IModConfig
+ */
 public class PropertiesConfigManager extends AbstractConfigManager{
     private static final String CONFIG_FILE_NAME = "avarisgates.properties";
     private static final Logger LOGGER = LoggerFactory.getLogger("AvarisGates|PropertiesConfigManager");
-    private static final PropertiesConfigManager INSTANCE = new PropertiesConfigManager();
+    private static final PropertiesConfigManager INSTANCE = new PropertiesConfigManager(ModConfig.class);
+
+    protected PropertiesConfigManager(Class<? extends IModConfig> modConfigClass) {
+        super(modConfigClass);
+    }
 
     public static PropertiesConfigManager getInstance(){
        return INSTANCE;
@@ -50,7 +60,7 @@ public class PropertiesConfigManager extends AbstractConfigManager{
             properties.load(reader);
             reader.close();
             ConfigContainer.beginTransaction();
-            for(Field field : ModConfig.class.getDeclaredFields()){
+            for(Field field : this.modConfigClass.getDeclaredFields()){
                 if(!this.shouldSaveField(field)){
                     continue;
                 }
@@ -115,7 +125,7 @@ public class PropertiesConfigManager extends AbstractConfigManager{
     public boolean saveConfig() {
         Properties properties = new Properties();
         try{
-            for(Field field : ModConfig.class.getDeclaredFields()){
+            for(Field field : modConfigClass.getDeclaredFields()){
                 String fieldName = field.getName().toLowerCase(Locale.ROOT);
                 ConfigOption<?> option = (ConfigOption<?>) field.get(null);
                 properties.put(fieldName,option.getValue().toString().toLowerCase(Locale.ROOT));
