@@ -1,7 +1,7 @@
 package com.avaris.avarisgates.mixin;
 
-import com.avaris.avarisgates.core.player.attribute.Attribute;
-import com.avaris.avarisgates.core.player.attribute.AttributeType;
+import com.avaris.avarisgates.common.player.attribute.Attribute;
+import com.avaris.avarisgates.common.player.attribute.AttributeType;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.server.network.ServerPlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;

@@ -14,6 +14,6 @@ public class PlayerManagerMixin {
 
     @Inject(method = "onPlayerConnect",at = @At("RETURN"))
     void onPlayerConnect(ClientConnection connection, ServerPlayerEntity player, ConnectedClientData clientData, CallbackInfo ci){
-        com.avaris.avarisgates.core.player.PlayerManager.onPlayerConnect(connection,player,clientData);
+        com.avaris.avarisgates.common.player.PlayerManager.onPlayerConnect(connection,player,clientData);
     }
 }

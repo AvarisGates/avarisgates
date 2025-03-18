@@ -1,16 +1,16 @@
 package com.avaris.avarisgates.client;
 
-import com.avaris.avarisgates.core.currency.CurrencyAttachment;
-import com.avaris.avarisgates.core.entity.ModEntities;
+import com.avaris.avarisgates.common.currency.CurrencyAttachment;
+import com.avaris.avarisgates.common.entity.ModEntities;
 import com.avaris.avarisgates.core.api.event.ClientLifecycleEvents;
-import com.avaris.avarisgates.core.network.CastPlayerClassAbilityC2S;
-import com.avaris.avarisgates.core.network.ChangeAbilityS2C;
-import com.avaris.avarisgates.core.player.ManaAttachment;
-import com.avaris.avarisgates.core.player.ability.AbilitySlot;
-import com.avaris.avarisgates.core.player.ability.AttachedAbility;
-import com.avaris.avarisgates.core.player.attribute.Attribute;
-import com.avaris.avarisgates.core.player.attribute.AttributeType;
-import com.avaris.avarisgates.core.player.player_class.PlayerClass;
+import com.avaris.avarisgates.common.network.CastPlayerClassAbilityC2S;
+import com.avaris.avarisgates.common.network.ChangeAbilityS2C;
+import com.avaris.avarisgates.common.player.ManaAttachment;
+import com.avaris.avarisgates.common.player.ability.AbilitySlot;
+import com.avaris.avarisgates.common.player.ability.AttachedAbility;
+import com.avaris.avarisgates.common.player.attribute.Attribute;
+import com.avaris.avarisgates.common.player.attribute.AttributeType;
+import com.avaris.avarisgates.common.player.player_class.PlayerClass;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
