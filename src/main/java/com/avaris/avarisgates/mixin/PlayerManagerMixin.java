@@ -1,5 +1,6 @@
 package com.avaris.avarisgates.mixin;
 
+import com.avaris.avarisgates.core.api.event.PlayerEvents;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.server.PlayerManager;
 import net.minecraft.server.network.ConnectedClientData;
@@ -14,6 +15,6 @@ public class PlayerManagerMixin {
 
     @Inject(method = "onPlayerConnect",at = @At("RETURN"))
     void onPlayerConnect(ClientConnection connection, ServerPlayerEntity player, ConnectedClientData clientData, CallbackInfo ci){
-        com.avaris.avarisgates.common.player.PlayerManager.onPlayerConnect(connection,player,clientData);
+        PlayerEvents.PLAYER_JOIN_EX_EVENT.invoker().onPlayerJoin(connection,player,clientData);
     }
 }

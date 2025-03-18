@@ -1,5 +1,6 @@
 package com.avaris.avarisgates;
 
+import com.avaris.avarisgates.common.player.PlayerManager;
 import com.avaris.avarisgates.core.AttributeFix;
 import com.avaris.avarisgates.common.ModComponents;
 import com.avaris.avarisgates.common.command.ModCommands;
@@ -17,6 +18,7 @@ import com.avaris.avarisgates.common.player.ability.AbilitySlot;
 import com.avaris.avarisgates.common.player.attribute.Attribute;
 import com.avaris.avarisgates.common.player.attribute.AttributeType;
 import com.avaris.avarisgates.common.player.player_class.PlayerClass;
+import com.avaris.avarisgates.core.api.event.PlayerEvents;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
@@ -60,6 +62,7 @@ public class AvarisGates implements ModInitializer {
         ModPackets.init();
         ModEntities.init();
         ModCommands.init();
+        PlayerManager.init();
         ServerTickEvents.END_SERVER_TICK.register((minecraftServer)->{
             dungeonManager.tick(minecraftServer);
             if(minecraftServer.getTicks() % 20 == 0){

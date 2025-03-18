@@ -8,6 +8,7 @@ import com.avaris.avarisgates.common.player.ability.*;
 import com.avaris.avarisgates.common.player.attribute.Attribute;
 import com.avaris.avarisgates.common.player.player_class.PlayerClass;
 import com.avaris.avarisgates.common.player.player_class.PlayerClassType;
+import com.avaris.avarisgates.core.api.event.PlayerEvents;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.ClientConnection;
@@ -79,5 +80,9 @@ public class PlayerManager {
         long newValue = Attribute.getAttributeValue(context.player(), packet.type()).getValue() + 1;
         Attribute.setAttribute(context.player(),packet.type(),newValue);
         context.player().sendMessage(Text.literal(packet.type().name() + " set to " + newValue));
+    }
+
+    public static void init() {
+        PlayerEvents.PLAYER_JOIN_EX_EVENT.register(PlayerManager::onPlayerConnect);
     }
 }
