@@ -39,13 +39,13 @@ public abstract class AbstractConfigManager {
      * Loads config from the {@link AbstractConfigManager#configPath}.
      * @return true if the config was successfully loaded, otherwise false
      */
-    abstract boolean loadConfig();
+    public abstract boolean loadConfig();
 
     /**
      * Saves config to the {@link AbstractConfigManager#configPath}.
      * @return true if the config was successfully saved, otherwise false
      */
-    abstract boolean saveConfig();
+    public abstract boolean saveConfig();
 
     /**
      * Check if a field should be saved/loaded to/from the config file

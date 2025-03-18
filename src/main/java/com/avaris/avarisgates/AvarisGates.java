@@ -3,7 +3,9 @@ package com.avaris.avarisgates;
 import com.avaris.avarisgates.core.AttributeFix;
 import com.avaris.avarisgates.core.ModComponents;
 import com.avaris.avarisgates.core.command.ModCommands;
+import com.avaris.avarisgates.core.config.AbstractConfigManager;
 import com.avaris.avarisgates.core.config.JsonConfigManager;
+import com.avaris.avarisgates.core.config.PropertiesConfigManager;
 import com.avaris.avarisgates.core.currency.CurrencyAttachment;
 import com.avaris.avarisgates.core.dungeon.DungeonManager;
 import com.avaris.avarisgates.core.entity.ModEntities;
@@ -34,6 +36,9 @@ public class AvarisGates implements ModInitializer {
 
     public static DungeonManager dungeonManager = new DungeonManager();
 
+    // Set default config manager here, use any implementation
+    public static final AbstractConfigManager CONFIG_MANAGER = PropertiesConfigManager.getInstance();
+
     @Override
     public void onInitialize() {
 
@@ -44,7 +49,7 @@ public class AvarisGates implements ModInitializer {
         ManaAttachment.init();
         CurrencyAttachment.init();
 
-        JsonConfigManager.INSTANCE.loadConfig();
+        CONFIG_MANAGER.loadConfig();
 
         ModComponents.init();
         ModItems.init();

@@ -26,7 +26,11 @@ public class JsonConfigManager extends AbstractConfigManager {
     private static final Gson GSON = new Gson().newBuilder().setPrettyPrinting().create();
     private static final String CONFIG_FILE_NAME = "avarisgates.json";
     private static final Logger LOGGER = LoggerFactory.getLogger("AvarisGates|JsonConfigManager");
-    public static final JsonConfigManager INSTANCE = new JsonConfigManager();
+    private static final JsonConfigManager INSTANCE = new JsonConfigManager();
+
+    public static JsonConfigManager getInstance(){
+        return INSTANCE;
+    }
 
     @Override
     protected Logger getLogger() {

@@ -43,6 +43,7 @@ public class ModConfig {
     public static final FloatOption AM_FLOAT = new FloatOption("am_float", 0.0000123f);
     public static final DoubleOption AM_DOUBLE = new DoubleOption("am_double",1.24442424110001111);
     public static final LongOption AM_LONG = new LongOption("am_long", 1234567890123456789L);
+    public static final BooleanOption PRINT_ATTRIBUTE_FIX_INFO = new BooleanOption("print_attribute_fix_info",false);
 
     public enum UGood {
         Yeeeee,
