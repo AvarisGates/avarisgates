@@ -1,4 +1,4 @@
-package com.avaris.avarisgates.client;
+package com.avaris.avarisgates.client.keyboard;
 
 import com.avaris.avarisgates.common.network.CastPlayerClassAbilityC2S;
 import com.avaris.avarisgates.common.network.ChangeAbilityS2C;

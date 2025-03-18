@@ -1,4 +1,4 @@
-package com.avaris.avarisgates.client;
+package com.avaris.avarisgates.client.keyboard;
 
 import com.avaris.avarisgates.common.player.ability.PlayerClassAbilityType;
 import net.minecraft.client.option.KeyBinding;

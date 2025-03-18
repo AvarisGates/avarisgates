@@ -1,6 +1,6 @@
 package com.avaris.avarisgates.mixin.client;
 
-import com.avaris.avarisgates.client.InventoryRenderer;
+import com.avaris.avarisgates.client.render.InventoryRenderer;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.gui.screen.ingame.RecipeBookScreen;
 import org.spongepowered.asm.mixin.Mixin;

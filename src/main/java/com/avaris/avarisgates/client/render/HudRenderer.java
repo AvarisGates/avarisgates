@@ -1,6 +1,7 @@
-package com.avaris.avarisgates.client;
+package com.avaris.avarisgates.client.render;
 
 import com.avaris.avarisgates.AvarisGates;
+import com.avaris.avarisgates.client.AvarisGatesClient;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;

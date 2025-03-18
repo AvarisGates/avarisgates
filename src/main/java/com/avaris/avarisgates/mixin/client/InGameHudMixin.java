@@ -1,6 +1,6 @@
 package com.avaris.avarisgates.mixin.client;
 
-import com.avaris.avarisgates.client.HudRenderer;
+import com.avaris.avarisgates.client.render.HudRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.render.RenderTickCounter;

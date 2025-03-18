@@ -1,5 +1,6 @@
 package com.avaris.avarisgates.client;
 
+import com.avaris.avarisgates.client.keyboard.ClientKeyBinds;
 import com.avaris.avarisgates.common.currency.CurrencyAttachment;
 import com.avaris.avarisgates.common.entity.ModEntities;
 import com.avaris.avarisgates.core.api.event.ClientLifecycleEvents;

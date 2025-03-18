@@ -1,6 +1,7 @@
-package com.avaris.avarisgates.client;
+package com.avaris.avarisgates.client.render;
 
 import com.avaris.avarisgates.AvarisGates;
+import com.avaris.avarisgates.client.AvarisGatesClient;
 import com.avaris.avarisgates.common.network.RequestAttributeIncrementC2S;
 import com.avaris.avarisgates.common.player.attribute.AttributeType;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;

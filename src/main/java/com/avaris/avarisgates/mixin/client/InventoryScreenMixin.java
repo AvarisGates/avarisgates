@@ -1,6 +1,6 @@
 package com.avaris.avarisgates.mixin.client;
 
-import com.avaris.avarisgates.client.InventoryRenderer;
+import com.avaris.avarisgates.client.render.InventoryRenderer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
