@@ -23,6 +23,12 @@ public class PlayerEvents {
         PlayerEvents.PLAYER_JOIN_EVENT.invoker().onPlayerJoin(player);
     });
 
+    public static final Event<PlayerLeave> PLAYER_LEAVE_EVENT = EventFactory.createArrayBacked(PlayerLeave.class,(callbacks) -> (player) ->{
+        for(var callback : callbacks){
+            callback.onPlayerLeave(player);
+        }
+    });
+
     @FunctionalInterface
     public interface PlayerJoin{
         void onPlayerJoin(ServerPlayerEntity player);
@@ -31,5 +37,10 @@ public class PlayerEvents {
     @FunctionalInterface
     public interface PlayerJoinEx{
         void onPlayerJoin(ClientConnection connection, ServerPlayerEntity player, ConnectedClientData clientData);
+    }
+
+    @FunctionalInterface
+    public interface PlayerLeave{
+        void onPlayerLeave(ServerPlayerEntity player);
     }
 }

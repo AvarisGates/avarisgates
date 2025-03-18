@@ -15,6 +15,12 @@ public class PlayerManagerMixin {
 
     @Inject(method = "onPlayerConnect",at = @At("RETURN"))
     void onPlayerConnect(ClientConnection connection, ServerPlayerEntity player, ConnectedClientData clientData, CallbackInfo ci){
+        // PLAYER_JOIN_EX_EVENT implicitly calls PLAYER_JOIN_EVENT
         PlayerEvents.PLAYER_JOIN_EX_EVENT.invoker().onPlayerJoin(connection,player,clientData);
+    }
+
+    @Inject(method = "remove", at = @At("HEAD"))
+    void onPlayerDisconnect(ServerPlayerEntity player, CallbackInfo ci){
+       PlayerEvents.PLAYER_LEAVE_EVENT.invoker().onPlayerLeave(player);
     }
 }
