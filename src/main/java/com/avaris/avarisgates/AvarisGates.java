@@ -51,21 +51,6 @@ public class AvarisGates implements ModInitializer {
         ManaAttachment.init();
         CurrencyAttachment.init();
 
-        ConfigEvents.CONFIG_LOADED_EVENT.register(() -> {
-            CONFIG_MANAGER.getLogger().info("Loaded config");
-            if(ModConfig.DEBUG_MODE.getValue()){
-                CONFIG_MANAGER.getLogger().info("Debug mode enabled");
-                CONFIG_MANAGER.printConfig();
-            }
-        });
-        ConfigEvents.CONFIG_SAVED_EVENT.register(() -> {
-            CONFIG_MANAGER.getLogger().info("Config successfully saved");
-            if(ModConfig.DEBUG_MODE.getValue()){
-                CONFIG_MANAGER.getLogger().info("Debug mode enabled");
-                CONFIG_MANAGER.printConfig();
-            }
-        });
-
         CONFIG_MANAGER.loadConfig();
 
         ModComponents.init();

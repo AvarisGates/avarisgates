@@ -1,5 +1,7 @@
 package com.avaris.avarisgates.core.event;
 
+import com.avaris.avarisgates.AvarisGates;
+import com.avaris.avarisgates.core.config.ModConfig;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 
@@ -10,11 +12,25 @@ public class ConfigEvents {
         }
     });
 
+    static {
+        ConfigEvents.CONFIG_LOADED_EVENT.register(() -> {
+            AvarisGates.CONFIG_MANAGER.getLogger().info("Config successfully loaded");
+            AvarisGates.CONFIG_MANAGER.printConfig();
+        });
+    }
+
     public static final Event<ConfigSaved> CONFIG_SAVED_EVENT = EventFactory.createArrayBacked(ConfigSaved.class,(callbacks) -> () -> {
         for(var callback : callbacks){
             callback.onConfigSaved();
         }
     });
+
+    static {
+        ConfigEvents.CONFIG_SAVED_EVENT.register(() -> {
+            AvarisGates.CONFIG_MANAGER.getLogger().info("Config successfully saved");
+            AvarisGates.CONFIG_MANAGER.printConfig();
+        });
+    }
 
     @FunctionalInterface
     public interface ConfigLoaded {

@@ -1,5 +1,6 @@
 package com.avaris.avarisgates.core.config;
 
+import com.avaris.avarisgates.AvarisGates;
 import com.avaris.avarisgates.core.config.option.ConfigOption;
 import com.avaris.avarisgates.core.event.ConfigEvents;
 import net.fabricmc.loader.api.FabricLoader;
@@ -86,6 +87,10 @@ public abstract class AbstractConfigManager {
      * Prints the config options from the{@link ModConfig}class.
      */
     public void printConfig(){
+        if(!ModConfig.DEBUG_MODE.getValue()){
+            return;
+        }
+        this.getLogger().info("Debug mode enabled");
         for(Field field : ModConfig.class.getDeclaredFields()){
             if(!this.shouldSaveField(field)){
                 continue;
