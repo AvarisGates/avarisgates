@@ -1,8 +1,7 @@
-package com.avaris.avarisgates.core.config;
+package com.avaris.avarisgates.core.api.config;
 
-import com.avaris.avarisgates.AvarisGates;
-import com.avaris.avarisgates.core.config.option.ConfigOption;
-import com.avaris.avarisgates.core.event.ConfigEvents;
+import com.avaris.avarisgates.core.api.config.option.ConfigOption;
+import com.avaris.avarisgates.core.api.event.ConfigEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import org.slf4j.Logger;
 

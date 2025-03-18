@@ -1,4 +1,4 @@
-package com.avaris.avarisgates.core.config;
+package com.avaris.avarisgates.core.api.config;
 
 import org.jetbrains.annotations.Nullable;
 

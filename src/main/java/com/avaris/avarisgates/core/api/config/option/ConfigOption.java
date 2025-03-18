@@ -1,6 +1,6 @@
-package com.avaris.avarisgates.core.config.option;
+package com.avaris.avarisgates.core.api.config.option;
 
-import com.avaris.avarisgates.core.config.ConfigContainer;
+import com.avaris.avarisgates.core.api.config.ConfigContainer;
 import com.google.gson.JsonPrimitive;
 import org.jetbrains.annotations.Nullable;
 

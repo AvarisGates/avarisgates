@@ -1,6 +1,6 @@
 package com.avaris.avarisgates.core;
 
-import com.avaris.avarisgates.core.config.ModConfig;
+import com.avaris.avarisgates.core.api.config.ModConfig;
 import com.avaris.avarisgates.mixin.ClampedEntityAttributeAccessor;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.registry.Registries;

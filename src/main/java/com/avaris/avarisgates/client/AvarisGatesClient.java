@@ -2,7 +2,7 @@ package com.avaris.avarisgates.client;
 
 import com.avaris.avarisgates.core.currency.CurrencyAttachment;
 import com.avaris.avarisgates.core.entity.ModEntities;
-import com.avaris.avarisgates.core.event.ClientLifecycleEvents;
+import com.avaris.avarisgates.core.api.event.ClientLifecycleEvents;
 import com.avaris.avarisgates.core.network.CastPlayerClassAbilityC2S;
 import com.avaris.avarisgates.core.network.ChangeAbilityS2C;
 import com.avaris.avarisgates.core.player.ManaAttachment;

@@ -1,6 +1,6 @@
-package com.avaris.avarisgates.core.config;
+package com.avaris.avarisgates.core.api.config;
 
-import com.avaris.avarisgates.core.config.option.*;
+import com.avaris.avarisgates.core.api.config.option.*;
 import com.google.gson.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

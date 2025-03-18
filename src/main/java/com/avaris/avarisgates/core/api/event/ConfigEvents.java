@@ -1,7 +1,6 @@
-package com.avaris.avarisgates.core.event;
+package com.avaris.avarisgates.core.api.event;
 
 import com.avaris.avarisgates.AvarisGates;
-import com.avaris.avarisgates.core.config.ModConfig;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 

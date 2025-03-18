@@ -1,6 +1,6 @@
-package com.avaris.avarisgates.core.config.option;
+package com.avaris.avarisgates.core.api.config.option;
 
-import com.avaris.avarisgates.core.config.ConfigContainer;
+import com.avaris.avarisgates.core.api.config.ConfigContainer;
 
 public class EnumOption<E extends Enum<E>> extends ConfigOption<E> {
     private final Class<E> enumClass;

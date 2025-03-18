@@ -1,8 +1,6 @@
-package com.avaris.avarisgates.core.config;
+package com.avaris.avarisgates.core.api.config;
 
-import com.avaris.avarisgates.core.config.option.*;
-import net.minecraft.client.option.SimpleOption;
-import net.minecraft.util.DelegatingDataOutput;
+import com.avaris.avarisgates.core.api.config.option.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

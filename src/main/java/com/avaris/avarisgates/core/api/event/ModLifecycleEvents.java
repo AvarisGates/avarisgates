@@ -1,13 +1,10 @@
-package com.avaris.avarisgates.core.event;
+package com.avaris.avarisgates.core.api.event;
 
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 
-@Environment(EnvType.CLIENT)
-public class ClientLifecycleEvents {
+public class ModLifecycleEvents {
     public static final Event<Initialize> INITIALIZE_EVENT = EventFactory.createArrayBacked(Initialize.class,(callbacks) -> () -> {
         for(var callback : callbacks){
             callback.onInitialize();

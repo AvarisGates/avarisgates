@@ -1,29 +1,29 @@
-package com.avaris.avarisgates.core.config.option;
+package com.avaris.avarisgates.core.api.config.option;
 
-import com.avaris.avarisgates.core.config.ConfigContainer;
+import com.avaris.avarisgates.core.api.config.ConfigContainer;
 import com.google.gson.JsonPrimitive;
 import org.jetbrains.annotations.Nullable;
 
-public class LongOption extends ConfigOption<Long> {
+public class FloatOption extends ConfigOption<Float> {
 
     /**
-     * Creates a new {@code LongOption} instance with the specified name and default value.
+     * Creates a new {@code FloatOption} instance with the specified name and default value.
      * Sets the default value in {@link ConfigContainer}.
      * @param name the name of the configuration option must match the variable name (case-insensitive), to be saved properly
      * @param defaultValue the default value of the configuration option
      */
-    public LongOption(String name, long defaultValue) {
+    public FloatOption(String name, float defaultValue) {
         super(name, defaultValue);
     }
 
     @Override
-    public Long getValue() {
-        return ConfigContainer.getOptionL(this.getName());
+    public Float getValue() {
+        return ConfigContainer.getOptionF(this.getName());
     }
 
     @Override
-    public boolean setValue(Long value) {
-        return ConfigContainer.setOptionL(this.getName(), value);
+    public boolean setValue(Float value) {
+        return ConfigContainer.setOptionF(this.getName(), value);
     }
 
     @Override

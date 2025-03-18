@@ -1,6 +1,6 @@
-package com.avaris.avarisgates.core.config;
+package com.avaris.avarisgates.core.api.config;
 
-import com.avaris.avarisgates.core.config.option.*;
+import com.avaris.avarisgates.core.api.config.option.*;
 
 /**
  * This class houses options used by the mod.<br>
