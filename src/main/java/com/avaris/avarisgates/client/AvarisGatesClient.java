@@ -2,6 +2,7 @@ package com.avaris.avarisgates.client;
 
 import com.avaris.avarisgates.core.currency.CurrencyAttachment;
 import com.avaris.avarisgates.core.entity.ModEntities;
+import com.avaris.avarisgates.core.event.ClientLifecycleEvents;
 import com.avaris.avarisgates.core.network.CastPlayerClassAbilityC2S;
 import com.avaris.avarisgates.core.network.ChangeAbilityS2C;
 import com.avaris.avarisgates.core.player.ManaAttachment;
@@ -72,6 +73,8 @@ public class AvarisGatesClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
 
+        ClientLifecycleEvents.INITIALIZE_EVENT.invoker().onInitialize();
+
         ClientKeyBinds.init();
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
@@ -81,6 +84,8 @@ public class AvarisGatesClient implements ClientModInitializer {
         ModEntities.registerEntityRenderers();
 
         ClientPlayNetworking.registerGlobalReceiver(ChangeAbilityS2C.ID, ClientKeyBinds::receiveChangeAbility);
+
+        ClientLifecycleEvents.INITIALIZED_EVENT.invoker().onInitialized();
     }
 
 }

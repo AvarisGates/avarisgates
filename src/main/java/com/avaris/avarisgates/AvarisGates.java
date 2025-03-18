@@ -11,6 +11,7 @@ import com.avaris.avarisgates.core.currency.CurrencyAttachment;
 import com.avaris.avarisgates.core.dungeon.DungeonManager;
 import com.avaris.avarisgates.core.entity.ModEntities;
 import com.avaris.avarisgates.core.event.ConfigEvents;
+import com.avaris.avarisgates.core.event.ModLifecycleEvents;
 import com.avaris.avarisgates.core.item.ModItems;
 import com.avaris.avarisgates.core.network.ModPackets;
 import com.avaris.avarisgates.core.player.ManaAttachment;
@@ -44,6 +45,8 @@ public class AvarisGates implements ModInitializer {
     @Override
     public void onInitialize() {
 
+        ModLifecycleEvents.INITIALIZE_EVENT.invoker().onInitialize();
+
         // Init fabric attachments
         AbilitySlot.init();
         PlayerClass.init();
@@ -71,6 +74,8 @@ public class AvarisGates implements ModInitializer {
         ServerLifecycleEvents.SERVER_STOPPING.register((minecraftServer -> {
             dungeonManager.removeAllDungeons();
         }));
+
+        ModLifecycleEvents.INITIALIZED_EVENT.invoker().onInitialized();
     }
 
 
