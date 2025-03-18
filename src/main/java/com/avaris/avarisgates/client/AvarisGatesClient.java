@@ -12,6 +12,7 @@ import com.avaris.avarisgates.common.player.ability.AttachedAbility;
 import com.avaris.avarisgates.common.player.attribute.Attribute;
 import com.avaris.avarisgates.common.player.attribute.AttributeType;
 import com.avaris.avarisgates.common.player.player_class.PlayerClass;
+import com.avaris.avarisgates.core.api.event.ClientPlayerEvents;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -85,6 +86,8 @@ public class AvarisGatesClient implements ClientModInitializer {
         ModEntities.registerEntityRenderers();
 
         ClientPlayNetworking.registerGlobalReceiver(ChangeAbilityS2C.ID, ClientKeyBinds::receiveChangeAbility);
+
+        ClientPlayerEvents.PLAYER_DO_ATTACK_MISS_EVENT.register(AvarisGatesClient::onMissedDoAttack);
 
         ClientLifecycleEvents.INITIALIZED_EVENT.invoker().onInitialized();
     }
