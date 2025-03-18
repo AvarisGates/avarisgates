@@ -5,10 +5,12 @@ import com.avaris.avarisgates.core.ModComponents;
 import com.avaris.avarisgates.core.command.ModCommands;
 import com.avaris.avarisgates.core.config.AbstractConfigManager;
 import com.avaris.avarisgates.core.config.JsonConfigManager;
+import com.avaris.avarisgates.core.config.ModConfig;
 import com.avaris.avarisgates.core.config.PropertiesConfigManager;
 import com.avaris.avarisgates.core.currency.CurrencyAttachment;
 import com.avaris.avarisgates.core.dungeon.DungeonManager;
 import com.avaris.avarisgates.core.entity.ModEntities;
+import com.avaris.avarisgates.core.event.ConfigEvents;
 import com.avaris.avarisgates.core.item.ModItems;
 import com.avaris.avarisgates.core.network.ModPackets;
 import com.avaris.avarisgates.core.player.ManaAttachment;
@@ -48,6 +50,21 @@ public class AvarisGates implements ModInitializer {
         AttributeType.init();
         ManaAttachment.init();
         CurrencyAttachment.init();
+
+        ConfigEvents.CONFIG_LOADED_EVENT.register(() -> {
+            CONFIG_MANAGER.getLogger().info("Loaded config");
+            if(ModConfig.DEBUG_MODE.getValue()){
+                CONFIG_MANAGER.getLogger().info("Debug mode enabled");
+                CONFIG_MANAGER.printConfig();
+            }
+        });
+        ConfigEvents.CONFIG_SAVED_EVENT.register(() -> {
+            CONFIG_MANAGER.getLogger().info("Config successfully saved");
+            if(ModConfig.DEBUG_MODE.getValue()){
+                CONFIG_MANAGER.getLogger().info("Debug mode enabled");
+                CONFIG_MANAGER.printConfig();
+            }
+        });
 
         CONFIG_MANAGER.loadConfig();
 

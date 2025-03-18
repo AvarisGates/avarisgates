@@ -26,7 +26,7 @@ public class PropertiesConfigManager extends AbstractConfigManager{
     }
 
     @Override
-    protected Logger getLogger() {
+    public Logger getLogger() {
         return LOGGER;
     }
 
@@ -110,12 +110,7 @@ public class PropertiesConfigManager extends AbstractConfigManager{
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }
-        this.getLogger().info("Loaded config");
-        if(ModConfig.DEBUG_MODE.getValue()){
-            this.getLogger().info("Debug mode enabled");
-            this.printConfig();
-        }
-        return true;
+        return super.loadConfig();
     }
 
     @Override
@@ -135,12 +130,6 @@ public class PropertiesConfigManager extends AbstractConfigManager{
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }
-
-        this.getLogger().info("Config successfully saved");
-        if(ModConfig.DEBUG_MODE.getValue()){
-            this.getLogger().info("Debug mode enabled");
-            this.printConfig();
-        }
-        return true;
+        return super.saveConfig();
     }
 }

@@ -1,6 +1,7 @@
 package com.avaris.avarisgates.core.config;
 
 import com.avaris.avarisgates.core.config.option.ConfigOption;
+import com.avaris.avarisgates.core.event.ConfigEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import org.slf4j.Logger;
 
@@ -27,7 +28,7 @@ public abstract class AbstractConfigManager {
      * with a different name.
      * @return Logger instance associated with the ConfigManager subclass
      */
-    abstract protected Logger getLogger();
+    abstract public Logger getLogger();
 
     /**
      * This method allows us to use different files for each ConfigManager,
@@ -39,13 +40,19 @@ public abstract class AbstractConfigManager {
      * Loads config from the {@link AbstractConfigManager#configPath}.
      * @return true if the config was successfully loaded, otherwise false
      */
-    public abstract boolean loadConfig();
+    public boolean loadConfig(){
+        ConfigEvents.CONFIG_LOADED_EVENT.invoker().onConfigLoaded();
+        return true;
+    }
 
     /**
      * Saves config to the {@link AbstractConfigManager#configPath}.
      * @return true if the config was successfully saved, otherwise false
      */
-    public abstract boolean saveConfig();
+    public boolean saveConfig(){
+        ConfigEvents.CONFIG_SAVED_EVENT.invoker().onConfigSaved();
+        return true;
+    }
 
     /**
      * Check if a field should be saved/loaded to/from the config file

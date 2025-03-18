@@ -33,7 +33,7 @@ public class JsonConfigManager extends AbstractConfigManager {
     }
 
     @Override
-    protected Logger getLogger() {
+    public Logger getLogger() {
         return LOGGER;
     }
 
@@ -225,11 +225,7 @@ public class JsonConfigManager extends AbstractConfigManager {
             e.printStackTrace();
         }
 
-        if(ModConfig.DEBUG_MODE.getValue()){
-            this.getLogger().info("Debug mode enabled");
-            this.printConfig();
-        }
-        return true;
+        return super.loadConfig();
     }
 
     @Override
@@ -272,12 +268,7 @@ public class JsonConfigManager extends AbstractConfigManager {
             this.getLogger().error("Failed to write config file:\n{}",e.getMessage());
             return false;
         }
-        this.getLogger().info("Config successfully saved");
-        if(ModConfig.DEBUG_MODE.getValue()){
-            this.getLogger().info("Debug mode enabled");
-            this.printConfig();
-        }
-        return true;
+        return super.saveConfig();
     }
 
 
