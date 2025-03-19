@@ -6,14 +6,16 @@
   "mixins": [
     "ClampedEntityAttributeAccessor",
     "HungerManagerMixin",
-    "PlayerManagerMixin"
+    "PlayerManagerMixin",
+    "ServerCommonNetworkHandlerMixin"
   ],
   "client": [
+    "client.ChatHudMixin",
     "client.InGameHudMixin",
     "client.InteractionManagerMixin",
     "client.InventoryScreenMixin",
-    "client.RecipeBookScreenMixin",
-    "client.MinecraftClientMixin"
+    "client.MinecraftClientMixin",
+    "client.RecipeBookScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1

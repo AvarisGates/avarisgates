@@ -19,6 +19,7 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.text.Text;
 
 import java.util.Objects;
 
@@ -69,6 +70,14 @@ public class AvarisGatesClient implements ClientModInitializer {
         if(PlayerClass.isBasicWeapon(player,stack)){
             ClientPlayNetworking.send(new CastPlayerClassAbilityC2S(AttachedAbility.getAttached(player, AbilitySlot.BASIC).getType()));
         }
+    }
+
+    public static Text getChatChannelName() {
+        return Text.literal("GLOBAL");
+    }
+
+    public static Text getChatChannelDescription() {
+        return Text.literal("Current Channel");
     }
 
 

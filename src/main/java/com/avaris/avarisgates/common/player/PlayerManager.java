@@ -9,12 +9,17 @@ import com.avaris.avarisgates.common.player.attribute.Attribute;
 import com.avaris.avarisgates.common.player.player_class.PlayerClass;
 import com.avaris.avarisgates.common.player.player_class.PlayerClassType;
 import com.avaris.avarisgates.core.api.event.PlayerEvents;
+import com.mojang.authlib.GameProfile;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.ClientConnection;
+import net.minecraft.network.packet.s2c.play.ChatMessageS2CPacket;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ConnectedClientData;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
+
+import java.net.SocketAddress;
 
 public class PlayerManager {
 
@@ -29,6 +34,20 @@ public class PlayerManager {
         ManaAttachment.initForPlayer(player);
 
         CurrencyAttachment.getCurrency(player);
+    }
+
+    private static Text onCanJoin(SocketAddress address, GameProfile profile) {
+        return null;
+    }
+
+    private static boolean onServerSendChatMessage(MinecraftServer server, ClientConnection connection, ChatMessageS2CPacket message) {
+        ServerPlayerEntity player = server.getPlayerManager().getPlayer(message.sender());
+        if(player != null){
+            AvarisGates.LOGGER.info("Server broadcasting chat message {}: {}",player.getNameForScoreboard(),message.body().content());
+        }else{
+            AvarisGates.LOGGER.info("Server sends chat message: {}",message.body().content());
+        }
+        return true;
     }
 
     private static <T> void ensureAttached(ServerPlayerEntity player, AttachmentType<T> type, T defaultValue){
@@ -84,5 +103,8 @@ public class PlayerManager {
 
     public static void init() {
         PlayerEvents.PLAYER_JOIN_EX_EVENT.register(PlayerManager::onPlayerConnect);
+        PlayerEvents.CAN_JOIN_EVENT.register(PlayerManager::onCanJoin);
+        PlayerEvents.SERVER_SEND_CHAT_MESSAGE_EVENT.register(PlayerManager::onServerSendChatMessage);
     }
+
 }
