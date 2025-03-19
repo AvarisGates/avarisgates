@@ -24,12 +24,12 @@ public class ChatHudRenderer {
         context.drawText(textRenderer,text,x,y, Colors.WHITE,true);
 
         if(isHovered(width,height,x,y,mouseX,mouseY)){
-            renderTooltip(context,textRenderer,mouseX,mouseY);
+            renderTooltip(context,textRenderer,mouseX,mouseY,backgroundColor);
         }
         return x + width + padding / 3 + 4;
     }
 
-    private static void renderTooltip(DrawContext context,TextRenderer textRenderer, int mouseX, int mouseY) {
+    private static void renderTooltip(DrawContext context,TextRenderer textRenderer, int mouseX, int mouseY,int backgroundColor) {
         int padding = 3;
         Text text = AvarisGatesClient.getChatChannelDescription();
 
@@ -37,12 +37,12 @@ public class ChatHudRenderer {
         int width = textRenderer.getWidth(text);
         int height = textRenderer.fontHeight;
 
-        int x = mouseX + padding;
-        int y = mouseY - height + 2 * padding;
+        int x = mouseX - 2;
+        int y = mouseY - height + 3 * padding;
 
-        context.fill(RenderLayer.getGuiOverlay(),x,y,x + width + 2 * padding,y - height - 2 * padding,Colors.BLACK);
+        context.fill(RenderLayer.getGuiOverlay(),x,y,x + width + 2 * padding,y - height - 2 * padding,backgroundColor);
         x = x + padding;
-        y = mouseY - 2 * height + padding;
+        y = mouseY - 2 * height + 2 * padding;
         context.drawText(textRenderer,text,x,y,Colors.WHITE,true);
     }
 
