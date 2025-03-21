@@ -23,7 +23,7 @@ repositories {
     // See https://docs.gradle.org/current/userguide/declaring_repositories.html
     // for more information about repositories.
     maven {
-        url = uri("https://vps-a25564b7.vps.ovh.net")
+        url = uri("https://vps-a25564b7.vps.ovh.net") // For ModShield
     }
 }
 
@@ -62,8 +62,6 @@ tasks.withType(JavaCompile).configureEach {
         it.options.release.set(targetJavaVersion)
     }
 }
-
-
 
 java {
     def javaVersion = JavaVersion.toVersion(targetJavaVersion)
