@@ -14,6 +14,10 @@ import net.minecraft.text.Text;
 import java.net.SocketAddress;
 
 public class PlayerEvents {
+    /**
+     * Called after a player joins the server.
+     * (At the ond of{@link net.minecraft.server.PlayerManager#onPlayerConnect(ClientConnection, ServerPlayerEntity, ConnectedClientData)})
+     */
     public static final Event<PlayerJoin> PLAYER_JOIN_EVENT = EventFactory.createArrayBacked(PlayerJoin.class,(callbacks) -> (player) -> {
         for(var callback : callbacks){
             callback.onPlayerJoin(player);

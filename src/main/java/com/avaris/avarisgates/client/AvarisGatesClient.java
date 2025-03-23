@@ -23,6 +23,10 @@ import net.minecraft.text.Text;
 
 import java.util.Objects;
 
+/**
+ * Client mod entrypoint.
+ * @see com.avaris.avarisgates.AvarisGates
+ */
 public class AvarisGatesClient implements ClientModInitializer {
 
 

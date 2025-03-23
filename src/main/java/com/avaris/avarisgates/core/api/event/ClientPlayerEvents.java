@@ -10,6 +10,9 @@ import net.minecraft.item.ItemStack;
 @Environment(EnvType.CLIENT)
 public class ClientPlayerEvents {
 
+    /**
+     * Triggered when a player swings their hand (weapon) and doesn't hit anything or simply misses.
+     */
     public static final Event<PlayerDoAttackMiss> PLAYER_DO_ATTACK_MISS_EVENT = EventFactory.createArrayBacked(PlayerDoAttackMiss.class,(callbacks) -> (player, stack) ->{
         for(var callback : callbacks){
             callback.onPlayerDoAttackMiss(player,stack);

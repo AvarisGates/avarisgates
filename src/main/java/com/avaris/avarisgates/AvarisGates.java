@@ -26,7 +26,10 @@ import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
+/**
+ * The common mod entrypoint.
+ * @see com.avaris.avarisgates.client.AvarisGatesClient
+ */
 public class AvarisGates implements ModInitializer {
 
     public static String MOD_ID = "avarisgates";
