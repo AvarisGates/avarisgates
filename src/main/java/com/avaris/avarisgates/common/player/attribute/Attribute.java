@@ -81,6 +81,11 @@ public class Attribute {
             EntityAttribute attr = Registries.ATTRIBUTE.get(attackDamage);
             entity.getAttributeInstance(Registries.ATTRIBUTE.getEntry(attr)).setBaseValue(Attribute.getAttributeWithEffects(entity,AttributeType.Strength).getValue());
         }
+        if(type == AttributeType.Dexterity){
+            Identifier attackSpeed = Identifier.ofVanilla("attack_speed");
+            EntityAttribute attr = Registries.ATTRIBUTE.get(attackSpeed);
+            entity.getAttributeInstance(Registries.ATTRIBUTE.getEntry(attr)).setBaseValue(Attribute.getAttributeWithEffects(entity,AttributeType.Dexterity).getValue());
+        }
     }
 
     // Sets attribute value and applies it to vanilla attributes
