@@ -76,6 +76,11 @@ public class Attribute {
             // Convert the value to be compatible with vanilla minecraft attributes
             entity.getAttributeInstance(Registries.ATTRIBUTE.getEntry(attr)).setBaseValue(newValue * 0.09);
         }
+        if(type == AttributeType.Strength){
+            Identifier attackDamage = Identifier.ofVanilla("attack_damage");
+            EntityAttribute attr = Registries.ATTRIBUTE.get(attackDamage);
+            entity.getAttributeInstance(Registries.ATTRIBUTE.getEntry(attr)).setBaseValue(Attribute.getAttributeWithEffects(entity,AttributeType.Strength).getValue());
+        }
     }
 
     // Sets attribute value and applies it to vanilla attributes
