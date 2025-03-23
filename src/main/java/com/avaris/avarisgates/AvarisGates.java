@@ -1,5 +1,6 @@
 package com.avaris.avarisgates;
 
+import com.avaris.avarisgates.common.compat.modshield.ModShieldCompat;
 import com.avaris.avarisgates.common.player.PlayerManager;
 import com.avaris.avarisgates.core.AttributeFix;
 import com.avaris.avarisgates.common.ModComponents;
@@ -18,11 +19,9 @@ import com.avaris.avarisgates.common.player.ability.AbilitySlot;
 import com.avaris.avarisgates.common.player.attribute.Attribute;
 import com.avaris.avarisgates.common.player.attribute.AttributeType;
 import com.avaris.avarisgates.common.player.player_class.PlayerClass;
-import com.avaris.modshield.api.v1.impl.ModShieldEventApi;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -75,16 +74,9 @@ public class AvarisGates implements ModInitializer {
         ServerLifecycleEvents.SERVER_STOPPING.register((minecraftServer -> {
             dungeonManager.removeAllDungeons();
         }));
+        ModShieldCompat.init();
 
         ModLifecycleEvents.INITIALIZED_EVENT.invoker().onInitialized();
-        if(FabricLoader.getInstance().isModLoaded("modshield")){
-            ModShieldEventApi.PLAYER_ALLOWED_EVENT.register((uuid, map)->{
-                LOGGER.info("{} allowed :3",uuid);
-            });
-            ModShieldEventApi.PLAYER_DISALLOWED_EVENT.register((uuid,reason) -> {
-                LOGGER.info("{} disallowed for: {}",uuid,reason);
-            });
-        }
     }
 
 
