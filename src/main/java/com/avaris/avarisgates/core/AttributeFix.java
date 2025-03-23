@@ -10,7 +10,9 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Objects;
 
-// This class fixes the vanilla attribute cap, it isn't related to modded abilities
+/**
+  * This class fixes the vanilla attribute cap, it isn't related to modded abilities
+  */
 public class AttributeFix {
     private static final Double AttrLimit = 1000000000D; //Very important limit (VIL)
     private static final Logger LOGGER = LoggerFactory.getLogger("AvarisGates|AttributeFix");
@@ -23,6 +25,9 @@ public class AttributeFix {
             Identifier.ofVanilla("attack_knockback"),AttrLimit
     );
 
+    /**
+     * Initialize the new default attribute limits.
+     */
     public static void init() {
         for (Identifier id : Registries.ATTRIBUTE.getIds()) {
             Double new_def_value = NEW_DEFAULT_ATTRIBUTES.get(id);
