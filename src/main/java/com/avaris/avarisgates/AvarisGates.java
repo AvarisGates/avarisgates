@@ -18,9 +18,7 @@ import com.avaris.avarisgates.common.player.ability.AbilitySlot;
 import com.avaris.avarisgates.common.player.attribute.Attribute;
 import com.avaris.avarisgates.common.player.attribute.AttributeType;
 import com.avaris.avarisgates.common.player.player_class.PlayerClass;
-import com.avaris.avarisgates.core.api.event.PlayerEvents;
-import com.avaris.modshield.ModShield;
-import com.avaris.modshield.api.v1.impl.ModShieldApi;
+import com.avaris.modshield.api.v1.impl.ModShieldEventApi;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
@@ -80,10 +78,10 @@ public class AvarisGates implements ModInitializer {
 
         ModLifecycleEvents.INITIALIZED_EVENT.invoker().onInitialized();
         if(FabricLoader.getInstance().isModLoaded("modshield")){
-            ModShieldApi.Events.PLAYER_ALLOWED_EVENT.register((uuid,map)->{
+            ModShieldEventApi.PLAYER_ALLOWED_EVENT.register((uuid, map)->{
                 LOGGER.info("{} allowed :3",uuid);
             });
-            ModShieldApi.Events.PLAYER_DISALLOWED_EVENT.register((uuid,reason) -> {
+            ModShieldEventApi.PLAYER_DISALLOWED_EVENT.register((uuid,reason) -> {
                 LOGGER.info("{} disallowed for: {}",uuid,reason);
             });
         }
