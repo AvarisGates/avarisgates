@@ -5,16 +5,13 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "ClampedEntityAttributeAccessor",
-    "HungerManagerMixin",
-    "PlayerManagerMixin",
-    "ServerCommonNetworkHandlerMixin"
+    "HungerManagerMixin"
   ],
   "client": [
     "client.ChatHudMixin",
     "client.InGameHudMixin",
     "client.InteractionManagerMixin",
     "client.InventoryScreenMixin",
-    "client.MinecraftClientMixin",
     "client.RecipeBookScreenMixin"
   ],
   "injectors": {

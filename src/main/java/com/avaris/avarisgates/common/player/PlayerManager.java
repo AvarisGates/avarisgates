@@ -6,12 +6,15 @@ import com.avaris.avarisgates.common.network.CastPlayerClassAbilityC2S;
 import com.avaris.avarisgates.common.network.RequestAttributeIncrementC2S;
 import com.avaris.avarisgates.common.player.ability.*;
 import com.avaris.avarisgates.common.player.attribute.Attribute;
+import com.avaris.avarisgates.common.player.party.PartyManager;
+import com.avaris.avarisgates.common.player.party.PlayerParty;
 import com.avaris.avarisgates.common.player.player_class.PlayerClass;
 import com.avaris.avarisgates.common.player.player_class.PlayerClassType;
-import com.avaris.avarisgates.core.api.event.PlayerEvents;
+import com.avaris.towncrier.api.v1.impl.PlayerEvents;
 import com.mojang.authlib.GameProfile;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.network.packet.s2c.play.ChatMessageS2CPacket;
 import net.minecraft.server.MinecraftServer;
@@ -20,6 +23,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 
 import java.net.SocketAddress;
+import java.util.UUID;
 
 public class PlayerManager {
 
@@ -34,6 +38,8 @@ public class PlayerManager {
         ManaAttachment.initForPlayer(player);
 
         CurrencyAttachment.getCurrency(player);
+
+        ExperienceAttachment.initForPlayer(player);
     }
 
     private static Text onCanJoin(SocketAddress address, GameProfile profile) {
@@ -94,6 +100,19 @@ public class PlayerManager {
 
     }
 
+    private static void onPlayerGotKill(ServerPlayerEntity player, LivingEntity entity) {
+        UUID party = PartyManager.getPlayerParty(player.getUuid());
+        if(party == null){
+            ExperienceAttachment.grantXp(player,entity);
+            return;
+        }
+        PlayerParty partyInstance = PartyManager.getPartyInstance(party);
+        for(var i : partyInstance.getPlayers()){
+            ExperienceAttachment.grantXp(player,entity);
+        }
+
+    }
+
     //TODO: add check, this is for debug only!!!!
     public static void receiveAttributeIncrement(RequestAttributeIncrementC2S packet, ServerPlayNetworking.Context context) {
         long newValue = Attribute.getAttributeValue(context.player(), packet.type()).getValue() + 1;
@@ -105,6 +124,7 @@ public class PlayerManager {
         PlayerEvents.PLAYER_JOIN_EX_EVENT.register(PlayerManager::onPlayerConnect);
         PlayerEvents.CAN_JOIN_EVENT.register(PlayerManager::onCanJoin);
         PlayerEvents.SERVER_SEND_CHAT_MESSAGE_EVENT.register(PlayerManager::onServerSendChatMessage);
+        PlayerEvents.PLAYER_GOT_KILL_EVENT.register(PlayerManager::onPlayerGotKill);
     }
 
 }

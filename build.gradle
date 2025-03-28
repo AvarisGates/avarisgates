@@ -23,7 +23,7 @@ repositories {
     // See https://docs.gradle.org/current/userguide/declaring_repositories.html
     // for more information about repositories.
     maven {
-        url = uri("https://vps-a25564b7.vps.ovh.net") // For ModShield
+        url = 'https://maven.avarisgates.com' // For ModShield
     }
 }
 
@@ -36,6 +36,7 @@ dependencies {
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
     // Change to modImplementation if you want for testing
     modCompileOnlyApi "com.avaris:ModShield:${project.modshield_version}"
+    modImplementation "com.avaris:TownCrier:${project.towncrier_version}"
 }
 
 processResources {
