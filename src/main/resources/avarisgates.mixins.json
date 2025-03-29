@@ -4,8 +4,7 @@
   "package": "com.avaris.avarisgates.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "ClampedEntityAttributeAccessor",
-    "HungerManagerMixin"
+    "ClampedEntityAttributeAccessor"
   ],
   "client": [
     "client.ChatHudMixin",

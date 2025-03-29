@@ -6,6 +6,7 @@ import com.avaris.avarisgates.common.network.CastPlayerClassAbilityC2S;
 import com.avaris.avarisgates.common.network.RequestAttributeIncrementC2S;
 import com.avaris.avarisgates.common.player.ability.*;
 import com.avaris.avarisgates.common.player.attribute.Attribute;
+import com.avaris.avarisgates.common.player.attribute.AttributeType;
 import com.avaris.avarisgates.common.player.party.PartyManager;
 import com.avaris.avarisgates.common.player.party.PlayerParty;
 import com.avaris.avarisgates.common.player.player_class.PlayerClass;
@@ -21,6 +22,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ConnectedClientData;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
+import org.jetbrains.annotations.NotNull;
 
 import java.net.SocketAddress;
 import java.util.UUID;
@@ -113,6 +115,17 @@ public class PlayerManager {
 
     }
 
+    @SuppressWarnings("SameReturnValue")
+    private static boolean tickHunger(@NotNull ServerPlayerEntity player) {
+        if(player.getHealth() < player.getMaxHealth()){
+            return false;
+        }
+        player.heal(
+                Math.max(0,Math.min(Attribute.getAttributeWithEffects(player, AttributeType.Vitality).getValue() * 0.01f,1000.f))
+        );
+        return false;
+    }
+
     //TODO: add check, this is for debug only!!!!
     public static void receiveAttributeIncrement(RequestAttributeIncrementC2S packet, ServerPlayNetworking.Context context) {
         long newValue = Attribute.getAttributeValue(context.player(), packet.type()).getValue() + 1;
@@ -125,6 +138,7 @@ public class PlayerManager {
         PlayerEvents.CAN_JOIN_EVENT.register(PlayerManager::onCanJoin);
         PlayerEvents.SERVER_SEND_CHAT_MESSAGE_EVENT.register(PlayerManager::onServerSendChatMessage);
         PlayerEvents.PLAYER_GOT_KILL_EVENT.register(PlayerManager::onPlayerGotKill);
+        PlayerEvents.TICK_HUNGER_EVENT.register(PlayerManager::tickHunger);
     }
 
 }
