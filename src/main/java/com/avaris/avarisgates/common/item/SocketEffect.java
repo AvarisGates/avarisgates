@@ -12,6 +12,7 @@ import net.minecraft.util.Formatting;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public record SocketEffect(int type, long value) {
@@ -47,14 +48,14 @@ public record SocketEffect(int type, long value) {
         return Text.literal(s);
     }
 
-    public static void appendTooltip(List<Text> tooltip, Collection<SocketEffect> effects){
+    public static void appendTooltip(Consumer<Text> tooltip, Collection<SocketEffect> effects){
         boolean isExtendedDesc = InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), InputUtil.GLFW_KEY_LEFT_SHIFT);
 
         if(!isExtendedDesc){
             effects = SocketEffect.combineEffects(effects);
         }
         for(SocketEffect effect : effects){
-            tooltip.add(effect.getTooltipText());
+            tooltip.accept(effect.getTooltipText());
         }
     }
 

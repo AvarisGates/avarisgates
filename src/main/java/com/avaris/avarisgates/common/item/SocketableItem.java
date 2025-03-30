@@ -3,6 +3,7 @@ package com.avaris.avarisgates.common.item;
 import com.avaris.avarisgates.common.ModComponents;
 import com.avaris.avarisgates.common.player.attribute.AttributeType;
 import net.minecraft.component.ComponentMap;
+import net.minecraft.component.type.TooltipDisplayComponent;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 public class SocketableItem extends Item {
 
@@ -123,7 +125,7 @@ public class SocketableItem extends Item {
         long modifier = 0;
         if(entity instanceof PlayerEntity player){
             PlayerInventory inventory = player.getInventory();
-            int selectedSlot = inventory.selectedSlot;
+            int selectedSlot = inventory.getSelectedSlot();
             for(int i = 0; i < inventory.size(); i++){
                 ItemStack stack = inventory.getStack(i);
                 if(stack.getItem() instanceof SocketableItem item){
@@ -149,18 +151,18 @@ public class SocketableItem extends Item {
 
 
     @Override
-    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
-        super.appendTooltip(stack, context, tooltip, type);
+    public void appendTooltip(ItemStack stack, TooltipContext context, TooltipDisplayComponent displayComponent, Consumer<Text> tooltip, TooltipType type) {
+        super.appendTooltip(stack, context, displayComponent, tooltip, type);
         int freeSockets = getFreeSockets(stack);
         String freeSocketsStr = "****";
         if(freeSockets > 4){
-           freeSocketsStr =  String.valueOf(freeSockets);
+            freeSocketsStr =  String.valueOf(freeSockets);
         }else{
             freeSocketsStr = freeSocketsStr.substring(0,freeSockets);
         }
 
         if(freeSockets > 0){
-            tooltip.add(Text.literal("Sockets " +freeSocketsStr));
+            tooltip.accept(Text.literal("Sockets " +freeSocketsStr));
         }
         SocketEffect.appendTooltip(tooltip,getSocketEffects(stack));
     }

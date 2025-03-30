@@ -1,5 +1,6 @@
 package com.avaris.avarisgates.common.item;
 
+import net.minecraft.component.type.TooltipDisplayComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
@@ -7,6 +8,7 @@ import net.minecraft.text.Text;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class RubyGemItem extends Item implements InsertableItem {
     public RubyGemItem(Settings settings) {
@@ -22,8 +24,8 @@ public class RubyGemItem extends Item implements InsertableItem {
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
-        super.appendTooltip(stack, context, tooltip, type);
+    public void appendTooltip(ItemStack stack, TooltipContext context, TooltipDisplayComponent displayComponent, Consumer<Text> tooltip, TooltipType type) {
+        super.appendTooltip(stack, context, displayComponent, tooltip, type);
         this.appendEffectsTooltip(stack, context, tooltip, type);
     }
 }

@@ -6,6 +6,7 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.Uuids;
 import net.minecraft.world.World;
 
 import java.util.UUID;
@@ -30,14 +31,14 @@ public class AbilityEntity extends Entity{
 
     @Override
     protected void readCustomDataFromNbt(NbtCompound nbt) {
-        this.ownerUUID = nbt.getUuid("owner");
-        this.damage = nbt.getFloat("damage");
-        this.tickLeft = nbt.getInt("ticks_left");
+        this.ownerUUID = nbt.get("owner", Uuids.CODEC).orElse(null);
+        this.damage = nbt.getFloat("damage").orElse(0.f);
+        this.tickLeft = nbt.getInt("ticks_left").orElse(0);
     }
 
     @Override
     protected void writeCustomDataToNbt(NbtCompound nbt) {
-        nbt.putUuid("owner",this.ownerUUID);
+        nbt.put("owner",Uuids.CODEC,this.ownerUUID);
         nbt.putFloat("damage",this.damage);
         nbt.putInt("ticks_left",this.tickLeft);
     }

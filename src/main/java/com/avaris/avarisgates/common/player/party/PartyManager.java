@@ -47,8 +47,8 @@ public class PartyManager {
         String rejectCommand = "TODO!!!";
 
         requestee.sendMessage(Text.literal(requester.getNameForScoreboard() + " requests to join your party."));
-        requestee.sendMessage(Text.literal("[ACCEPT]").formatted(Formatting.GREEN).styled((style) -> style.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Text.literal(acceptCommand))).withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,acceptCommand))));
-        requestee.sendMessage(Text.literal("[REJECT]").formatted(Formatting.RED).styled((style) -> style.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Text.literal(rejectCommand))).withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,rejectCommand))));
+        requestee.sendMessage(Text.literal("[ACCEPT]").formatted(Formatting.GREEN).styled((style) -> style.withHoverEvent(new HoverEvent.ShowText(Text.literal(acceptCommand))).withClickEvent(new ClickEvent.RunCommand(acceptCommand))));
+        requestee.sendMessage(Text.literal("[REJECT]").formatted(Formatting.RED).styled((style) -> style.withHoverEvent(new HoverEvent.ShowText(Text.literal(rejectCommand))).withClickEvent(new ClickEvent.RunCommand(rejectCommand))));
 
         joinRequests.put(requestee.getUuid(),new PartyJoinRequest(requester.getUuid(),requestee.getUuid(),requestee.getServer().getTicks() + EXPIRE_TIME));
     }
@@ -99,8 +99,8 @@ public class PartyManager {
         inviter.sendMessage(Text.literal("Party invite sent to "+invitee.getNameForScoreboard()));
 
         invitee.sendMessage(Text.literal(inviter.getNameForScoreboard() + " invited you to join their party."));
-        invitee.sendMessage(Text.literal("[ACCEPT]").formatted(Formatting.GREEN).styled((style) -> style.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Text.literal(inviteCommand))).withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,inviteCommand))));
-        invitee.sendMessage(Text.literal("[REJECT]").formatted(Formatting.RED).styled((style) -> style.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Text.literal(rejectCommand))).withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,rejectCommand))));
+        invitee.sendMessage(Text.literal("[ACCEPT]").formatted(Formatting.GREEN).styled((style) -> style.withHoverEvent(new HoverEvent.ShowText(Text.literal(inviteCommand))).withClickEvent(new ClickEvent.RunCommand(inviteCommand))));
+        invitee.sendMessage(Text.literal("[REJECT]").formatted(Formatting.RED).styled((style) -> style.withHoverEvent(new HoverEvent.ShowText(Text.literal(rejectCommand))).withClickEvent(new ClickEvent.RunCommand(rejectCommand))));
         invites.put(inviter.getUuid(),new PartyInvite(inviter.getUuid(),invitee.getUuid(),invitee.getServer().getTicks() + EXPIRE_TIME));
         return true;
     }
