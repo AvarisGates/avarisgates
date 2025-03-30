@@ -3,21 +3,34 @@ package com.avaris.avarisgates;
 import com.avaris.scribecodex.Scribe;
 import com.avaris.scribecodex.api.v1.impl.option.*;
 import com.avaris.scribecodex.api.v1.IModConfig;
+import com.avaris.scribecodex.api.v1.option.*;
 
 public class ModConfig implements IModConfig {
 
     public static final Scribe SCRIBE = new Scribe(ModConfig.class,AvarisGates.MOD_ID);
 
-    public static final BooleanOption DEBUG_MODE = SCRIBE.createOption("debug_mode", true);
-    public static final StringOption HOW_WE_FEELIN = SCRIBE.createOption ("how_we_feelin", "good");
-    public static final IntegerOption AM_INTEGER = SCRIBE.createOption("am_integer", -7331);
+    @IBooleanOption(defaultValue = true)
+    public static BooleanOption DEBUG_MODE;
 
-    public static final EnumOption<UGood> U_GOOD = SCRIBE.createOption("u_good", UGood.Yeeeee);
+    @IStringOption(defaultValue = "good")
+    public static StringOption HOW_WE_FEELIN;
 
-    public static final FloatOption AM_FLOAT = SCRIBE.createOption("am_float", 0.0000123f);
-    public static final DoubleOption AM_DOUBLE = SCRIBE.createOption("am_double",1.24442424110001111);
-    public static final LongOption AM_LONG = SCRIBE.createOption("am_long", 1234567890123456789L);
-    public static final BooleanOption PRINT_ATTRIBUTE_FIX_INFO = SCRIBE.createOption("print_attribute_fix_info",false);
+    @IIntegerOption(defaultValue = -7331)
+    public static IntegerOption AM_INTEGER;
+
+    public static EnumOption<UGood> U_GOOD = SCRIBE.createOption("u_good", UGood.Yeeeee);
+
+    @IFloatOption(defaultValue = 0.0000123f)
+    public static FloatOption AM_FLOAT;
+
+    @IDoubleOption(defaultValue = 1.24442424110001111)
+    public static DoubleOption AM_DOUBLE;
+
+    @ILongOption(defaultValue = 1234567890123456789L)
+    public static LongOption AM_LONG;
+
+    @IBooleanOption(defaultValue = false)
+    public static BooleanOption PRINT_ATTRIBUTE_FIX_INFO;
 
     public enum UGood {
         Yeeeee,
@@ -26,7 +39,7 @@ public class ModConfig implements IModConfig {
         Maybe,
         IHaveNoIdea;
     }
-    
+
     public static void init(){
         SCRIBE.loadConfig();
         if(ModConfig.DEBUG_MODE.getValue()){
