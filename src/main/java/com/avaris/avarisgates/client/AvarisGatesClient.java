@@ -1,6 +1,7 @@
 package com.avaris.avarisgates.client;
 
 import com.avaris.avarisgates.client.keyboard.ClientKeyBinds;
+import com.avaris.avarisgates.client.render.InventoryRenderer;
 import com.avaris.avarisgates.common.currency.CurrencyAttachment;
 import com.avaris.avarisgates.common.entity.ModEntities;
 import com.avaris.avarisgates.core.api.event.ClientLifecycleEvents;
@@ -13,13 +14,17 @@ import com.avaris.avarisgates.common.player.attribute.Attribute;
 import com.avaris.avarisgates.common.player.attribute.AttributeType;
 import com.avaris.avarisgates.common.player.player_class.PlayerClass;
 import com.avaris.towncrier.client.api.v1.impl.ClientPlayerEvents;
+import com.avaris.towncrier.client.api.v1.impl.GuiInputEvents;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.ingame.InventoryScreen;
+import net.minecraft.client.gui.screen.ingame.RecipeBookScreen;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Objects;
 
@@ -70,10 +75,15 @@ public class AvarisGatesClient implements ClientModInitializer {
         return CurrencyAttachment.getCurrency(MinecraftClient.getInstance().player).getBasicCurrency();
     }
 
-    public static void onMissedDoAttack(ClientPlayerEntity player, ItemStack stack) {
+    static void onMissedDoAttack(ClientPlayerEntity player, ItemStack stack) {
         if(PlayerClass.isBasicWeapon(player,stack)){
             ClientPlayNetworking.send(new CastPlayerClassAbilityC2S(AttachedAbility.getAttached(player, AbilitySlot.BASIC).getType()));
         }
+    }
+
+    static boolean onMouseClicked(InventoryScreen screen, double mouseX, double mouseY, int button){
+        InventoryRenderer.mouseClicked(mouseX,mouseY,button);
+        return InventoryRenderer.getSelectedTab() <= 0;
     }
 
     public static Text getChatChannelName() {
@@ -101,6 +111,8 @@ public class AvarisGatesClient implements ClientModInitializer {
         ClientPlayNetworking.registerGlobalReceiver(ChangeAbilityS2C.ID, ClientKeyBinds::receiveChangeAbility);
 
         ClientPlayerEvents.PLAYER_DO_ATTACK_MISS_EVENT.register(AvarisGatesClient::onMissedDoAttack);
+
+        GuiInputEvents.INVENTORY_MOUSE_CLICKED_EVENT.register(AvarisGatesClient::onMouseClicked);
 
         ClientLifecycleEvents.INITIALIZED_EVENT.invoker().onInitialized();
     }

@@ -127,9 +127,9 @@ public class InventoryRenderer {
         context.drawVerticalLine(x + 15,y,y + 15,0xFF927441);
     }
 
-    public static void mouseClicked(double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> cir) {
+    public static boolean mouseClicked(double mouseX, double mouseY, int button) {
         if(button != GLFW.GLFW_MOUSE_BUTTON_1){
-           return;
+           return true;
         }
         int x = X;
         int y = Y;
@@ -164,7 +164,7 @@ public class InventoryRenderer {
                 }
             }
         }
-
+        return true;
     }
 
     public static int getSelectedTab() {
