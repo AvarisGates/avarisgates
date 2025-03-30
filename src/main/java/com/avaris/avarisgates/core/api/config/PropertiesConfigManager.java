@@ -16,7 +16,7 @@ import java.util.Locale;
 import java.util.Properties;
 
 /**
- * An implementation of{@link AbstractConfigManager}used for saving and loading the java properties config files.
+ * An implementation of {@link AbstractConfigManager} used for saving and loading the java properties config files.
  * @see ConfigContainer
  * @see IModConfig
  */

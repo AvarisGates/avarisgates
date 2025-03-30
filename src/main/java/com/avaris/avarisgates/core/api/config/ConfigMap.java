@@ -5,7 +5,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.HashMap;
 
 /**
- * A wrapper around a{@link HashMap}with{@link String}as the key and{@link T} as the value.<br>
+ * A wrapper around a {@link HashMap} with {@link String} as the key and {@code <T>} as the value.<br>
  * Allows for rolling back changes using transactions.
  * @see ConfigMap#beginTransaction()
  * @see ConfigMap#endTransaction(boolean)
@@ -42,7 +42,7 @@ public class ConfigMap<T> {
     /**
      * Starts a transaction.
      * When in a transaction config changes are saved in temporary variables.
-     * When{@link ConfigMap#endTransaction(boolean)}is called the transaction ends and changes are saved or discarded.
+     * When {@link ConfigMap#endTransaction(boolean)} is called the transaction ends and changes are saved or discarded.
      */
     public void beginTransaction(){
         isInTransaction = true;

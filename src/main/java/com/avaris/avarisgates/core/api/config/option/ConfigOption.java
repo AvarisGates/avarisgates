@@ -5,7 +5,7 @@ import com.google.gson.JsonPrimitive;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * An abstract class used to create options of type <T>
+ * An abstract class used to create options of type {@code <T>}
  * @param <T> the type of the value associated with the option
  * @see ConfigContainer
  * @see BooleanOption

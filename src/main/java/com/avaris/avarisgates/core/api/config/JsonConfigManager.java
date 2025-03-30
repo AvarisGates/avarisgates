@@ -19,7 +19,7 @@ import java.util.Locale;
 import java.util.Objects;
 
 /**
- * An implementation of{@link AbstractConfigManager}used for saving and loading JSON config files.
+ * An implementation of {@link AbstractConfigManager} used for saving and loading JSON config files.
  * @see ConfigContainer
  * @see IModConfig
  */

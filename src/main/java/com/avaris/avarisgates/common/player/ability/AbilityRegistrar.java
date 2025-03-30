@@ -5,8 +5,8 @@ import java.util.HashMap;
 
 /**
  * A utility class used to register and instantiate Abilities from their types.<br>
- *  Use{@link AbilityRegistrar#init()}to register all abilities.<br>
- *  Use{@link AbilityRegistrar#build(PlayerClassAbilityType, AttachedAbility)}to create a new instance of a registered ability.
+ *  Use {@link AbilityRegistrar#init()} to register all abilities.<br>
+ *  Use {@link AbilityRegistrar#build(PlayerClassAbilityType, AttachedAbility)} to create a new instance of a registered ability.
  */
 public class AbilityRegistrar {
 
@@ -16,6 +16,10 @@ public class AbilityRegistrar {
        REGISTERED_ABILITIES.put(type,clazz);
     }
 
+    /**
+     * Registers all Abilities, allowing them to be constructed by {@link AbilityRegistrar#build(PlayerClassAbilityType, AttachedAbility)}.<br>
+     * Should be called on mod initialization, and always before {@link AbilityRegistrar#build(PlayerClassAbilityType, AttachedAbility)}.
+     */
     public static void init(){
         register(PlayerClassAbilityType.Cleave, CleaveAbility.class);
         register(PlayerClassAbilityType.ShieldBash, ShieldBashAbility.class);
@@ -28,7 +32,7 @@ public class AbilityRegistrar {
 
     /**
      * Creates a new instance of an ability of the given type.<br>
-     * {@link AbilityRegistrar#init()}has to be called before this function.
+     * {@link AbilityRegistrar#init()} has to be called before this function.
      * @param type the ability type
      * @param ability the attached ability, representing cooldown
      * @return the new instance or null if the ability type wasn't registered

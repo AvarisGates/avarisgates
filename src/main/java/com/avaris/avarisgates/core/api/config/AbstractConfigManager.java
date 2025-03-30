@@ -12,9 +12,10 @@ import java.nio.file.Path;
 /**
  * An abstract class defining the basic functionality of a config manager - saving and loading config files.<br>
  * It's made with the intention to have the option to save config files with different file types (extensions), using different implementations.<br>
- * Only implements{@link AbstractConfigManager#shouldSaveField(Field)},{@link AbstractConfigManager#printConfig()}and{@link AbstractConfigManager#setupConfigPath()}.
+ * Only implements {@link AbstractConfigManager#shouldSaveField(Field)}, {@link AbstractConfigManager#printConfig()} and {@link AbstractConfigManager#setupConfigPath()}.
  * Other methods must be implemented by the subclass.
  * @see JsonConfigManager
+ * @see PropertiesConfigManager
  * @see ConfigContainer
  */
 public abstract class AbstractConfigManager {
@@ -90,7 +91,7 @@ public abstract class AbstractConfigManager {
 
     /**
      * A debug method.
-     * Prints the config options from the{@link ModConfig}class.
+     * Prints the config options from the {@link ModConfig} class.
      */
     public void printConfig(){
         if(!ModConfig.DEBUG_MODE.getValue()){
