@@ -41,7 +41,7 @@ public class PlayerManager {
 
         CurrencyAttachment.getCurrency(player);
 
-        ExperienceAttachment.initForPlayer(player);
+        //ExperienceAttachment.initForPlayer(player);
     }
 
     private static Text onCanJoin(SocketAddress address, GameProfile profile) {
@@ -105,12 +105,12 @@ public class PlayerManager {
     private static void onPlayerGotKill(ServerPlayerEntity player, LivingEntity entity) {
         UUID party = PartyManager.getPlayerParty(player.getUuid());
         if(party == null){
-            ExperienceAttachment.grantXp(player,entity);
+            //ExperienceAttachment.grantXp(player,entity);
             return;
         }
         PlayerParty partyInstance = PartyManager.getPartyInstance(party);
         for(var i : partyInstance.getPlayers()){
-            ExperienceAttachment.grantXp(player,entity);
+            //ExperienceAttachment.grantXp(player,entity);
         }
 
     }
