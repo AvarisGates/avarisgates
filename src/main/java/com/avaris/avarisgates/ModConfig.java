@@ -20,19 +20,19 @@ import com.avaris.avarisgates.core.api.config.option.*;
  * Option name MUST match the field name (case-insensitive).<br>
  * For example:<br>
  * {@code public static final BooleanOption DEBUG_MODE = new BooleanOption("debug_mode",true);}<br>
- * Notice that the field name -{@code DEBUG_MODE}matches the option name -{@code "debug_mode"}.<br>
+ * Notice that the field name - {@code DEBUG_MODE} matches the option name - {@code "debug_mode"}.<br>
  * This is all you need. Now the option will be saved, loaded and accessible at runtime.<br><br>
  *
  *
- * Options are loaded using{@link AbstractConfigManager#loadConfig()}
- * (use an implementation ex:{@link JsonConfigManager})<br><br>
+ * Options are loaded using {@link AbstractConfigManager#loadConfig()}
+ * (use an implementation ex: {@link JsonConfigManager}) <br><br>
  *
- * To save options use{@link AbstractConfigManager#saveConfig()}
+ * To save options use {@link AbstractConfigManager#saveConfig()}
  * (use an implementation)<br><br>
  *
  * Implementation details:<br>
  *
- * {@link ConfigOption}s use{@link ConfigContainer}to store their values during runtime.<br>
+ * {@link ConfigOption}s use {@link ConfigContainer} to store their values during runtime.<br>
  *
  * The {@link ModConfig#init()} method is intended to ensure that the static fields
  * are initialized.

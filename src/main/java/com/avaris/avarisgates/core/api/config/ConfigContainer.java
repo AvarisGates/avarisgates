@@ -28,7 +28,7 @@ public class ConfigContainer {
     /**
      * Starts a transaction.
      * When in a transaction config changes are saved in temporary variables.
-     * When{@link ConfigContainer#endTransaction(boolean)}is called the transaction ends and changes are saved or discarded.
+     * When {@link ConfigContainer#endTransaction(boolean)} is called the transaction ends and changes are saved or discarded.
      * @return true if a transaction started, false if a transaction has been started previously.
      */
     public static boolean beginTransaction(){
