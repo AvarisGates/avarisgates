@@ -7,8 +7,7 @@
     "ClampedEntityAttributeAccessor"
   ],
   "client": [
-    "client.ChatHudMixin",
-    "client.InGameHudMixin"
+    "client.ChatHudMixin"
   ],
   "injectors": {
     "defaultRequire": 1
