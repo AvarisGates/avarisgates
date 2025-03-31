@@ -9,27 +9,27 @@ public class ModConfig implements IModConfig {
 
     public static final Scribe SCRIBE = new Scribe(ModConfig.class,AvarisGates.MOD_ID);
 
-    @IBooleanOption(defaultValue = true)
+    @IBooleanOption(true)
     public static BooleanOption DEBUG_MODE;
 
-    @IStringOption(defaultValue = "good")
+    @IStringOption("good")
     public static StringOption HOW_WE_FEELIN;
 
-    @IIntegerOption(defaultValue = -7331)
+    @IIntegerOption(-7331)
     public static IntegerOption AM_INTEGER;
 
     public static EnumOption<UGood> U_GOOD = SCRIBE.createOption("u_good", UGood.Yeeeee);
 
-    @IFloatOption(defaultValue = 0.0000123f)
+    @IFloatOption(0.0000123f)
     public static FloatOption AM_FLOAT;
 
-    @IDoubleOption(defaultValue = 1.24442424110001111)
+    @IDoubleOption(1.24442424110001111)
     public static DoubleOption AM_DOUBLE;
 
-    @ILongOption(defaultValue = 1234567890123456789L)
+    @ILongOption(1234567890123456789L)
     public static LongOption AM_LONG;
 
-    @IBooleanOption(defaultValue = false)
+    @IBooleanOption(false)
     public static BooleanOption PRINT_ATTRIBUTE_FIX_INFO;
 
     public enum UGood {
